@@ -1042,7 +1042,7 @@ export default function Welcome({ auth }) {
                                 </div>
 
                                 <Link
-                                    href={route('register')}
+                                    href={route('supplier.register')}
                                     className="shrink-0 rounded-xl bg-indigo-600 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-200 transition hover:-translate-y-0.5 hover:bg-indigo-700"
                                 >
                                     Become a Supplier →

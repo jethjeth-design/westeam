@@ -286,4 +286,15 @@ Route::middleware(['auth'])
 
     });
 
+use App\Http\Controllers\MessageController;
+
+// Universal Messaging Routes (Auth required)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+    Route::post('/messages/{conversation}', [MessageController::class, 'store'])->name('messages.store');
+    Route::post('/messages/direct/{supplier}', [MessageController::class, 'startDirect'])->name('messages.direct');
+    Route::post('/messages/team/{team}/coordinator', [MessageController::class, 'startTeamCoordinatorChat'])->name('messages.team.coordinator');
+    Route::get('/messages/team/{team}/internal', [MessageController::class, 'openTeamInternalChat'])->name('messages.team.internal');
+});
+
 require __DIR__.'/auth.php';
