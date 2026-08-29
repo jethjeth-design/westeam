@@ -14,38 +14,42 @@ class SupplierSeeder extends Seeder
         $suppliers = [
             [
                 'name' => 'John Santos',
-                'email' => 'elegantmoments@gmail.com',
+                'email' => 'john@elegantmoments.com',
                 'business_name' => 'Elegant Moments Photography',
                 'contact_number' => '09171234567',
-                'address' => 'Cebu City, Cebu',
-                'description' => 'Professional wedding and event photography and videography services.',
+                'description' => 'Professional wedding photography, videography, and event coverage.',
             ],
 
             [
                 'name' => 'Maria Cruz',
-                'email' => 'royalfeast@gmail.com',
+                'email' => 'maria@royalfeast.com',
                 'business_name' => 'Royal Feast Catering',
                 'contact_number' => '09181234567',
-                'address' => 'Mandaue City, Cebu',
-                'description' => 'Professional catering services for weddings, birthdays, debuts and other events.',
+                'description' => 'Professional catering services for weddings, birthdays, debuts, and corporate events.',
             ],
 
             [
                 'name' => 'David Garcia',
-                'email' => 'dreamdecor@gmail.com',
+                'email' => 'david@dreamdecor.com',
                 'business_name' => 'Dream Decor Events',
                 'contact_number' => '09191234567',
-                'address' => 'Lapu-Lapu City, Cebu',
-                'description' => 'Professional event styling, decoration and coordination services.',
+                'description' => 'Professional event styling, decoration, and coordination services.',
             ],
 
             [
                 'name' => 'Anna Reyes',
-                'email' => 'glamstudio@gmail.com',
+                'email' => 'anna@glamstudio.com',
                 'business_name' => 'Glam Studio Cebu',
                 'contact_number' => '09201234567',
-                'address' => 'Cebu City, Cebu',
-                'description' => 'Professional hair and makeup services for weddings and special events.',
+                'description' => 'Professional hair and makeup services for weddings and special occasions.',
+            ],
+
+            [
+                'name' => 'Michael Flores',
+                'email' => 'michael@grandvenue.com',
+                'business_name' => 'Grand Garden Events Venue',
+                'contact_number' => '09211234567',
+                'description' => 'Elegant event venue for weddings, birthdays, debuts, and corporate events.',
             ],
         ];
 
@@ -70,10 +74,7 @@ class SupplierSeeder extends Seeder
                 [
                     'business_name' => $supplier['business_name'],
                     'contact_number' => $supplier['contact_number'],
-                    'address' => $supplier['address'],
                     'description' => $supplier['description'],
-
-                    // Automatically approved
                     'status' => 'approved',
                 ]
             );

@@ -82,7 +82,6 @@ export default function Create({ categories = [] }) {
         const updated = previewImages.filter((_, idx) => idx !== indexToRemove);
         setPreviewImages(updated);
 
-        // Adjust cover index if needed
         let newCover = coverIndex;
         if (coverIndex === indexToRemove) {
             newCover = 0;
@@ -99,13 +98,11 @@ export default function Create({ categories = [] }) {
         }));
     };
 
-    // Set cover image
     const selectCover = (index) => {
         setCoverIndex(index);
         setData('cover_index', index);
     };
 
-    // Update caption for an image
     const handleCaptionChange = (index, value) => {
         const updated = [...previewImages];
         updated[index].caption = value;
@@ -126,24 +123,24 @@ export default function Create({ categories = [] }) {
         <DashboardLayout>
             <Head title="Create Portfolio Project - Supplier Dashboard" />
 
-            <div className="min-h-screen bg-gray-50/50 p-6 lg:p-10 dark:bg-gray-950">
+            <div className="min-h-screen bg-slate-50/60 p-6 lg:p-10">
                 {/* Header & Back Link */}
                 <div className="mb-8">
-                    <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                    <div className="flex items-center gap-2 text-xs text-slate-500">
                         <Link
                             href={route('supplier.portfolio.index')}
-                            className="transition hover:text-indigo-600 dark:hover:text-indigo-400"
+                            className="font-medium transition hover:text-indigo-600"
                         >
                             ← Back to Portfolio
                         </Link>
                         <span>/</span>
-                        <span className="text-gray-900 dark:text-white">Create New Project</span>
+                        <span className="font-bold text-slate-900">Create New Project</span>
                     </div>
 
-                    <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+                    <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-900">
                         Add Portfolio Project
                     </h1>
-                    <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                    <p className="mt-1 text-sm text-slate-500">
                         Upload photos of your past events and tell the story behind your craftsmanship.
                     </p>
                 </div>
@@ -153,18 +150,18 @@ export default function Create({ categories = [] }) {
                         {/* Left 2 Columns: Project Details & Story */}
                         <div className="space-y-8 lg:col-span-2">
                             {/* Card: Project Essentials */}
-                            <div className="rounded-2xl border border-gray-200/80 bg-white p-6 shadow-xs sm:p-8 dark:border-gray-800 dark:bg-gray-900">
-                                <h2 className="text-lg font-bold text-gray-900 dark:text-white">
+                            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xs sm:p-8">
+                                <h2 className="text-lg font-black text-slate-900">
                                     Project Essentials
                                 </h2>
-                                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                <p className="mt-1 text-xs text-slate-500">
                                     Provide basic information about this event or milestone.
                                 </p>
 
                                 <div className="mt-6 grid gap-5 sm:grid-cols-2">
                                     {/* Title */}
                                     <div className="sm:col-span-2">
-                                        <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300">
+                                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
                                             Project Title <span className="text-red-500">*</span>
                                         </label>
                                         <input
@@ -172,7 +169,7 @@ export default function Create({ categories = [] }) {
                                             value={data.title}
                                             onChange={(e) => setData('title', e.target.value)}
                                             placeholder="e.g., Sarah & John's Grand Wedding at Tagaytay"
-                                            className="mt-1.5 w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 shadow-xs transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                                            className="mt-1.5 w-full rounded-2xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-xs transition focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
                                         />
                                         {errors.title && (
                                             <p className="mt-1 text-xs text-red-500">{errors.title}</p>
@@ -181,13 +178,13 @@ export default function Create({ categories = [] }) {
 
                                     {/* Event Category */}
                                     <div>
-                                        <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300">
+                                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
                                             Event Category
                                         </label>
                                         <select
                                             value={data.event_category_id}
                                             onChange={(e) => setData('event_category_id', e.target.value)}
-                                            className="mt-1.5 w-full rounded-xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-xs transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                                            className="mt-1.5 w-full rounded-2xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-xs transition focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
                                         >
                                             <option value="">Select Category (Optional)</option>
                                             {categories.map((cat) => (
@@ -205,14 +202,14 @@ export default function Create({ categories = [] }) {
 
                                     {/* Event Date */}
                                     <div>
-                                        <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300">
+                                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
                                             Event Date
                                         </label>
                                         <input
                                             type="date"
                                             value={data.event_date}
                                             onChange={(e) => setData('event_date', e.target.value)}
-                                            className="mt-1.5 w-full rounded-xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-xs transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                                            className="mt-1.5 w-full rounded-2xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-xs transition focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
                                         />
                                         {errors.event_date && (
                                             <p className="mt-1 text-xs text-red-500">
@@ -223,7 +220,7 @@ export default function Create({ categories = [] }) {
 
                                     {/* Client Name */}
                                     <div>
-                                        <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300">
+                                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
                                             Client / Couple Name
                                         </label>
                                         <input
@@ -231,7 +228,7 @@ export default function Create({ categories = [] }) {
                                             value={data.client_name}
                                             onChange={(e) => setData('client_name', e.target.value)}
                                             placeholder="e.g., Sarah & John Santos"
-                                            className="mt-1.5 w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 shadow-xs transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                                            className="mt-1.5 w-full rounded-2xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-xs transition focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
                                         />
                                         {errors.client_name && (
                                             <p className="mt-1 text-xs text-red-500">
@@ -242,7 +239,7 @@ export default function Create({ categories = [] }) {
 
                                     {/* Location / Venue */}
                                     <div>
-                                        <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300">
+                                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
                                             Venue / Location
                                         </label>
                                         <input
@@ -250,7 +247,7 @@ export default function Create({ categories = [] }) {
                                             value={data.location}
                                             onChange={(e) => setData('location', e.target.value)}
                                             placeholder="e.g., Antonio's Tagaytay, Cavite"
-                                            className="mt-1.5 w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 shadow-xs transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                                            className="mt-1.5 w-full rounded-2xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-xs transition focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
                                         />
                                         {errors.location && (
                                             <p className="mt-1 text-xs text-red-500">
@@ -262,11 +259,11 @@ export default function Create({ categories = [] }) {
                             </div>
 
                             {/* Card: Project Story & Description */}
-                            <div className="rounded-2xl border border-gray-200/80 bg-white p-6 shadow-xs sm:p-8 dark:border-gray-800 dark:bg-gray-900">
-                                <h2 className="text-lg font-bold text-gray-900 dark:text-white">
+                            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xs sm:p-8">
+                                <h2 className="text-lg font-black text-slate-900">
                                     Project Description & Highlights
                                 </h2>
-                                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                <p className="mt-1 text-xs text-slate-500">
                                     Describe the theme, setup, special services provided, or client testimonials.
                                 </p>
 
@@ -276,7 +273,7 @@ export default function Create({ categories = [] }) {
                                         value={data.description}
                                         onChange={(e) => setData('description', e.target.value)}
                                         placeholder="Write a brief overview of this event project, key highlights, floral concepts, photography style, or unique features..."
-                                        className="w-full rounded-xl border border-gray-300 bg-white p-4 text-sm text-gray-900 shadow-xs transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                                        className="w-full rounded-2xl border border-slate-300 bg-white p-4 text-sm text-slate-900 shadow-xs transition focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
                                     />
                                     {errors.description && (
                                         <p className="mt-1 text-xs text-red-500">{errors.description}</p>
@@ -284,18 +281,18 @@ export default function Create({ categories = [] }) {
                                 </div>
                             </div>
 
-                            {/* Card: Photo Gallery Upload (Multiple Images) */}
-                            <div className="rounded-2xl border border-gray-200/80 bg-white p-6 shadow-xs sm:p-8 dark:border-gray-800 dark:bg-gray-900">
+                            {/* Card: Photo Gallery Upload */}
+                            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xs sm:p-8">
                                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                                     <div>
-                                        <h2 className="text-lg font-bold text-gray-900 dark:text-white">
+                                        <h2 className="text-lg font-black text-slate-900">
                                             Project Photos
                                         </h2>
-                                        <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                        <p className="mt-1 text-xs text-slate-500">
                                             Upload high resolution photos. Choose one image to be the Cover Photo.
                                         </p>
                                     </div>
-                                    <span className="mt-2 text-xs font-semibold text-indigo-600 sm:mt-0 dark:text-indigo-400">
+                                    <span className="mt-2 text-xs font-bold text-indigo-600 sm:mt-0">
                                         {previewImages.length} photo(s) selected
                                     </span>
                                 </div>
@@ -306,10 +303,10 @@ export default function Create({ categories = [] }) {
                                     onDragLeave={handleDragLeave}
                                     onDrop={handleDrop}
                                     onClick={() => fileInputRef.current?.click()}
-                                    className={`mt-6 flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed p-8 text-center transition-all ${
+                                    className={`mt-6 flex cursor-pointer flex-col items-center justify-center rounded-3xl border-2 border-dashed p-8 text-center transition-all ${
                                         isDragging
-                                            ? 'border-indigo-500 bg-indigo-50/50 dark:bg-indigo-950/40'
-                                            : 'border-gray-300 bg-gray-50/50 hover:border-indigo-400 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800/50'
+                                            ? 'border-indigo-500 bg-indigo-50/50'
+                                            : 'border-slate-300 bg-slate-50/50 hover:border-indigo-400 hover:bg-slate-50'
                                     }`}
                                 >
                                     <input
@@ -320,16 +317,16 @@ export default function Create({ categories = [] }) {
                                         onChange={handleFileInputChange}
                                         className="hidden"
                                     />
-                                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-100 text-2xl text-indigo-600 dark:bg-indigo-900/50 dark:text-indigo-400">
+                                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-50 text-2xl text-indigo-600">
                                         ☁️
                                     </div>
-                                    <p className="mt-3 text-sm font-semibold text-gray-900 dark:text-white">
+                                    <p className="mt-3 text-sm font-bold text-slate-900">
                                         Drag & drop images here, or{' '}
-                                        <span className="text-indigo-600 hover:underline dark:text-indigo-400">
+                                        <span className="text-indigo-600 hover:underline">
                                             browse files
                                         </span>
                                     </p>
-                                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                    <p className="mt-1 text-xs text-slate-400">
                                         Upload multiple JPG, PNG, or WEBP images (Up to 5MB each)
                                     </p>
                                 </div>
@@ -341,7 +338,7 @@ export default function Create({ categories = [] }) {
                                 {/* Image Preview Grid */}
                                 {previewImages.length > 0 && (
                                     <div className="mt-6 space-y-3">
-                                        <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                        <p className="text-xs font-bold uppercase tracking-wider text-slate-500">
                                             Selected Photos & Captions
                                         </p>
 
@@ -351,28 +348,28 @@ export default function Create({ categories = [] }) {
                                                 return (
                                                     <div
                                                         key={index}
-                                                        className={`group relative flex flex-col overflow-hidden rounded-xl border p-2 transition ${
+                                                        className={`group relative flex flex-col overflow-hidden rounded-2xl border p-2.5 transition ${
                                                             isCover
-                                                                ? 'border-indigo-500 bg-indigo-50/20 ring-2 ring-indigo-500/20 dark:bg-indigo-950/20'
-                                                                : 'border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-800'
+                                                                ? 'border-indigo-500 bg-indigo-50/30 ring-2 ring-indigo-500/20'
+                                                                : 'border-slate-200 bg-white'
                                                         }`}
                                                     >
                                                         {/* Thumbnail Box */}
-                                                        <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-700">
+                                                        <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-slate-100">
                                                             <img
                                                                 src={item.url}
                                                                 alt={item.name}
                                                                 className="h-full w-full object-cover"
                                                             />
 
-                                                            {/* Cover Photo Badge / Selector */}
+                                                            {/* Cover Photo Badge */}
                                                             <button
                                                                 type="button"
                                                                 onClick={(e) => {
                                                                     e.stopPropagation();
                                                                     selectCover(index);
                                                                 }}
-                                                                className={`absolute left-2 top-2 rounded-md px-2 py-0.5 text-[10px] font-bold shadow-xs transition ${
+                                                                className={`absolute left-2 top-2 rounded-lg px-2.5 py-1 text-[10px] font-extrabold shadow-sm transition ${
                                                                     isCover
                                                                         ? 'bg-indigo-600 text-white'
                                                                         : 'bg-black/60 text-white/90 hover:bg-black'
@@ -388,16 +385,16 @@ export default function Create({ categories = [] }) {
                                                                     e.stopPropagation();
                                                                     removeImage(index);
                                                                 }}
-                                                                className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full bg-red-600/90 text-xs font-bold text-white shadow-xs transition hover:bg-red-700"
+                                                                className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full bg-red-600 text-xs font-bold text-white shadow-xs transition hover:bg-red-700"
                                                                 title="Remove Photo"
                                                             >
                                                                 ✕
                                                             </button>
                                                         </div>
 
-                                                        {/* Caption & File Info */}
-                                                        <div className="mt-2 space-y-1.5">
-                                                            <div className="flex items-center justify-between text-[11px] text-gray-500 dark:text-gray-400">
+                                                        {/* Caption */}
+                                                        <div className="mt-2.5 space-y-1.5">
+                                                            <div className="flex items-center justify-between text-[11px] text-slate-500">
                                                                 <span className="line-clamp-1 max-w-[140px]">
                                                                     {item.name}
                                                                 </span>
@@ -411,7 +408,7 @@ export default function Create({ categories = [] }) {
                                                                     handleCaptionChange(index, e.target.value)
                                                                 }
                                                                 placeholder="Add caption (optional)..."
-                                                                className="w-full rounded-lg border border-gray-200 bg-gray-50/50 px-2 py-1 text-xs text-gray-900 transition focus:border-indigo-500 focus:bg-white focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-white"
+                                                                className="w-full rounded-xl border border-slate-200 bg-slate-50/60 px-3 py-1.5 text-xs text-slate-900 transition focus:border-indigo-600 focus:bg-white focus:outline-none"
                                                             />
                                                         </div>
                                                     </div>
@@ -426,46 +423,46 @@ export default function Create({ categories = [] }) {
                         {/* Right Column: Settings, Visibility & Actions */}
                         <div className="space-y-6">
                             {/* Card: Publishing Settings */}
-                            <div className="rounded-2xl border border-gray-200/80 bg-white p-6 shadow-xs dark:border-gray-800 dark:bg-gray-900">
-                                <h3 className="text-base font-bold text-gray-900 dark:text-white">
+                            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xs">
+                                <h3 className="text-base font-black text-slate-900">
                                     Publishing Options
                                 </h3>
-                                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                <p className="mt-1 text-xs text-slate-500">
                                     Control project visibility to clients.
                                 </p>
 
-                                <div className="mt-5 space-y-4">
+                                <div className="mt-5 space-y-3.5">
                                     {/* Published Toggle */}
-                                    <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-gray-200 p-3.5 transition hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800/50">
+                                    <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200 p-4 transition hover:bg-slate-50">
                                         <input
                                             type="checkbox"
                                             checked={data.is_published}
                                             onChange={(e) => setData('is_published', e.target.checked)}
-                                            className="mt-0.5 h-4 w-4 rounded-sm border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                            className="mt-0.5 h-4 w-4 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500"
                                         />
                                         <div>
-                                            <span className="block text-xs font-semibold text-gray-900 dark:text-white">
+                                            <span className="block text-xs font-bold text-slate-900">
                                                 Publish Project Immediately
                                             </span>
-                                            <span className="block text-[11px] text-gray-500 dark:text-gray-400">
+                                            <span className="block text-[11px] text-slate-500">
                                                 Make this project publicly visible in your showcase.
                                             </span>
                                         </div>
                                     </label>
 
                                     {/* Featured Toggle */}
-                                    <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-gray-200 p-3.5 transition hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800/50">
+                                    <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200 p-4 transition hover:bg-slate-50">
                                         <input
                                             type="checkbox"
                                             checked={data.is_featured}
                                             onChange={(e) => setData('is_featured', e.target.checked)}
-                                            className="mt-0.5 h-4 w-4 rounded-sm border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                            className="mt-0.5 h-4 w-4 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500"
                                         />
                                         <div>
-                                            <span className="block text-xs font-semibold text-gray-900 dark:text-white">
+                                            <span className="block text-xs font-bold text-slate-900">
                                                 ⭐ Feature on Profile
                                             </span>
-                                            <span className="block text-[11px] text-gray-500 dark:text-gray-400">
+                                            <span className="block text-[11px] text-slate-500">
                                                 Pins this project to the top of your portfolio.
                                             </span>
                                         </div>
@@ -474,11 +471,11 @@ export default function Create({ categories = [] }) {
                             </div>
 
                             {/* Card: Actions */}
-                            <div className="rounded-2xl border border-gray-200/80 bg-white p-6 shadow-xs dark:border-gray-800 dark:bg-gray-900">
+                            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xs">
                                 <button
                                     type="submit"
                                     disabled={processing}
-                                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:from-indigo-500 hover:to-indigo-600 hover:shadow-md disabled:opacity-50"
+                                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-indigo-600 px-5 py-3 text-sm font-bold text-white shadow-md shadow-indigo-600/20 transition hover:bg-indigo-700 active:scale-95 disabled:opacity-50"
                                 >
                                     {processing ? (
                                         <span>Saving Project...</span>
@@ -492,7 +489,7 @@ export default function Create({ categories = [] }) {
 
                                 <Link
                                     href={route('supplier.portfolio.index')}
-                                    className="mt-3 block w-full rounded-xl border border-gray-300 py-2.5 text-center text-xs font-semibold text-gray-700 transition hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+                                    className="mt-3 block w-full rounded-2xl border border-slate-300 py-2.5 text-center text-xs font-bold text-slate-700 transition hover:bg-slate-50"
                                 >
                                     Cancel
                                 </Link>

@@ -741,7 +741,63 @@ export default function Index({
 
                                     </div>
 
+                                    <div className="rounded-xl bg-gray-50 p-4">
+
+                                        <p className="text-xs font-semibold
+                                                      uppercase text-gray-400">
+                                            Years of Experience
+                                        </p>
+
+                                        <p className="mt-1 text-sm font-medium
+                                                      text-gray-800">
+                                            {selectedSupplier.years_of_experience
+                                                ? `${selectedSupplier.years_of_experience} Years`
+                                                : 'Not specified'}
+                                        </p>
+
+                                    </div>
+
+                                    <div className="rounded-xl bg-gray-50 p-4">
+
+                                        <p className="text-xs font-semibold
+                                                      uppercase text-gray-400">
+                                            Facebook Page / URL
+                                        </p>
+
+                                        {selectedSupplier.facebook_page || selectedSupplier.facebook_url ? (
+                                            <a
+                                                href={(selectedSupplier.facebook_page || selectedSupplier.facebook_url).startsWith('http')
+                                                    ? (selectedSupplier.facebook_page || selectedSupplier.facebook_url)
+                                                    : `https://${selectedSupplier.facebook_page || selectedSupplier.facebook_url}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="mt-1 text-sm font-medium text-blue-600 hover:underline truncate block"
+                                            >
+                                                {selectedSupplier.facebook_page || selectedSupplier.facebook_url}
+                                            </a>
+                                        ) : (
+                                            <p className="mt-1 text-sm font-medium text-gray-800">
+                                                Not provided
+                                            </p>
+                                        )}
+
+                                    </div>
+
                                 </div>
+
+                                {/* Cover Photo Preview */}
+                                {selectedSupplier.cover_photo && (
+                                    <div className="mt-4 overflow-hidden rounded-xl border border-gray-200">
+                                        <p className="bg-gray-50 px-3 py-1.5 text-xs font-semibold uppercase text-gray-500">
+                                            Cover Photo
+                                        </p>
+                                        <img
+                                            src={`/storage/${selectedSupplier.cover_photo}`}
+                                            alt="Supplier Cover"
+                                            className="h-36 w-full object-cover"
+                                        />
+                                    </div>
+                                )}
 
 
                                 {/* Categories */}

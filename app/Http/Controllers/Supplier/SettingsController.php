@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Supplier;
 
 use App\Http\Controllers\Controller;
 use App\Models\SupplierCategory;
+use App\Models\SupplierPortfolio;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -40,6 +41,18 @@ class SettingsController extends Controller
 
         /*
         |--------------------------------------------------------------------------
+        | Get Supplier Portfolios for preview
+        |--------------------------------------------------------------------------
+        */
+
+        $portfolios = SupplierPortfolio::where('supplier_id', $user->id)
+            ->with('images')
+            ->latest()
+            ->take(4)
+            ->get();
+
+        /*
+        |--------------------------------------------------------------------------
         | Return Settings Page
         |--------------------------------------------------------------------------
         */
@@ -48,6 +61,8 @@ class SettingsController extends Controller
             'profile' => $profile,
 
             'categories' => $categories,
+
+            'portfolios' => $portfolios,
 
             // Breeze account profile
             'mustVerifyEmail' => $user instanceof MustVerifyEmail

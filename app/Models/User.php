@@ -54,6 +54,11 @@ class User extends Authenticatable
         return $this->hasMany(Package::class, 'supplier_id');
     }
 
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class, 'customer_id');
+    }
+
     public function services(): HasMany
     {
         return $this->hasMany(Service::class, 'supplier_id');
@@ -77,5 +82,41 @@ class User extends Authenticatable
     public function teamMemberships(): HasMany
     {
         return $this->hasMany(TeamMember::class, 'supplier_id');
+    }
+
+    public function reviewsReceived(): HasMany
+    {
+        return $this->hasMany(Review::class, 'supplier_id');
+    }
+
+    public function reviewsGiven(): HasMany
+    {
+        return $this->hasMany(Review::class, 'customer_id');
+    }
+
+    /**
+     * Get rating statistics for this supplier.
+     *
+     * @return array{average: float, count: int, distribution: array<int, int>}
+     */
+    public function getRatingStats(): array
+    {
+        $reviews = $this->reviewsReceived()->approved()->get();
+        $count = $reviews->count();
+        $avg = $count > 0 ? round($reviews->avg('rating'), 1) : 0.0;
+
+        $distribution = [
+            5 => $reviews->where('rating', 5)->count(),
+            4 => $reviews->where('rating', 4)->count(),
+            3 => $reviews->where('rating', 3)->count(),
+            2 => $reviews->where('rating', 2)->count(),
+            1 => $reviews->where('rating', 1)->count(),
+        ];
+
+        return [
+            'average' => (float) $avg,
+            'count' => $count,
+            'distribution' => $distribution,
+        ];
     }
 }

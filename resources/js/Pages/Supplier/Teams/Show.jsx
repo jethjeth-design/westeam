@@ -284,6 +284,17 @@ export default function Show({ team, isCoordinator, userMembership }) {
                                                 {/* Actions */}
                                                 {isCoordinator && !isLead && (
                                                     <div className="flex items-center gap-1">
+                                                        {/* Chat with Collaborator */}
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => {
+                                                                router.post(route('messages.direct', supplier.id));
+                                                            }}
+                                                            className="rounded-lg p-1.5 text-gray-400 hover:bg-indigo-50 hover:text-indigo-600"
+                                                            title="Chat with Member"
+                                                        >
+                                                            💬
+                                                        </button>
                                                         <button
                                                             type="button"
                                                             onClick={() => handleOpenRoleModal(member)}
@@ -301,6 +312,19 @@ export default function Show({ team, isCoordinator, userMembership }) {
                                                             🗑️
                                                         </button>
                                                     </div>
+                                                )}
+                                                {/* Collaborator: chat with coordinator */}
+                                                {!isCoordinator && isLead && (
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => {
+                                                            router.post(route('messages.direct', supplier.id));
+                                                        }}
+                                                        className="rounded-lg px-2.5 py-1 text-xs font-semibold text-indigo-600 hover:bg-indigo-50"
+                                                        title="Chat with Coordinator"
+                                                    >
+                                                        💬 Chat
+                                                    </button>
                                                 )}
                                             </div>
                                         </div>

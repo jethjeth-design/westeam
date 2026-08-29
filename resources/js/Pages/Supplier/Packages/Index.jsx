@@ -4,25 +4,58 @@ import { useState, useMemo } from 'react';
 
 export default function Index({
     packages = [],
+    soloPackages = [],
+    teamPackages = [],
     services = [],
-    categories = [],
 }) {
-    const [selectedCategory, setSelectedCategory] = useState('all');
+    const [packageTab, setPackageTab] = useState('solo'); // 'solo' | 'team'
     const [searchQuery, setSearchQuery] = useState('');
+    const [statusFilter, setStatusFilter] = useState('all'); // 'all' | 'active' | 'inactive'
+    const [sortBy, setSortBy] = useState('newest'); // 'newest' | 'price_asc' | 'price_desc' | 'name_asc'
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [deletingPackage, setDeletingPackage] = useState(null);
 
+    const activePackages = packageTab === 'team' ? teamPackages : soloPackages;
+
     const filteredPackages = useMemo(() => {
-        return packages.filter((pkg) => {
-            const matchesCategory =
-                selectedCategory === 'all' ||
-                String(pkg.event_category_id) === String(selectedCategory);
-            const matchesSearch =
-                (pkg.name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-                (pkg.description || '').toLowerCase().includes(searchQuery.toLowerCase());
-            return matchesCategory && matchesSearch;
+        let list = activePackages.filter((pkg) => {
+            // Status match
+            if (statusFilter === 'active' && !pkg.is_active) return false;
+            if (statusFilter === 'inactive' && pkg.is_active) return false;
+
+            // Search query match
+            if (searchQuery.trim()) {
+                const query = searchQuery.toLowerCase();
+                const nameMatch = (pkg.name || '').toLowerCase().includes(query);
+                const descMatch = (pkg.description || '').toLowerCase().includes(query);
+                const inclusionsMatch = (pkg.inclusions || '').toLowerCase().includes(query);
+                const servicesMatch = (pkg.services || []).some((s) =>
+                    (s.name || '').toLowerCase().includes(query)
+                );
+
+                if (!nameMatch && !descMatch && !inclusionsMatch && !servicesMatch) {
+                    return false;
+                }
+            }
+
+            return true;
         });
-    }, [packages, selectedCategory, searchQuery]);
+
+        // Sorting
+        return list.sort((a, b) => {
+            if (sortBy === 'price_asc') {
+                return Number(a.price || 0) - Number(b.price || 0);
+            }
+            if (sortBy === 'price_desc') {
+                return Number(b.price || 0) - Number(a.price || 0);
+            }
+            if (sortBy === 'name_asc') {
+                return (a.name || '').localeCompare(b.name || '');
+            }
+            // default newest
+            return (b.id || 0) - (a.id || 0);
+        });
+    }, [activePackages, searchQuery, statusFilter, sortBy]);
 
     const openDeleteModal = (pkg) => {
         setDeletingPackage(pkg);
@@ -81,44 +114,44 @@ export default function Index({
                     </Link>
                 </div>
 
-                {/* Filters & Search Bar */}
-                <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    {/* Category Filter Pills */}
-                    <div className="flex flex-wrap items-center gap-2">
-                        <button
-                            type="button"
-                            onClick={() => setSelectedCategory('all')}
-                            className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold transition ${
-                                selectedCategory === 'all'
-                                    ? 'bg-indigo-600 text-white shadow-xs'
-                                    : 'bg-white text-gray-600 hover:bg-gray-100'
-                            }`}
-                        >
-                            All ({packages.length})
-                        </button>
-                        {categories.map((cat) => {
-                            const count = packages.filter(
-                                (p) => String(p.event_category_id) === String(cat.id)
-                            ).length;
-                            return (
-                                <button
-                                    key={cat.id}
-                                    type="button"
-                                    onClick={() => setSelectedCategory(String(cat.id))}
-                                    className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold transition ${
-                                        selectedCategory === String(cat.id)
-                                            ? 'bg-indigo-600 text-white shadow-xs'
-                                            : 'bg-white text-gray-600 hover:bg-gray-100'
-                                    }`}
-                                >
-                                    {cat.name} ({count})
-                                </button>
-                            );
-                        })}
-                    </div>
+                {/* Package Type Tabs */}
+                <div className="mt-6 flex items-center gap-2">
+                    <button
+                        onClick={() => { setPackageTab('solo'); }}
+                        className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition ${
+                            packageTab === 'solo'
+                                ? 'bg-indigo-600 text-white shadow-sm'
+                                : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+                        }`}
+                    >
+                        🧑 Solo Packages
+                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-black ${
+                            packageTab === 'solo' ? 'bg-white/20 text-white' : 'bg-indigo-50 text-indigo-700'
+                        }`}>
+                            {soloPackages.length}
+                        </span>
+                    </button>
+                    <button
+                        onClick={() => { setPackageTab('team'); }}
+                        className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition ${
+                            packageTab === 'team'
+                                ? 'bg-purple-600 text-white shadow-sm'
+                                : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+                        }`}
+                    >
+                        👥 Team Packages
+                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-black ${
+                            packageTab === 'team' ? 'bg-white/20 text-white' : 'bg-purple-50 text-purple-700'
+                        }`}>
+                            {teamPackages.length}
+                        </span>
+                    </button>
+                </div>
 
-                    {/* Search */}
-                    <div className="relative w-full sm:w-64">
+                {/* Live Search & Filter Bar */}
+                <div className="mt-6 flex flex-col gap-3 rounded-2xl border border-gray-200/80 bg-white p-4 shadow-xs lg:flex-row lg:items-center lg:justify-between">
+                    {/* Live Search Input */}
+                    <div className="relative flex-1">
                         <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-xs text-gray-400">
                             🔍
                         </span>
@@ -126,9 +159,70 @@ export default function Index({
                             type="text"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            placeholder="Search packages..."
-                            className="w-full rounded-xl border border-gray-300 py-1.5 pl-8 pr-3 text-xs shadow-xs outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100"
+                            placeholder="Live search by name, description, inclusions, or services..."
+                            className="w-full rounded-xl border border-gray-300 py-2 pl-9 pr-8 text-xs text-gray-900 shadow-xs outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100"
                         />
+                        {searchQuery && (
+                            <button
+                                type="button"
+                                onClick={() => setSearchQuery('')}
+                                className="absolute inset-y-0 right-0 flex items-center pr-3 text-xs text-gray-400 hover:text-gray-600"
+                            >
+                                ✕
+                            </button>
+                        )}
+                    </div>
+
+                    {/* Filter Controls */}
+                    <div className="flex flex-wrap items-center gap-2">
+                        {/* Status Filter Buttons */}
+                        <div className="flex rounded-xl bg-gray-100 p-1">
+                            <button
+                                type="button"
+                                onClick={() => setStatusFilter('all')}
+                                className={`rounded-lg px-3 py-1 text-xs font-bold transition ${
+                                    statusFilter === 'all'
+                                        ? 'bg-white text-indigo-600 shadow-xs'
+                                        : 'text-gray-600 hover:text-gray-900'
+                                }`}
+                            >
+                                All
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => setStatusFilter('active')}
+                                className={`rounded-lg px-3 py-1 text-xs font-bold transition ${
+                                    statusFilter === 'active'
+                                        ? 'bg-white text-emerald-600 shadow-xs'
+                                        : 'text-gray-600 hover:text-gray-900'
+                                }`}
+                            >
+                                Active
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => setStatusFilter('inactive')}
+                                className={`rounded-lg px-3 py-1 text-xs font-bold transition ${
+                                    statusFilter === 'inactive'
+                                        ? 'bg-white text-gray-800 shadow-xs'
+                                        : 'text-gray-600 hover:text-gray-900'
+                                }`}
+                            >
+                                Inactive
+                            </button>
+                        </div>
+
+                        {/* Sort Dropdown */}
+                        <select
+                            value={sortBy}
+                            onChange={(e) => setSortBy(e.target.value)}
+                            className="rounded-xl border border-gray-300 py-1.5 pl-3 pr-8 text-xs font-semibold text-gray-700 shadow-xs outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100"
+                        >
+                            <option value="newest">Sort: Newest First</option>
+                            <option value="price_asc">Price: Low to High</option>
+                            <option value="price_desc">Price: High to Low</option>
+                            <option value="name_asc">Name: A to Z</option>
+                        </select>
                     </div>
                 </div>
 
@@ -303,8 +397,8 @@ export default function Index({
                         </div>
                         <h3 className="mt-4 text-lg font-bold text-gray-900">No packages found</h3>
                         <p className="mx-auto mt-1 max-w-sm text-sm text-gray-500">
-                            {searchQuery || selectedCategory !== 'all'
-                                ? 'No packages match your filter. Try adjusting your search.'
+                            {searchQuery || statusFilter !== 'all'
+                                ? 'No packages match your live search or filter criteria. Try adjusting your search.'
                                 : 'Create your first package bundle and offer discounted service combinations to customers.'}
                         </p>
                         <Link

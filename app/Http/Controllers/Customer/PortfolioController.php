@@ -302,6 +302,17 @@ class PortfolioController extends Controller
                 'name',
             ]);
 
+        $reviews = $supplier->reviewsReceived()
+            ->where('status', 'approved')
+            ->with([
+                'customer',
+                'booking',
+            ])
+            ->latest()
+            ->get();
+
+        $ratingStats = $supplier->getRatingStats();
+
         /*
         |--------------------------------------------------------------------------
         | Return Supplier Portfolio Page
@@ -316,6 +327,10 @@ class PortfolioController extends Controller
                 'portfolios' => $portfolios,
 
                 'categories' => $categories,
+
+                'reviews' => $reviews,
+
+                'ratingStats' => $ratingStats,
 
                 'selectedCategory' => $request->input(
                     'category',

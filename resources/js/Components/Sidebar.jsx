@@ -2,8 +2,9 @@ import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
 export default function Sidebar() {
-    const { auth, url } = usePage().props;
-    const currentPath = window.location.pathname;
+    const page = usePage();
+    const auth = page.props?.auth;
+    const url = page.url || window.location.pathname;
 
     const user = auth?.user;
 
@@ -16,7 +17,35 @@ export default function Sidebar() {
     const supplierPending = supplierStatus === 'pending';
     const supplierRejected = supplierStatus === 'rejected';
 
+    const unreadMessagesCount = page.props?.unread_messages_count || 0;
+    const pendingBookingsCount = page.props?.pending_bookings_count || 0;
+
     const [settingsOpen, setSettingsOpen] = useState(false);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Active route matcher
+    |--------------------------------------------------------------------------
+    */
+    const isItemActive = (itemHref) => {
+        if (!itemHref) return false;
+        try {
+            const itemUrl = new URL(itemHref, window.location.origin);
+            const itemPath = itemUrl.pathname;
+            const currentCleanPath = (url || '').split('?')[0];
+
+            if (currentCleanPath === itemPath) return true;
+
+            const rootPaths = ['/', '/admin/dashboard', '/supplier/dashboard', '/customer/dashboard'];
+            if (rootPaths.includes(itemPath)) {
+                return currentCleanPath === itemPath;
+            }
+
+            return currentCleanPath.startsWith(itemPath + '/') || currentCleanPath === itemPath;
+        } catch {
+            return false;
+        }
+    };
 
     /*
     |--------------------------------------------------------------------------
@@ -31,7 +60,7 @@ export default function Sidebar() {
         { name: 'Packages', href: '/admin/packages', icon: '📦' },
         { name: 'Bookings', href: '/admin/bookings', icon: '📅' },
         { name: 'Schedules', href: '/admin/schedules', icon: '📆' },
-        { name: 'Messages', href: route('messages.index'), icon: '💬' },
+        { name: 'Messages', href: route('messages.index'), icon: '💬', badge: unreadMessagesCount },
         { name: 'AI Assistant', href: '/admin/ai-assistant', icon: '🤖' },
         { name: 'Reviews & Ratings', href: '/admin/reviews', icon: '⭐' },
         { name: 'Reports', href: '/admin/reports', icon: '📈' },
@@ -50,13 +79,13 @@ export default function Sidebar() {
                 { name: 'My Services', href: route('supplier.services.index'), icon: '🛠️' },
                 { name: 'Packages', href: route('supplier.packages.index'), icon: '📦' },
                 { name: 'My Teams', href: route('supplier.teams.index'), icon: '👥' },
-                { name: 'Bookings', href: '/supplier/bookings', icon: '📅' },
+                { name: 'Bookings', href: route('supplier.bookings.index'), icon: '📅', badge: pendingBookingsCount },
                 { name: 'Availability', href: '/supplier/availability', icon: '🗓️' },
                 { name: 'Portfolio', href: route('supplier.portfolio.index'), icon: '📸' },
-                { name: 'Messages', href: route('messages.index'), icon: '💬' },
+                { name: 'Messages', href: route('messages.index'), icon: '💬', badge: unreadMessagesCount },
                 { name: 'Payments', href: '/supplier/payments', icon: '💰' },
                 { name: 'Notifications', href: '/supplier/notifications', icon: '🔔' },
-                { name: 'Reviews', href: '/supplier/reviews', icon: '⭐' },
+                { name: 'Reviews', href: route('supplier.reviews.index'), icon: '⭐' },
             ]
             : []),
 
@@ -73,8 +102,8 @@ export default function Sidebar() {
         { name: 'AI Assistant Chat', href: '/customer/ai-assistant', icon: '🤖' },
         { name: 'Find Suppliers', href: route('customer.suppliers.index'), icon: '🔍' },
         { name: 'My Events', href: '/customer/events', icon: '🎉' },
-        { name: 'My Bookings', href: '/customer/bookings', icon: '📅' },
-        { name: 'Messages', href: route('messages.index'), icon: '💬' },
+        { name: 'My Bookings', href: route('customer.bookings.index'), icon: '📅' },
+        { name: 'Messages', href: route('messages.index'), icon: '💬', badge: unreadMessagesCount },
         { name: 'Payments', href: '/customer/payments', icon: '💳' },
         { name: 'Reviews', href: '/customer/reviews', icon: '⭐' },
         { name: 'Profile', href: route('profile.edit'), icon: '👤' },
@@ -149,20 +178,36 @@ export default function Sidebar() {
                 </p>
 
                 {menu.map((item) => {
-                    const isActive = currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href));
+                    const active = isItemActive(item.href);
 
                     return (
                         <Link
                             key={item.name}
                             href={item.href}
-                            className={`flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-all ${
-                                isActive
-                                    ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/20 font-bold'
-                                    : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                            className={`group flex items-center justify-between rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-all duration-150 active:scale-[0.98] ${
+                                active
+                                    ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/25 font-bold ring-1 ring-indigo-500'
+                                    : 'text-slate-600 hover:bg-indigo-50/60 hover:text-indigo-700'
                             }`}
                         >
-                            <span className="text-base leading-none">{item.icon}</span>
-                            <span>{item.name}</span>
+                            <div className="flex items-center gap-3">
+                                <span className="text-base leading-none transition-transform group-hover:scale-110">
+                                    {item.icon}
+                                </span>
+                                <span>{item.name}</span>
+                            </div>
+
+                            {Boolean(item.badge && item.badge > 0) && (
+                                <span
+                                    className={`flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-[10px] font-extrabold shadow-xs transition-all ${
+                                        active
+                                            ? 'bg-white text-indigo-700'
+                                            : 'bg-rose-500 text-white animate-pulse'
+                                    }`}
+                                >
+                                    {item.badge > 99 ? '99+' : item.badge}
+                                </span>
+                            )}
                         </Link>
                     );
                 })}
@@ -173,7 +218,7 @@ export default function Sidebar() {
                         <button
                             type="button"
                             onClick={() => setSettingsOpen(!settingsOpen)}
-                            className="flex w-full items-center justify-between rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+                            className="flex w-full items-center justify-between rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 active:scale-[0.98]"
                         >
                             <div className="flex items-center gap-3">
                                 <span className="text-base leading-none">⚙️</span>
@@ -188,21 +233,33 @@ export default function Sidebar() {
                             <div className="mt-1 ml-4 space-y-1 border-l-2 border-slate-200 pl-2">
                                 <Link
                                     href={route('admin.event-categories.index')}
-                                    className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium text-slate-600 hover:bg-indigo-50 hover:text-indigo-600"
+                                    className={`flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition ${
+                                        isItemActive(route('admin.event-categories.index'))
+                                            ? 'bg-indigo-600 text-white font-bold shadow-xs'
+                                            : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-600'
+                                    }`}
                                 >
                                     <span>🎉</span>
                                     <span>Event Categories</span>
                                 </Link>
                                 <Link
                                     href={route('admin.supplier-categories.index')}
-                                    className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium text-slate-600 hover:bg-indigo-50 hover:text-indigo-600"
+                                    className={`flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition ${
+                                        isItemActive(route('admin.supplier-categories.index'))
+                                            ? 'bg-indigo-600 text-white font-bold shadow-xs'
+                                            : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-600'
+                                    }`}
                                 >
                                     <span>🏷️</span>
                                     <span>Supplier Categories</span>
                                 </Link>
                                 <Link
                                     href="/admin/settings"
-                                    className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium text-slate-600 hover:bg-indigo-50 hover:text-indigo-600"
+                                    className={`flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition ${
+                                        isItemActive('/admin/settings')
+                                            ? 'bg-indigo-600 text-white font-bold shadow-xs'
+                                            : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-600'
+                                    }`}
                                 >
                                     <span>⚙️</span>
                                     <span>System Settings</span>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Supplier;
 
 use App\Http\Controllers\Controller;
 use App\Models\SupplierCategory;
+use App\Models\SupplierPortfolio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -27,6 +28,12 @@ class SupplierProfileController extends Controller
             'categories' => SupplierCategory::where('is_active', true)
                 ->where('is_active', true)
                 ->orderBy('name')
+                ->get(),
+
+            'portfolios' => SupplierPortfolio::where('supplier_id', Auth::id())
+                ->with('images')
+                ->latest()
+                ->take(4)
                 ->get(),
         ]);
     }
@@ -78,6 +85,26 @@ class SupplierProfileController extends Controller
                 'integer',
                 'exists:supplier_categories,id',
             ],
+
+            'cover_photo' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:3072',
+            ],
+
+            'years_of_experience' => [
+                'nullable',
+                'integer',
+                'min:0',
+                'max:100',
+            ],
+
+            'facebook_page' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
         ]);
 
         /*
@@ -116,6 +143,25 @@ class SupplierProfileController extends Controller
 
         /*
         |--------------------------------------------------------------------------
+        | Cover Photo
+        |--------------------------------------------------------------------------
+        */
+
+        $coverPhoto = $profile->cover_photo;
+
+        if ($request->hasFile('cover_photo')) {
+
+            if ($coverPhoto) {
+                Storage::disk('public')->delete($coverPhoto);
+            }
+
+            $coverPhoto = $request
+                ->file('cover_photo')
+                ->store('supplier-covers', 'public');
+        }
+
+        /*
+        |--------------------------------------------------------------------------
         | Update Profile
         |--------------------------------------------------------------------------
         */
@@ -126,6 +172,9 @@ class SupplierProfileController extends Controller
             'contact_number' => $validated['contact_number'] ?? null,
             'address' => $validated['address'] ?? null,
             'profile_picture' => $profilePicture,
+            'cover_photo' => $coverPhoto,
+            'years_of_experience' => $validated['years_of_experience'] ?? null,
+            'facebook_page' => $validated['facebook_page'] ?? null,
 
             // Important:
             // Updating the profile sends it back to admin review.

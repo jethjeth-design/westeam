@@ -121,6 +121,9 @@ class SupplierDirectoryController extends Controller
             },
             'user.portfolios.coverImage',
             'user.portfolios.images',
+            'user.reviewsReceived' => function ($q) {
+                $q->where('status', 'approved');
+            },
         ]);
 
         /*
@@ -133,6 +136,27 @@ class SupplierDirectoryController extends Controller
             ->latest()
             ->paginate(12)
             ->withQueryString();
+
+        // Attach rating stats to each supplier profile
+        $suppliers->getCollection()->transform(function ($profile) {
+            $user = $profile->user;
+            if ($user) {
+                $reviews = $user->reviewsReceived;
+                $count = $reviews->count();
+                $avg = $count > 0 ? round($reviews->avg('rating'), 1) : 0.0;
+                $profile->rating_stats = [
+                    'average' => (float) $avg,
+                    'count' => $count,
+                ];
+            } else {
+                $profile->rating_stats = [
+                    'average' => 0.0,
+                    'count' => 0,
+                ];
+            }
+
+            return $profile;
+        });
 
         /*
         |--------------------------------------------------------------------------
@@ -248,6 +272,23 @@ class SupplierDirectoryController extends Controller
 
         /*
         |--------------------------------------------------------------------------
+        | Reviews & Ratings
+        |--------------------------------------------------------------------------
+        */
+
+        $reviews = $supplier->reviewsReceived()
+            ->where('status', 'approved')
+            ->with([
+                'customer',
+                'booking',
+            ])
+            ->latest()
+            ->get();
+
+        $ratingStats = $supplier->getRatingStats();
+
+        /*
+        |--------------------------------------------------------------------------
         | Return Supplier Profile Page
         |--------------------------------------------------------------------------
         */
@@ -262,6 +303,10 @@ class SupplierDirectoryController extends Controller
                 'packages' => $packages,
 
                 'portfolios' => $portfolios,
+
+                'reviews' => $reviews,
+
+                'ratingStats' => $ratingStats,
             ]
         );
     }
