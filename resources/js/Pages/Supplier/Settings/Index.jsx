@@ -17,6 +17,7 @@ import DeleteUserForm
 export default function Index({
     profile,
     categories = [],
+    portfolios = [],
     mustVerifyEmail,
     status,
 }) {
@@ -52,11 +53,10 @@ export default function Index({
                         <button
                             type="button"
                             onClick={() => setActiveTab('business')}
-                            className={`px-5 py-3 text-sm font-semibold transition ${
-                                activeTab === 'business'
-                                    ? 'border-b-2 border-indigo-600 text-indigo-600'
-                                    : 'text-gray-500 hover:text-gray-700'
-                            }`}
+                            className={`px-5 py-3 text-sm font-semibold transition ${activeTab === 'business'
+                                ? 'border-b-2 border-indigo-600 text-indigo-600'
+                                : 'text-gray-500 hover:text-gray-700'
+                                }`}
                         >
                             Business Profile
                         </button>
@@ -65,11 +65,10 @@ export default function Index({
                         <button
                             type="button"
                             onClick={() => setActiveTab('account')}
-                            className={`px-5 py-3 text-sm font-semibold transition ${
-                                activeTab === 'account'
-                                    ? 'border-b-2 border-indigo-600 text-indigo-600'
-                                    : 'text-gray-500 hover:text-gray-700'
-                            }`}
+                            className={`px-5 py-3 text-sm font-semibold transition ${activeTab === 'account'
+                                ? 'border-b-2 border-indigo-600 text-indigo-600'
+                                : 'text-gray-500 hover:text-gray-700'
+                                }`}
                         >
                             Account Settings
                         </button>
@@ -93,7 +92,7 @@ export default function Index({
                                     </h2>
 
                                     <p className="mt-1 text-sm text-gray-500">
-                                        Manage your supplier business information.
+                                        Manage your business information and categories.
                                     </p>
 
                                 </div>
@@ -102,6 +101,7 @@ export default function Index({
                                 <BusinessProfileForm
                                     profile={profile}
                                     categories={categories}
+                                    portfolios={portfolios}
                                 />
 
                             </div>

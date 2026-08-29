@@ -12,54 +12,82 @@ class PackageServiceSeeder extends Seeder
     {
         $packages = [
 
-            // =====================================
+            // ==========================================
             // ELEGANT MOMENTS
-            // =====================================
+            // ==========================================
 
-            'Basic Wedding Photography Package' => [
+            'Basic Wedding Photography' => [
                 'Wedding Photography',
             ],
 
-            'Premium Wedding Photo & Video' => [
+            'Premium Photo and Video Package' => [
                 'Wedding Photography',
                 'Wedding Videography',
                 'Prenup Photography',
             ],
 
-            // =====================================
-            // ROYAL FEAST
-            // =====================================
+            'Luxury Wedding Photo Package' => [
+                'Wedding Photography',
+                'Wedding Videography',
+                'Prenup Photography',
+                'Same-Day Edit',
+            ],
 
-            'Classic Wedding Catering Package' => [
+            // ==========================================
+            // ROYAL FEAST
+            // ==========================================
+
+            'Basic Wedding Catering' => [
                 'Wedding Catering',
             ],
 
-            'Premium Debut Catering Package' => [
-                'Debut Catering',
+            'Premium Wedding Catering' => [
+                'Wedding Catering',
+                'Dessert Station',
             ],
 
-            // =====================================
+            // ==========================================
             // DREAM DECOR
-            // =====================================
+            // ==========================================
 
-            'Basic Wedding Decoration' => [
+            'Basic Wedding Package' => [
                 'Basic Wedding Decoration',
+                'Event Coordination',
             ],
 
-            'Luxury Wedding Decoration' => [
+            'Premium Wedding Package' => [
                 'Premium Wedding Decoration',
+                'Event Coordination',
             ],
 
-            // =====================================
+            'Luxury Wedding Package' => [
+                'Premium Wedding Decoration',
+                'Full Event Planning',
+                'Event Coordination',
+            ],
+
+            // ==========================================
             // GLAM STUDIO
-            // =====================================
+            // ==========================================
 
             'Bridal Beauty Package' => [
                 'Bridal Hair and Makeup',
             ],
 
-            'Debut Beauty Package' => [
-                'Debut Hair and Makeup',
+            'Luxury Bridal Beauty Package' => [
+                'Bridal Hair and Makeup',
+            ],
+
+            // ==========================================
+            // GRAND GARDEN VENUE
+            // ==========================================
+
+            'Garden Wedding Package' => [
+                'Garden Wedding Venue',
+            ],
+
+            'Premium Wedding Venue Package' => [
+                'Garden Wedding Venue',
             ],
         ];
 

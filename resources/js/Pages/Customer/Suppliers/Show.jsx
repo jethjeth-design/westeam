@@ -1,16 +1,25 @@
 import DashboardLayout from '@/Layouts/DashboardLayout';
 import { Head, Link, router } from '@inertiajs/react';
 import { useState, useCallback, useEffect } from 'react';
+import BookingModal from '@/Components/BookingModal';
+import RatingStars from '@/Components/RatingStars';
+import SupplierReviewsSummary from '@/Components/SupplierReviewsSummary';
 
 export default function Show({
     supplier,
     services = [],
     packages = [],
     portfolios = [],
+    reviews = [],
+    ratingStats = { average: 0, count: 0, distribution: { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 } },
 }) {
     const profile = supplier?.supplier_profile || supplier?.supplierProfile || null;
     const businessName = profile?.business_name || supplier?.name || 'Event Supplier';
     const supplierCategories = profile?.categories || [];
+    const fbUrl = profile?.facebook_url || profile?.facebook_page;
+
+    const [selectedBookingItem, setSelectedBookingItem] = useState(null);
+    const [showBookingModal, setShowBookingModal] = useState(false);
 
     const getProfilePicture = () => {
         const picture = profile?.profile_picture;
@@ -21,12 +30,23 @@ export default function Show({
         return `/storage/${picture}`;
     };
 
+    const getCoverPhoto = () => {
+        const cover = profile?.cover_photo;
+        if (!cover) return null;
+        if (cover.startsWith('http://') || cover.startsWith('https://') || cover.startsWith('/')) {
+            return cover;
+        }
+        return `/storage/${cover}`;
+    };
+
     const profilePicture = getProfilePicture();
+    const coverPhoto = getCoverPhoto();
 
     const tabs = [
         { id: 'services', label: 'Services', count: services.length, icon: '🛠️' },
         { id: 'packages', label: 'Packages', count: packages.length, icon: '📦' },
         { id: 'portfolio', label: 'Portfolio Works', count: portfolios.length, icon: '📸' },
+        { id: 'reviews', label: 'Reviews & Ratings', count: reviews.length, icon: '⭐' },
     ];
 
     const [activeTab, setActiveTab] = useState('services');
@@ -110,13 +130,25 @@ export default function Show({
 
                 {/* Profile Hero Card */}
                 <div className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-xs">
-                    <div className="h-32 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
+                    {/* Hero Cover Banner */}
+                    <div className="relative h-48 sm:h-64 w-full overflow-hidden bg-slate-800">
+                        {coverPhoto ? (
+                            <img
+                                src={coverPhoto}
+                                alt={`${businessName} Cover`}
+                                className="h-full w-full object-cover"
+                            />
+                        ) : (
+                            <div className="h-full w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600" />
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                    </div>
 
                     <div className="px-6 pb-6 sm:px-8">
                         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
                             {/* Avatar & Info */}
                             <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
-                                <div className="-mt-14 h-24 w-24 overflow-hidden rounded-2xl border-4 border-white bg-indigo-600 font-bold text-white text-2xl flex items-center justify-center shadow-lg shrink-0">
+                                <div className="-mt-16 h-28 w-28 overflow-hidden rounded-3xl border-4 border-white bg-indigo-600 font-bold text-white text-3xl flex items-center justify-center shadow-xl shrink-0">
                                     {profilePicture ? (
                                         <img src={profilePicture} alt={businessName} className="h-full w-full object-cover" />
                                     ) : (
@@ -126,15 +158,33 @@ export default function Show({
 
                                 <div>
                                     <div className="flex flex-wrap items-center gap-2">
-                                        <h1 className="text-2xl font-black text-slate-900">{businessName}</h1>
+                                        <h1 className="text-2xl sm:text-3xl font-black text-slate-900">{businessName}</h1>
                                         <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-[10px] font-bold text-emerald-700 ring-1 ring-inset ring-emerald-700/10">
                                             ✓ Verified Pro
                                         </span>
                                     </div>
 
+                                    {/* Star Rating & Experience row */}
+                                    <div className="mt-2 flex flex-wrap items-center gap-3">
+                                        <div className="flex items-center gap-1.5 rounded-xl bg-amber-50/80 px-2.5 py-1 border border-amber-100">
+                                            <RatingStars
+                                                rating={ratingStats.average}
+                                                size="sm"
+                                                showScore={true}
+                                                count={ratingStats.count}
+                                            />
+                                        </div>
+
+                                        {profile?.years_of_experience ? (
+                                            <span className="rounded-xl bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-700">
+                                                ⏳ {profile.years_of_experience}+ Years Experience
+                                            </span>
+                                        ) : null}
+                                    </div>
+
                                     {/* Categories */}
                                     {supplierCategories.length > 0 && (
-                                        <div className="mt-2 flex flex-wrap gap-1.5">
+                                        <div className="mt-2.5 flex flex-wrap gap-1.5">
                                             {supplierCategories.map((cat) => (
                                                 <span
                                                     key={cat.id}
@@ -148,16 +198,31 @@ export default function Show({
                                 </div>
                             </div>
 
-                            {/* Actions (Chat / Book) */}
-                            <div className="flex flex-wrap items-center gap-3">
+                            {/* Actions (Chat / Facebook / Gallery) */}
+                            <div className="flex flex-wrap items-center gap-2.5">
+                                {fbUrl && (
+                                    <a
+                                        href={fbUrl.startsWith('http') ? fbUrl : `https://${fbUrl}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-1.5 rounded-xl border border-blue-200 bg-blue-50 px-3.5 py-2.5 text-xs font-bold text-blue-700 transition hover:bg-blue-600 hover:text-white shadow-2xs"
+                                        title="View Facebook Page"
+                                    >
+                                        <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
+                                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                                        </svg>
+                                        <span>Facebook</span>
+                                    </a>
+                                )}
+
                                 {supplier?.id && (
                                     <button
                                         type="button"
                                         onClick={() => router.post(route('messages.direct', supplier.id))}
-                                        className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-indigo-700 active:scale-95"
+                                        className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-indigo-700 active:scale-95"
                                     >
                                         <span>💬</span>
-                                        <span>Chat with Supplier</span>
+                                        <span>Chat</span>
                                     </button>
                                 )}
 
@@ -166,7 +231,7 @@ export default function Show({
                                     className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50"
                                 >
                                     <span>📸</span>
-                                    <span>Full Gallery</span>
+                                    <span>Portfolio Works</span>
                                 </Link>
                             </div>
                         </div>
@@ -176,6 +241,17 @@ export default function Show({
                             {profile?.address && <span>📍 {profile.address}</span>}
                             {profile?.contact_number && <span>📞 {profile.contact_number}</span>}
                             {supplier?.email && <span>✉️ {supplier.email}</span>}
+                            {fbUrl && (
+                                <a
+                                    href={fbUrl.startsWith('http') ? fbUrl : `https://${fbUrl}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-blue-600 hover:underline flex items-center gap-1"
+                                >
+                                    <span>🔗</span>
+                                    <span>Facebook Page</span>
+                                </a>
+                            )}
                         </div>
 
                         {profile?.description && (
@@ -218,17 +294,42 @@ export default function Show({
                                     {services.map((service) => (
                                         <div
                                             key={service.id}
-                                            className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs transition hover:shadow-md"
+                                            className="flex flex-col justify-between rounded-3xl border border-slate-200/80 bg-white p-5 shadow-xs transition hover:shadow-md"
                                         >
-                                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 font-bold">
-                                                🛠️
+                                            <div>
+                                                <div className="flex items-center justify-between">
+                                                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 font-bold">
+                                                        🛠️
+                                                    </div>
+                                                    <span className="text-base font-black text-slate-900">
+                                                        {formatPrice(service.price)}
+                                                    </span>
+                                                </div>
+                                                <h3 className="mt-3 text-sm font-extrabold text-slate-900">{service.name}</h3>
+                                                {service.description && (
+                                                    <p className="mt-2 line-clamp-3 text-xs text-slate-600 leading-relaxed">
+                                                        {service.description}
+                                                    </p>
+                                                )}
                                             </div>
-                                            <h3 className="mt-3 text-sm font-extrabold text-slate-900">{service.name}</h3>
-                                            {service.description && (
-                                                <p className="mt-2 line-clamp-3 text-xs text-slate-600 leading-relaxed">
-                                                    {service.description}
-                                                </p>
-                                            )}
+
+                                            <div className="mt-5 border-t border-slate-100 pt-3">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => {
+                                                        setSelectedBookingItem({
+                                                            type: 'service',
+                                                            item_id: service.id,
+                                                            item_name: service.name,
+                                                            unit_price: service.price,
+                                                        });
+                                                        setShowBookingModal(true);
+                                                    }}
+                                                    className="w-full rounded-xl bg-indigo-600 py-2.5 text-xs font-bold text-white transition hover:bg-indigo-700 active:scale-95"
+                                                >
+                                                    Book This Service
+                                                </button>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
@@ -248,7 +349,7 @@ export default function Show({
                                     {packages.map((pkg) => (
                                         <div
                                             key={pkg.id}
-                                            className="flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-xs transition hover:shadow-md"
+                                            className="flex flex-col justify-between overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-xs transition hover:shadow-md"
                                         >
                                             <div className="bg-indigo-600 p-5 text-white">
                                                 {pkg.event_category && (
@@ -267,13 +368,28 @@ export default function Show({
                                                     </p>
                                                 )}
 
-                                                <div className="border-t border-slate-100 pt-3">
+                                                <div className="border-t border-slate-100 pt-3 flex gap-2">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => {
+                                                            setSelectedBookingItem({
+                                                                type: 'supplier_package',
+                                                                item_id: pkg.id,
+                                                                item_name: pkg.name,
+                                                                unit_price: pkg.price,
+                                                            });
+                                                            setShowBookingModal(true);
+                                                        }}
+                                                        className="flex-1 rounded-xl bg-indigo-600 py-2.5 text-center text-xs font-bold text-white transition hover:bg-indigo-700"
+                                                    >
+                                                        Book Package
+                                                    </button>
                                                     <button
                                                         type="button"
                                                         onClick={() => router.post(route('messages.direct', supplier.id), { initial_message: `Hi, I am interested in your package: ${pkg.name}` })}
-                                                        className="w-full rounded-xl bg-slate-900 py-2.5 text-center text-xs font-bold text-white transition hover:bg-indigo-600"
+                                                        className="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-100"
                                                     >
-                                                        Inquire About Package
+                                                        💬
                                                     </button>
                                                 </div>
                                             </div>
@@ -337,6 +453,18 @@ export default function Show({
                             )}
                         </div>
                     )}
+
+                    {/* Reviews & Ratings Tab */}
+                    {activeTab === 'reviews' && (
+                        <div>
+                            <SupplierReviewsSummary
+                                ratingStats={ratingStats}
+                                reviews={reviews}
+                                title={`${businessName} — Reviews & Ratings`}
+                                subtitle="Verified reviews left by event organizers after completed bookings."
+                            />
+                        </div>
+                    )}
                 </div>
 
                 {/* Lightbox Modal */}
@@ -364,6 +492,29 @@ export default function Show({
                             )}
                         </div>
                     </div>
+                )}
+
+                {/* Booking Modal */}
+                {selectedBookingItem && (
+                    <BookingModal
+                        isOpen={showBookingModal}
+                        onClose={() => {
+                            setShowBookingModal(false);
+                            setSelectedBookingItem(null);
+                        }}
+                        bookingType={selectedBookingItem.type}
+                        title={`Book ${selectedBookingItem.item_name}`}
+                        items={[
+                            {
+                                supplier_id: supplier.id,
+                                item_type: selectedBookingItem.type === 'supplier_package' ? 'package' : 'service',
+                                item_id: selectedBookingItem.item_id,
+                                item_name: selectedBookingItem.item_name,
+                                unit_price: selectedBookingItem.unit_price,
+                                supplier_name: businessName,
+                            },
+                        ]}
+                    />
                 )}
             </div>
         </DashboardLayout>

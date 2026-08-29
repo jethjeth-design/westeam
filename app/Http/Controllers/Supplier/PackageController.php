@@ -22,13 +22,20 @@ class PackageController extends Controller
     {
         $supplierId = auth()->id();
 
-        $packages = Package::with([
+        $allPackages = Package::with([
             'services',
             'eventCategory',
+            'team:id,name,coordinator_id',
         ])
             ->where('supplier_id', $supplierId)
             ->latest()
             ->get();
+
+        // Solo packages (no team attached)
+        $soloPackages = $allPackages->whereNull('team_id')->values();
+
+        // Team packages (coordinator only sees their own)
+        $teamPackages = $allPackages->whereNotNull('team_id')->values();
 
         $services = Service::where('supplier_id', $supplierId)
             ->where('is_active', true)
@@ -40,7 +47,9 @@ class PackageController extends Controller
             ->get(['id', 'name']);
 
         return Inertia::render('Supplier/Packages/Index', [
-            'packages' => $packages,
+            'packages' => $allPackages,
+            'soloPackages' => $soloPackages,
+            'teamPackages' => $teamPackages,
             'services' => $services,
             'categories' => $categories,
         ]);

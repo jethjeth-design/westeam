@@ -1,14 +1,25 @@
 <?php
 
+use App\Http\Controllers\Admin\BookingController as AdminBookingController;
+use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\EventCategoryController;
+use App\Http\Controllers\Admin\PackageController as AdminPackageController;
+use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
 use App\Http\Controllers\Admin\SupplierCategoryController;
 use App\Http\Controllers\Admin\SupplierController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Customer\BookingController as CustomerBookingController;
+use App\Http\Controllers\Customer\EventController as CustomerEventController;
 use App\Http\Controllers\Customer\PortfolioController as CustomerPortfolioController;
+use App\Http\Controllers\Customer\ReviewController as CustomerReviewController;
 use App\Http\Controllers\Customer\SupplierDirectoryController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Supplier\BookingController as SupplierBookingController;
 use App\Http\Controllers\Supplier\DashboardController;
 use App\Http\Controllers\Supplier\PackageController;
 use App\Http\Controllers\Supplier\PortfolioController as SupplierPortfolioController;
+use App\Http\Controllers\Supplier\ReviewController as SupplierReviewController;
 use App\Http\Controllers\Supplier\ServiceController;
 use App\Http\Controllers\Supplier\SettingsController;
 use App\Http\Controllers\Supplier\SupplierProfileController;
@@ -50,9 +61,18 @@ Route::get('/dashboard', function () {
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
 
-    Route::get('/admin/dashboard', function () {
-        return Inertia::render('Admin/Dashboard');
-    })->name('admin.dashboard');
+    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.users.index');
+    Route::delete('/admin/users/{user}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
+    Route::get('/admin/customers', [AdminCustomerController::class, 'index'])->name('admin.customers.index');
+    Route::get('/admin/bookings', [AdminBookingController::class, 'index'])->name('admin.bookings.index');
+    Route::get('/admin/packages', [AdminPackageController::class, 'index'])->name('admin.packages.index');
+
+    // Admin Review Moderation
+    Route::get('/admin/reviews', [AdminReviewController::class, 'index'])->name('admin.reviews.index');
+    Route::post('/admin/reviews/{review}/approve', [AdminReviewController::class, 'approve'])->name('admin.reviews.approve');
+    Route::post('/admin/reviews/{review}/reject', [AdminReviewController::class, 'reject'])->name('admin.reviews.reject');
+    Route::delete('/admin/reviews/{review}', [AdminReviewController::class, 'destroy'])->name('admin.reviews.destroy');
 
 });
 
@@ -76,11 +96,30 @@ Route::middleware(['auth', 'role:supplier'])->group(function () {
 |--------------------------------------------------------------------------
 */
 
+use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
+
 Route::middleware(['auth', 'role:customer'])->group(function () {
 
-    Route::get('/customer/dashboard', function () {
-        return Inertia::render('Customer/Dashboard');
-    })->name('customer.dashboard');
+    Route::get('/customer/dashboard', [CustomerDashboardController::class, 'index'])
+        ->name('customer.dashboard');
+
+    // Customer Bookings
+    Route::get('/customer/bookings', [CustomerBookingController::class, 'index'])
+        ->name('customer.bookings.index');
+    Route::post('/customer/bookings', [CustomerBookingController::class, 'store'])
+        ->name('customer.bookings.store');
+    Route::get('/customer/bookings/{booking}', [CustomerBookingController::class, 'show'])
+        ->name('customer.bookings.show');
+    Route::post('/customer/bookings/{booking}/cancel', [CustomerBookingController::class, 'cancel'])
+        ->name('customer.bookings.cancel');
+
+    // Customer Reviews
+    Route::post('/customer/reviews', [CustomerReviewController::class, 'store'])
+        ->name('customer.reviews.store');
+
+    // Customer Events
+    Route::get('/customer/events', [CustomerEventController::class, 'index'])
+        ->name('customer.events.index');
 
     // Supplier Directory
     Route::get('/customer/suppliers', [SupplierDirectoryController::class, 'index'])
@@ -210,6 +249,20 @@ Route::middleware(['auth'])
                 [SupplierPortfolioController::class, 'setCoverImage']
             )->name('portfolio.images.cover');
 
+            // Bookings Management
+            Route::get('/bookings', [SupplierBookingController::class, 'index'])
+                ->name('bookings.index');
+            Route::post('/bookings/items/{item}/accept', [SupplierBookingController::class, 'accept'])
+                ->name('bookings.items.accept');
+            Route::post('/bookings/items/{item}/reject', [SupplierBookingController::class, 'reject'])
+                ->name('bookings.items.reject');
+            Route::post('/bookings/items/{item}/complete', [SupplierBookingController::class, 'complete'])
+                ->name('bookings.items.complete');
+            Route::post('/bookings/teams/{booking}/accept', [SupplierBookingController::class, 'acceptTeamBooking'])
+                ->name('bookings.teams.accept');
+            Route::post('/bookings/teams/{booking}/reject', [SupplierBookingController::class, 'rejectTeamBooking'])
+                ->name('bookings.teams.reject');
+
             // Teams & Collaboration Routes
             Route::get('/teams', [TeamController::class, 'index'])
                 ->name('teams.index');
@@ -235,6 +288,10 @@ Route::middleware(['auth'])
                 ->name('teams.invitations.accept');
             Route::post('/teams/invitations/{member}/decline', [TeamController::class, 'declineInvitation'])
                 ->name('teams.invitations.decline');
+
+            // Reviews Management
+            Route::get('/reviews', [SupplierReviewController::class, 'index'])
+                ->name('reviews.index');
 
         });
     });

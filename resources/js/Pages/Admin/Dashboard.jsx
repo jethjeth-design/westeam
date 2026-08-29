@@ -1,269 +1,198 @@
 import DashboardLayout from '@/Layouts/DashboardLayout';
 import { Head, Link } from '@inertiajs/react';
 
-export default function Dashboard() {
+const statusColors = {
+    pending: 'bg-amber-50 text-amber-700 ring-amber-600/20',
+    accepted: 'bg-emerald-50 text-emerald-700 ring-emerald-600/20',
+    rejected: 'bg-red-50 text-red-700 ring-red-600/20',
+    cancelled: 'bg-slate-100 text-slate-600 ring-slate-500/20',
+    completed: 'bg-indigo-50 text-indigo-700 ring-indigo-600/20',
+};
+
+const bookingTypeLabel = {
+    service: '🛠️ Service',
+    supplier_package: '📦 Package',
+    multi_supplier: '🤖 AI Multi',
+    team_package: '👥 Team',
+};
+
+export default function Dashboard({ stats = {}, recentBookings = [], bookingsByStatus = {} }) {
+    const fmt = (n) =>
+        Number(n).toLocaleString('en-PH', { style: 'currency', currency: 'PHP', maximumFractionDigits: 0 });
+
+    const statCards = [
+        { label: 'Total Customers', value: stats.totalCustomers ?? 0, icon: '👥', color: 'text-indigo-600', bg: 'bg-indigo-50', href: route('admin.customers.index') },
+        { label: 'Total Suppliers', value: stats.totalSuppliers ?? 0, icon: '🏢', color: 'text-violet-600', bg: 'bg-violet-50', href: route('admin.suppliers.index') },
+        { label: 'Total Bookings', value: stats.totalBookings ?? 0, icon: '📅', color: 'text-blue-600', bg: 'bg-blue-50', href: route('admin.bookings.index') },
+        { label: 'Total Revenue', value: fmt(stats.totalRevenue ?? 0), icon: '💰', color: 'text-emerald-600', bg: 'bg-emerald-50' },
+    ];
+
     return (
         <DashboardLayout>
-            <Head title="Admin Dashboard - Event Management" />
+            <Head title="Admin Dashboard - Westeam" />
 
             <div className="min-h-screen bg-slate-50/60 p-6 lg:p-8">
-                {/* Header with Welcome and Quick Action */}
+                {/* Header */}
                 <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                     <div>
                         <div className="flex items-center gap-2">
                             <span className="inline-flex items-center rounded-md bg-indigo-50 px-2.5 py-1 text-xs font-bold text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
                                 🛡️ Admin Portal
                             </span>
-                            <span className="text-xs text-slate-400">• Overview & Analytics</span>
+                            <span className="text-xs text-slate-400">• System Overview</span>
                         </div>
                         <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-900">
                             System Dashboard
                         </h1>
                         <p className="mt-1 text-sm text-slate-500">
-                            Monitor platform metrics, approve supplier registrations, and review event bookings.
+                            Monitor bookings, suppliers, customers and platform metrics in real-time.
                         </p>
                     </div>
-
                     <div className="flex items-center gap-3">
+                        {stats.pendingSuppliers > 0 && (
+                            <Link
+                                href={route('admin.suppliers.index')}
+                                className="inline-flex items-center gap-2 rounded-xl bg-amber-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-600 active:scale-95"
+                            >
+                                ⏳ {stats.pendingSuppliers} Pending Suppliers
+                            </Link>
+                        )}
                         <Link
-                            href={route('admin.suppliers.index')}
+                            href={route('admin.bookings.index')}
                             className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 active:scale-95"
                         >
-                            <span>🏢 Review Suppliers</span>
-                            <span className="rounded-full bg-white/20 px-2 py-0.5 text-xs font-bold">New</span>
+                            📅 All Bookings
                         </Link>
                     </div>
                 </div>
 
-                {/* Key Statistics Grid */}
+                {/* Stat Cards */}
                 <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                    {/* Total Customers */}
-                    <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs transition hover:shadow-md">
-                        <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                                Total Customers
-                            </span>
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 text-lg font-bold">
-                                👥
+                    {statCards.map((card) => (
+                        <div
+                            key={card.label}
+                            className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs transition hover:shadow-md"
+                        >
+                            <div className="flex items-center justify-between">
+                                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                                    {card.label}
+                                </span>
+                                <div className={`flex h-10 w-10 items-center justify-center rounded-xl text-lg ${card.bg} ${card.color}`}>
+                                    {card.icon}
+                                </div>
                             </div>
+                            <div className="mt-3 flex items-baseline gap-2">
+                                <span className="text-2xl font-black text-slate-900">{card.value}</span>
+                            </div>
+                            {card.href && (
+                                <Link href={card.href} className="mt-2 text-xs font-semibold text-indigo-600 hover:underline">
+                                    View all →
+                                </Link>
+                            )}
                         </div>
-                        <div className="mt-3 flex items-baseline gap-2">
-                            <span className="text-3xl font-black text-slate-900">1,248</span>
-                            <span className="inline-flex items-center text-xs font-bold text-emerald-600">
-                                ↑ 12.5%
-                            </span>
-                        </div>
-                        <p className="mt-1 text-xs text-slate-400">Registered client accounts</p>
-                    </div>
+                    ))}
+                </div>
 
-                    {/* Total Suppliers */}
-                    <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs transition hover:shadow-md">
-                        <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                                Active Suppliers
-                            </span>
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-50 text-purple-600 text-lg font-bold">
-                                🏢
-                            </div>
-                        </div>
-                        <div className="mt-3 flex items-baseline gap-2">
-                            <span className="text-3xl font-black text-slate-900">86</span>
-                            <span className="inline-flex items-center text-xs font-bold text-emerald-600">
-                                +8 this month
+                {/* Booking Status Summary */}
+                <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+                    {['pending', 'accepted', 'rejected', 'cancelled', 'completed'].map((st) => (
+                        <div key={st} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-xs">
+                            <p className="text-xs font-semibold capitalize text-slate-500">{st}</p>
+                            <p className="mt-1 text-2xl font-black text-slate-900">{bookingsByStatus[st] ?? 0}</p>
+                            <span className={`mt-1 inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold ring-1 ring-inset ${statusColors[st] ?? ''}`}>
+                                {st}
                             </span>
                         </div>
-                        <p className="mt-1 text-xs text-slate-400">Photographers, Caterers & Decor</p>
-                    </div>
+                    ))}
+                </div>
 
-                    {/* Total Bookings */}
-                    <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs transition hover:shadow-md">
-                        <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                                Event Bookings
-                            </span>
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 text-lg font-bold">
-                                📅
-                            </div>
-                        </div>
-                        <div className="mt-3 flex items-baseline gap-2">
-                            <span className="text-3xl font-black text-slate-900">324</span>
-                            <span className="inline-flex items-center text-xs font-bold text-emerald-600">
-                                ↑ 18.2%
-                            </span>
-                        </div>
-                        <p className="mt-1 text-xs text-slate-400">Total reserved event services</p>
+                {/* Recent Bookings Monitoring */}
+                <div className="mt-8">
+                    <div className="flex items-center justify-between">
+                        <h2 className="text-base font-bold text-slate-900">📋 Recent Bookings</h2>
+                        <Link href={route('admin.bookings.index')} className="text-xs font-semibold text-indigo-600 hover:underline">
+                            View All →
+                        </Link>
                     </div>
-
-                    {/* Total Volume */}
-                    <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs transition hover:shadow-md">
-                        <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                                Total Platform Volume
-                            </span>
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-600 text-lg font-bold">
-                                💰
+                    <div className="mt-4 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xs">
+                        {recentBookings.length > 0 ? (
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left text-sm">
+                                    <thead className="border-b border-slate-100 bg-slate-50">
+                                        <tr>
+                                            {['Reference', 'Event', 'Customer', 'Type', 'Date', 'Amount', 'Status'].map((h) => (
+                                                <th key={h} className="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500">
+                                                    {h}
+                                                </th>
+                                            ))}
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-slate-100">
+                                        {recentBookings.map((b) => (
+                                            <tr key={b.id} className="transition hover:bg-slate-50/60">
+                                                <td className="px-4 py-3">
+                                                    <span className="font-mono text-xs font-bold text-slate-700">
+                                                        {b.booking_reference}
+                                                    </span>
+                                                </td>
+                                                <td className="px-4 py-3">
+                                                    <p className="max-w-[160px] truncate text-xs font-semibold text-slate-800">
+                                                        {b.event_name}
+                                                    </p>
+                                                </td>
+                                                <td className="px-4 py-3">
+                                                    <p className="text-xs text-slate-600">{b.customer?.name}</p>
+                                                    <p className="text-[10px] text-slate-400">{b.customer?.email}</p>
+                                                </td>
+                                                <td className="px-4 py-3">
+                                                    <span className="text-xs text-slate-600">
+                                                        {bookingTypeLabel[b.booking_type] ?? b.booking_type}
+                                                    </span>
+                                                </td>
+                                                <td className="px-4 py-3 text-xs text-slate-600">
+                                                    {b.event_date ?? '—'}
+                                                </td>
+                                                <td className="px-4 py-3 text-xs font-semibold text-slate-800">
+                                                    ₱{Number(b.total_amount).toLocaleString()}
+                                                </td>
+                                                <td className="px-4 py-3">
+                                                    <span
+                                                        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold ring-1 ring-inset ${statusColors[b.overall_status] ?? ''}`}
+                                                    >
+                                                        {b.overall_status}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
                             </div>
-                        </div>
-                        <div className="mt-3 flex items-baseline gap-2">
-                            <span className="text-3xl font-black text-slate-900">₱458K</span>
-                            <span className="inline-flex items-center text-xs font-bold text-emerald-600">
-                                ↑ 15.8%
-                            </span>
-                        </div>
-                        <p className="mt-1 text-xs text-slate-400">Total processed booking value</p>
+                        ) : (
+                            <div className="p-10 text-center">
+                                <span className="text-3xl">📭</span>
+                                <p className="mt-2 text-sm text-slate-500">No bookings yet.</p>
+                            </div>
+                        )}
                     </div>
                 </div>
 
-                {/* Main Content Layout */}
-                <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
-                    {/* Recent Event Bookings (8 Cols) */}
-                    <div className="space-y-6 lg:col-span-8">
-                        <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-xs">
-                            <div className="flex items-center justify-between border-b border-slate-100 p-5">
-                                <div>
-                                    <h2 className="text-base font-bold text-slate-900">
-                                        Recent Event Bookings
-                                    </h2>
-                                    <p className="text-xs text-slate-500">
-                                        Latest customer reservations across suppliers
-                                    </p>
-                                </div>
-                                <span className="rounded-lg bg-slate-50 px-2.5 py-1 text-xs font-semibold text-slate-600 border border-slate-200/60">
-                                    Real-time Activity
-                                </span>
-                            </div>
-
-                            <div className="divide-y divide-slate-100">
-                                <div className="flex items-center justify-between p-4 transition hover:bg-slate-50/60">
-                                    <div className="flex items-center gap-3.5">
-                                        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-50 font-bold text-indigo-700 text-sm">
-                                            JD
-                                        </div>
-                                        <div>
-                                            <p className="text-sm font-bold text-slate-900">John Dela Cruz</p>
-                                            <p className="text-xs text-slate-500">
-                                                Package: <span className="font-semibold text-slate-700">Grand Wedding Dream Bundle</span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="text-right">
-                                        <p className="text-sm font-extrabold text-slate-900">₱35,000.00</p>
-                                        <span className="inline-flex rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-bold text-emerald-700">
-                                            Confirmed
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center justify-between p-4 transition hover:bg-slate-50/60">
-                                    <div className="flex items-center gap-3.5">
-                                        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-purple-50 font-bold text-purple-700 text-sm">
-                                            MS
-                                        </div>
-                                        <div>
-                                            <p className="text-sm font-bold text-slate-900">Maria Santos</p>
-                                            <p className="text-xs text-slate-500">
-                                                Service: <span className="font-semibold text-slate-700">Full Catering & Decor</span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="text-right">
-                                        <p className="text-sm font-extrabold text-slate-900">₱18,500.00</p>
-                                        <span className="inline-flex rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-bold text-amber-700">
-                                            Pending Review
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center justify-between p-4 transition hover:bg-slate-50/60">
-                                    <div className="flex items-center gap-3.5">
-                                        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-50 font-bold text-emerald-700 text-sm">
-                                            RM
-                                        </div>
-                                        <div>
-                                            <p className="text-sm font-bold text-slate-900">Robert Mendoza</p>
-                                            <p className="text-xs text-slate-500">
-                                                Package: <span className="font-semibold text-slate-700">Corporate Conference Package</span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="text-right">
-                                        <p className="text-sm font-extrabold text-slate-900">₱42,000.00</p>
-                                        <span className="inline-flex rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-bold text-emerald-700">
-                                            Confirmed
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Admin Quick Management (4 Cols) */}
-                    <div className="space-y-6 lg:col-span-4">
-                        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs">
-                            <h2 className="text-base font-bold text-slate-900">
-                                Quick Management
-                            </h2>
-                            <p className="mt-0.5 text-xs text-slate-500">
-                                Common admin management shortcuts
-                            </p>
-
-                            <div className="mt-4 space-y-2.5">
-                                <Link
-                                    href={route('admin.suppliers.index')}
-                                    className="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50/70 p-3 transition hover:border-indigo-200 hover:bg-indigo-50/40"
-                                >
-                                    <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-purple-100 text-purple-700">
-                                        🏢
-                                    </span>
-                                    <div>
-                                        <p className="text-xs font-bold text-slate-900">Suppliers Roster</p>
-                                        <p className="text-[11px] text-slate-500">Review & approve applications</p>
-                                    </div>
-                                </Link>
-
-                                <Link
-                                    href={route('admin.event-categories.index')}
-                                    className="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50/70 p-3 transition hover:border-indigo-200 hover:bg-indigo-50/40"
-                                >
-                                    <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-100 text-indigo-700">
-                                        🎉
-                                    </span>
-                                    <div>
-                                        <p className="text-xs font-bold text-slate-900">Event Categories</p>
-                                        <p className="text-[11px] text-slate-500">Manage available event types</p>
-                                    </div>
-                                </Link>
-
-                                <Link
-                                    href={route('admin.supplier-categories.index')}
-                                    className="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50/70 p-3 transition hover:border-indigo-200 hover:bg-indigo-50/40"
-                                >
-                                    <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
-                                        🏷️
-                                    </span>
-                                    <div>
-                                        <p className="text-xs font-bold text-slate-900">Supplier Categories</p>
-                                        <p className="text-[11px] text-slate-500">Photography, Catering, Styling</p>
-                                    </div>
-                                </Link>
-                            </div>
-                        </div>
-
-                        {/* System Status Callout */}
-                        <div className="rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50/80 via-purple-50/40 to-white p-5">
-                            <div className="flex items-start gap-3">
-                                <span className="text-xl">✨</span>
-                                <div>
-                                    <h4 className="text-xs font-bold text-indigo-900">
-                                        Platform Health: Excellent
-                                    </h4>
-                                    <p className="mt-1 text-xs text-indigo-900/70 leading-relaxed">
-                                        All services and supplier team collaboration engines are running smoothly.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                {/* Quick Nav Links */}
+                <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+                    {[
+                        { label: 'Manage Users', href: route('admin.users.index'), icon: '👥' },
+                        { label: 'Manage Customers', href: route('admin.customers.index'), icon: '👤' },
+                        { label: 'Manage Packages', href: route('admin.packages.index'), icon: '📦' },
+                        { label: 'Review Suppliers', href: route('admin.suppliers.index'), icon: '🏢' },
+                    ].map((link) => (
+                        <Link
+                            key={link.label}
+                            href={link.href}
+                            className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-xs transition hover:border-indigo-300 hover:shadow-md"
+                        >
+                            <span className="text-2xl">{link.icon}</span>
+                            <span className="text-sm font-bold text-slate-800">{link.label}</span>
+                        </Link>
+                    ))}
                 </div>
             </div>
         </DashboardLayout>

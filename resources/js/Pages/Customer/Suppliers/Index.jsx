@@ -1,6 +1,7 @@
 import DashboardLayout from '@/Layouts/DashboardLayout';
 import { Head, Link, router } from '@inertiajs/react';
 import { useState, useCallback } from 'react';
+import RatingStars from '@/Components/RatingStars';
 
 export default function Index({
     suppliers = {},
@@ -45,6 +46,15 @@ export default function Index({
             return picture;
         }
         return `/storage/${picture}`;
+    };
+
+    const getCoverPhoto = (profile) => {
+        const cover = profile?.cover_photo;
+        if (!cover) return null;
+        if (cover.startsWith('http://') || cover.startsWith('https://') || cover.startsWith('/')) {
+            return cover;
+        }
+        return `/storage/${cover}`;
     };
 
     const getPortfolioPreviewImages = (profile) => {
@@ -172,18 +182,27 @@ export default function Index({
                     <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                         {supplierList.map((profile) => {
                             const picture = getProfilePicture(profile);
+                            const cover = getCoverPhoto(profile);
                             const previewImages = getPortfolioPreviewImages(profile);
                             const businessName = profile.business_name || profile.user?.name || 'Event Supplier';
                             const supplierCategories = profile.categories || [];
+                            const ratingStats = profile.rating_stats || { average: 0, count: 0 };
+                            const fbUrl = profile.facebook_url || profile.facebook_page;
 
                             return (
                                 <div
                                     key={profile.id}
-                                    className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-xs transition duration-200 hover:-translate-y-1 hover:shadow-md"
+                                    className="group flex flex-col overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-xs transition duration-200 hover:-translate-y-1 hover:shadow-lg"
                                 >
-                                    {/* Mini Portfolio Banner */}
-                                    <div className="relative h-40 w-full overflow-hidden bg-slate-100">
-                                        {previewImages.length > 0 ? (
+                                    {/* Cover Photo / Banner */}
+                                    <div className="relative h-44 w-full overflow-hidden bg-slate-100">
+                                        {cover ? (
+                                            <img
+                                                src={cover}
+                                                alt={`${businessName} Cover`}
+                                                className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                                            />
+                                        ) : previewImages.length > 0 ? (
                                             <div className="flex h-full gap-0.5">
                                                 {previewImages.slice(0, 3).map((imgUrl, idx) => (
                                                     <div key={idx} className="relative h-full flex-1 overflow-hidden">
@@ -196,20 +215,31 @@ export default function Index({
                                                 ))}
                                             </div>
                                         ) : (
-                                            <div className="flex h-full w-full flex-col items-center justify-center text-slate-400 bg-gradient-to-br from-indigo-50/50 to-slate-100">
+                                            <div className="flex h-full w-full flex-col items-center justify-center text-slate-400 bg-gradient-to-br from-indigo-100/60 via-purple-50 to-pink-50">
                                                 <span className="text-3xl">🏢</span>
                                                 <span className="mt-1 text-xs font-semibold text-slate-400">Verified Supplier</span>
                                             </div>
                                         )}
 
-                                        <span className="absolute top-3 right-3 rounded-full bg-black/60 px-2.5 py-1 text-[10px] font-bold text-white backdrop-blur-xs">
-                                            ✓ Verified
-                                        </span>
+                                        {/* Overlay Badges */}
+                                        <div className="absolute top-3 inset-x-3 flex items-center justify-between pointer-events-none">
+                                            {profile.years_of_experience ? (
+                                                <span className="rounded-full bg-slate-900/70 px-2.5 py-1 text-[10px] font-bold text-white backdrop-blur-xs shadow-xs">
+                                                    ⏳ {profile.years_of_experience}+ yrs exp
+                                                </span>
+                                            ) : (
+                                                <span />
+                                            )}
+
+                                            <span className="rounded-full bg-emerald-600/90 px-2.5 py-1 text-[10px] font-bold text-white backdrop-blur-xs shadow-xs">
+                                                ✓ Verified Pro
+                                            </span>
+                                        </div>
                                     </div>
 
                                     {/* Body Info */}
                                     <div className="relative flex flex-1 flex-col justify-between p-5 pt-0">
-                                        {/* Avatar floating */}
+                                        {/* Avatar & Chat / FB actions floating */}
                                         <div className="-mt-8 mb-3 flex items-end justify-between">
                                             <div className="h-16 w-16 overflow-hidden rounded-2xl border-3 border-white bg-indigo-600 text-white font-bold text-xl flex items-center justify-center shadow-md">
                                                 {picture ? (
@@ -219,22 +249,55 @@ export default function Index({
                                                 )}
                                             </div>
 
-                                            {/* Chat button shortcut */}
-                                            {profile.user_id && (
-                                                <button
-                                                    type="button"
-                                                    onClick={() => router.post(route('messages.direct', profile.user_id))}
-                                                    className="inline-flex items-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50/70 px-3 py-1.5 text-xs font-bold text-indigo-700 transition hover:bg-indigo-600 hover:text-white"
-                                                    title="Message this supplier"
-                                                >
-                                                    <span>💬</span>
-                                                    <span>Chat</span>
-                                                </button>
-                                            )}
+                                            {/* Action buttons */}
+                                            <div className="flex items-center gap-1.5">
+                                                {fbUrl && (
+                                                    <a
+                                                        href={fbUrl.startsWith('http') ? fbUrl : `https://${fbUrl}`}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-blue-200 bg-blue-50 text-blue-600 text-xs font-bold transition hover:bg-blue-600 hover:text-white shadow-2xs"
+                                                        title="Visit Facebook Page"
+                                                    >
+                                                        <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
+                                                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                                                        </svg>
+                                                    </a>
+                                                )}
+
+                                                {profile.user_id && (
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => router.post(route('messages.direct', profile.user_id))}
+                                                        className="inline-flex items-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50/80 px-3 py-1.5 text-xs font-bold text-indigo-700 transition hover:bg-indigo-600 hover:text-white shadow-2xs"
+                                                        title="Message this supplier"
+                                                    >
+                                                        <span>💬</span>
+                                                        <span>Chat</span>
+                                                    </button>
+                                                )}
+                                            </div>
                                         </div>
 
                                         <div>
-                                            <h3 className="line-clamp-1 text-base font-extrabold text-slate-900 group-hover:text-indigo-600">
+                                            {/* Rating Stars Bar */}
+                                            <div className="mb-1 flex items-center justify-between">
+                                                <div className="flex items-center gap-1">
+                                                    <RatingStars
+                                                        rating={ratingStats.average}
+                                                        size="xs"
+                                                        showScore={ratingStats.count > 0}
+                                                        count={ratingStats.count}
+                                                    />
+                                                </div>
+                                                {profile.years_of_experience ? (
+                                                    <span className="text-[10px] font-semibold text-slate-400">
+                                                        {profile.years_of_experience} yrs exp
+                                                    </span>
+                                                ) : null}
+                                            </div>
+
+                                            <h3 className="line-clamp-1 text-base font-extrabold text-slate-900 group-hover:text-indigo-600 transition-colors">
                                                 {businessName}
                                             </h3>
 
@@ -263,7 +326,7 @@ export default function Index({
                                         {/* Footer Links */}
                                         <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-3.5">
                                             {profile.address ? (
-                                                <span className="truncate text-[11px] text-slate-400 max-w-[140px]">
+                                                <span className="truncate text-[11px] text-slate-400 max-w-[130px]" title={profile.address}>
                                                     📍 {profile.address}
                                                 </span>
                                             ) : (
@@ -279,7 +342,7 @@ export default function Index({
                                                 </Link>
                                                 <Link
                                                     href={route('customer.suppliers.show', profile.user_id)}
-                                                    className="rounded-xl bg-indigo-600 px-3 py-1.5 text-xs font-semibold text-white shadow-xs transition hover:bg-indigo-700"
+                                                    className="rounded-xl bg-indigo-600 px-3.5 py-1.5 text-xs font-semibold text-white shadow-xs transition hover:bg-indigo-700"
                                                 >
                                                     Profile →
                                                 </Link>

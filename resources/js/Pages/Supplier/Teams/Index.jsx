@@ -226,13 +226,19 @@ export default function Index({ coordinatedTeams = [], myMemberships = [] }) {
                                                 </div>
                                             </div>
 
-                                            {/* Action Link */}
-                                            <div className="border-t border-gray-100 bg-gray-50/50 p-4">
+                                            {/* Action Links */}
+                                            <div className="border-t border-gray-100 bg-gray-50/50 p-4 space-y-2">
                                                 <Link
                                                     href={route('supplier.teams.show', team.id)}
                                                     className="flex w-full items-center justify-center gap-2 rounded-xl bg-white py-2 text-center text-xs font-semibold text-indigo-600 border border-indigo-200 shadow-2xs transition hover:bg-indigo-600 hover:text-white"
                                                 >
                                                     Manage Team & Members →
+                                                </Link>
+                                                <Link
+                                                    href={route('messages.team.internal', team.id)}
+                                                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-50 py-2 text-center text-xs font-semibold text-emerald-700 border border-emerald-200 transition hover:bg-emerald-600 hover:text-white"
+                                                >
+                                                    💬 Team Chat
                                                 </Link>
                                             </div>
                                         </div>
@@ -300,12 +306,30 @@ export default function Index({ coordinatedTeams = [], myMemberships = [] }) {
                                                 </p>
                                             </div>
 
-                                            <div className="mt-6 border-t border-gray-100 pt-4">
+                                            <div className="mt-6 border-t border-gray-100 pt-4 space-y-2">
+                                                <div className="flex gap-2">
+                                                    <Link
+                                                        href={route('supplier.teams.show', team.id)}
+                                                        className="flex flex-1 items-center justify-center rounded-xl bg-gray-50 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-100"
+                                                    >
+                                                        View Team Details →
+                                                    </Link>
+                                                    {team?.coordinator?.id && (
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => router.post(route('messages.direct', team.coordinator.id))}
+                                                            className="flex items-center gap-1 rounded-xl bg-indigo-50 px-3 py-2 text-xs font-semibold text-indigo-700 hover:bg-indigo-100"
+                                                            title="Chat with Coordinator"
+                                                        >
+                                                            💬 Coordinator
+                                                        </button>
+                                                    )}
+                                                </div>
                                                 <Link
-                                                    href={route('supplier.teams.show', team.id)}
-                                                    className="flex w-full items-center justify-center rounded-xl bg-gray-50 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-100"
+                                                    href={route('messages.team.internal', team.id)}
+                                                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-50 py-2 text-xs font-semibold text-emerald-700 border border-emerald-200 transition hover:bg-emerald-600 hover:text-white"
                                                 >
-                                                    View Team Details →
+                                                    💬 Team Chat
                                                 </Link>
                                             </div>
                                         </div>

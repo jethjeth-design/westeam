@@ -12,124 +12,168 @@ class ServiceSeeder extends Seeder
     {
         $services = [
 
-            // =====================================
+            // ==========================================
             // ELEGANT MOMENTS PHOTOGRAPHY
-            // =====================================
+            // ==========================================
 
             [
-                'supplier_email' => 'elegantmoments@gmail.com',
+                'supplier_email' => 'john@elegantmoments.com',
                 'name' => 'Wedding Photography',
-                'category' => 'Wedding',
-                'description' => 'Professional wedding photography coverage.',
+                'description' => 'Professional full-day wedding photography coverage.',
                 'price' => 25000,
+                'category' => 'Wedding',
             ],
 
             [
-                'supplier_email' => 'elegantmoments@gmail.com',
+                'supplier_email' => 'john@elegantmoments.com',
                 'name' => 'Wedding Videography',
-                'category' => 'Wedding',
-                'description' => 'Cinematic wedding video coverage.',
+                'description' => 'Professional wedding video coverage with cinematic highlights.',
                 'price' => 30000,
+                'category' => 'Wedding',
             ],
 
             [
-                'supplier_email' => 'elegantmoments@gmail.com',
+                'supplier_email' => 'john@elegantmoments.com',
                 'name' => 'Prenup Photography',
-                'category' => 'Wedding',
-                'description' => 'Professional pre-wedding photo session.',
+                'description' => 'Professional pre-wedding photoshoot.',
                 'price' => 12000,
+                'category' => 'Wedding',
             ],
 
             [
-                'supplier_email' => 'elegantmoments@gmail.com',
+                'supplier_email' => 'john@elegantmoments.com',
                 'name' => 'Same-Day Edit',
-                'category' => 'Wedding',
-                'description' => 'Same-day wedding video editing and presentation.',
+                'description' => 'Same-day wedding video edit presented during the reception.',
                 'price' => 15000,
+                'category' => 'Wedding',
             ],
 
-            // =====================================
+            // ==========================================
             // ROYAL FEAST CATERING
-            // =====================================
+            // ==========================================
 
             [
-                'supplier_email' => 'royalfeast@gmail.com',
+                'supplier_email' => 'maria@royalfeast.com',
                 'name' => 'Wedding Catering',
-                'category' => 'Wedding',
-                'description' => 'Buffet catering for wedding celebrations.',
+                'description' => 'Buffet catering service for wedding celebrations.',
                 'price' => 40000,
-            ],
-
-            [
-                'supplier_email' => 'royalfeast@gmail.com',
-                'name' => 'Birthday Catering',
-                'category' => 'Birthday',
-                'description' => 'Catering service for birthday celebrations.',
-                'price' => 25000,
-            ],
-
-            [
-                'supplier_email' => 'royalfeast@gmail.com',
-                'name' => 'Debut Catering',
-                'category' => 'Debut',
-                'description' => 'Catering package for debut celebrations.',
-                'price' => 35000,
-            ],
-
-            // =====================================
-            // DREAM DECOR EVENTS
-            // =====================================
-
-            [
-                'supplier_email' => 'dreamdecor@gmail.com',
-                'name' => 'Basic Wedding Decoration',
                 'category' => 'Wedding',
+            ],
+
+            [
+                'supplier_email' => 'maria@royalfeast.com',
+                'name' => 'Debut Catering',
+                'description' => 'Catering service for debut celebrations.',
+                'price' => 35000,
+                'category' => 'Debut',
+            ],
+
+            [
+                'supplier_email' => 'maria@royalfeast.com',
+                'name' => 'Birthday Catering',
+                'description' => 'Buffet catering for birthday celebrations.',
+                'price' => 25000,
+                'category' => 'Birthday',
+            ],
+
+            [
+                'supplier_email' => 'maria@royalfeast.com',
+                'name' => 'Dessert Station',
+                'description' => 'Dessert buffet station for events.',
+                'price' => 8000,
+                'category' => 'Wedding',
+            ],
+
+            // ==========================================
+            // DREAM DECOR EVENTS
+            // ==========================================
+
+            [
+                'supplier_email' => 'david@dreamdecor.com',
+                'name' => 'Basic Wedding Decoration',
                 'description' => 'Simple and elegant wedding decoration.',
                 'price' => 20000,
+                'category' => 'Wedding',
             ],
 
             [
-                'supplier_email' => 'dreamdecor@gmail.com',
+                'supplier_email' => 'david@dreamdecor.com',
                 'name' => 'Premium Wedding Decoration',
-                'category' => 'Wedding',
                 'description' => 'Premium wedding venue styling and decoration.',
-                'price' => 45000,
-            ],
-
-            [
-                'supplier_email' => 'dreamdecor@gmail.com',
-                'name' => 'Birthday Decoration',
-                'category' => 'Birthday',
-                'description' => 'Themed birthday decoration and styling.',
-                'price' => 15000,
-            ],
-
-            // =====================================
-            // GLAM STUDIO
-            // =====================================
-
-            [
-                'supplier_email' => 'glamstudio@gmail.com',
-                'name' => 'Bridal Hair and Makeup',
+                'price' => 40000,
                 'category' => 'Wedding',
-                'description' => 'Professional bridal hair and makeup.',
-                'price' => 12000,
             ],
 
             [
-                'supplier_email' => 'glamstudio@gmail.com',
+                'supplier_email' => 'david@dreamdecor.com',
+                'name' => 'Event Coordination',
+                'description' => 'Professional event coordination service.',
+                'price' => 15000,
+                'category' => 'Wedding',
+            ],
+
+            [
+                'supplier_email' => 'david@dreamdecor.com',
+                'name' => 'Full Event Planning',
+                'description' => 'Complete event planning and coordination.',
+                'price' => 30000,
+                'category' => 'Wedding',
+            ],
+
+            // ==========================================
+            // GLAM STUDIO CEBU
+            // ==========================================
+
+            [
+                'supplier_email' => 'anna@glamstudio.com',
+                'name' => 'Bridal Hair and Makeup',
+                'description' => 'Professional bridal hair and makeup service.',
+                'price' => 12000,
+                'category' => 'Wedding',
+            ],
+
+            [
+                'supplier_email' => 'anna@glamstudio.com',
                 'name' => 'Debut Hair and Makeup',
-                'category' => 'Debut',
                 'description' => 'Professional hair and makeup for debutants.',
                 'price' => 8000,
+                'category' => 'Debut',
+            ],
+
+            // ==========================================
+            // GRAND GARDEN EVENTS VENUE
+            // ==========================================
+
+            [
+                'supplier_email' => 'michael@grandvenue.com',
+                'name' => 'Garden Wedding Venue',
+                'description' => 'Beautiful garden venue for wedding ceremonies and receptions.',
+                'price' => 50000,
+                'category' => 'Wedding',
+            ],
+
+            [
+                'supplier_email' => 'michael@grandvenue.com',
+                'name' => 'Birthday Event Venue',
+                'description' => 'Spacious venue for birthday celebrations.',
+                'price' => 25000,
+                'category' => 'Birthday',
+            ],
+
+            [
+                'supplier_email' => 'michael@grandvenue.com',
+                'name' => 'Corporate Event Venue',
+                'description' => 'Professional venue for corporate events.',
+                'price' => 35000,
+                'category' => 'Corporate',
             ],
         ];
 
-        foreach ($services as $service) {
+        foreach ($services as $serviceData) {
 
             $supplier = User::where(
                 'email',
-                $service['supplier_email']
+                $serviceData['supplier_email']
             )->first();
 
             if (! $supplier) {
@@ -139,12 +183,12 @@ class ServiceSeeder extends Seeder
             Service::updateOrCreate(
                 [
                     'supplier_id' => $supplier->id,
-                    'name' => $service['name'],
+                    'name' => $serviceData['name'],
                 ],
                 [
-                    'category' => $service['category'],
-                    'description' => $service['description'],
-                    'price' => $service['price'],
+                    'description' => $serviceData['description'],
+                    'price' => $serviceData['price'],
+                    'category' => $serviceData['category'],
                     'is_active' => true,
                 ]
             );

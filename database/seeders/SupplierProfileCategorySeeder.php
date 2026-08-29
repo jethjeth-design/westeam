@@ -11,70 +11,41 @@ class SupplierProfileCategorySeeder extends Seeder
     public function run(): void
     {
         $supplierCategories = [
-
-            // ==========================================
-            // ELEGANT MOMENTS PHOTOGRAPHY
-            // ==========================================
-
-            [
-                'supplier_email' => 'elegantmoments@gmail.com',
-                'categories' => [
-                    'Photographer',
-                    'Videographer',
-                ],
+            'john@elegantmoments.com' => [
+                'Photography',
+                'Videography',
             ],
 
-            // ==========================================
-            // ROYAL FEAST CATERING
-            // ==========================================
-
-            [
-                'supplier_email' => 'royalfeast@gmail.com',
-                'categories' => [
-                    'Catering',
-                ],
+            'maria@royalfeast.com' => [
+                'Catering',
             ],
 
-            // ==========================================
-            // DREAM DECOR EVENTS
-            // ==========================================
-
-            [
-                'supplier_email' => 'dreamdecor@gmail.com',
-                'categories' => [
-                    'Event Decorator',
-                    'Event Coordinator',
-                ],
+            'david@dreamdecor.com' => [
+                'Event Decoration',
+                'Event Planning',
+                'Event Coordination',
             ],
 
-            // ==========================================
-            // GLAM STUDIO CEBU
-            // ==========================================
+            'anna@glamstudio.com' => [
+                'Hair and Makeup',
+            ],
 
-            [
-                'supplier_email' => 'glamstudio@gmail.com',
-                'categories' => [
-                    'Hair and Makeup Artist',
-                ],
+            'michael@grandvenue.com' => [
+                'Venue',
             ],
         ];
 
-        foreach ($supplierCategories as $item) {
+        foreach ($supplierCategories as $email => $categories) {
 
-            // Find supplier profile through user email
-            $supplierProfile = SupplierProfile::whereHas('user', function ($query) use ($item) {
-                $query->where('email', $item['supplier_email']);
+            $profile = SupplierProfile::whereHas('user', function ($query) use ($email) {
+                $query->where('email', $email);
             })->first();
 
-            if (! $supplierProfile) {
-                $this->command->warn(
-                    "Supplier profile not found: {$item['supplier_email']}"
-                );
-
+            if (! $profile) {
                 continue;
             }
 
-            foreach ($item['categories'] as $categoryName) {
+            foreach ($categories as $categoryName) {
 
                 $category = SupplierCategory::where(
                     'name',
@@ -82,14 +53,10 @@ class SupplierProfileCategorySeeder extends Seeder
                 )->first();
 
                 if (! $category) {
-                    $this->command->warn(
-                        "Supplier category not found: {$categoryName}"
-                    );
-
                     continue;
                 }
 
-                $supplierProfile->categories()->syncWithoutDetaching([
+                $profile->categories()->syncWithoutDetaching([
                     $category->id,
                 ]);
             }
