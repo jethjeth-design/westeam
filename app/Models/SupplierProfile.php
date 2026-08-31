@@ -20,8 +20,19 @@ class SupplierProfile extends Model
         'years_of_experience',
         'facebook_page',
         'status',
+        'is_featured',
+        'is_ranking_excluded',
         'rejection_reason',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'is_featured' => 'boolean',
+            'is_ranking_excluded' => 'boolean',
+            'years_of_experience' => 'integer',
+        ];
+    }
 
     protected $appends = [
         'facebook_url',

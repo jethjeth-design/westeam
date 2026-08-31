@@ -176,6 +176,53 @@ export default function Show({
                             )}
                         </div>
 
+                        {/* Video Portfolio Player */}
+                        {portfolio?.video_url && (
+                            <div className="mt-8 overflow-hidden rounded-3xl border border-purple-100 bg-white p-6 shadow-sm sm:p-8">
+                                <div className="mb-4 flex items-center gap-2">
+                                    <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-purple-50 text-base">
+                                        🎥
+                                    </span>
+                                    <div>
+                                        <h3 className="text-sm font-extrabold text-slate-900">
+                                            Video Portfolio Reel
+                                        </h3>
+                                        <p className="text-xs text-slate-400">
+                                            Highlight reel & showcase video
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-black shadow-md">
+                                    {portfolio.video_url.includes('youtube.com') || portfolio.video_url.includes('youtu.be') ? (
+                                        <iframe
+                                            src={`https://www.youtube.com/embed/${
+                                                portfolio.video_url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/)?.[1] || ''
+                                            }`}
+                                            title="YouTube video player"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowFullScreen
+                                            className="h-full w-full border-0"
+                                        />
+                                    ) : portfolio.video_url.includes('vimeo.com') ? (
+                                        <iframe
+                                            src={`https://player.vimeo.com/video/${
+                                                portfolio.video_url.match(/vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|)(\d+)/)?.[1] || ''
+                                            }`}
+                                            title="Vimeo video player"
+                                            allow="autoplay; fullscreen; picture-in-picture"
+                                            allowFullScreen
+                                            className="h-full w-full border-0"
+                                        />
+                                    ) : (
+                                        <video src={portfolio.video_url} controls className="h-full w-full object-contain">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+
                         {portfolio?.description && (
                             <div className="mt-8 rounded-3xl border border-slate-100 bg-slate-50/80 p-6 sm:p-8">
                                 <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">

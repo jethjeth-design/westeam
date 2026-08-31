@@ -24,17 +24,16 @@ use App\Http\Controllers\Supplier\ServiceController;
 use App\Http\Controllers\Supplier\SettingsController;
 use App\Http\Controllers\Supplier\SupplierProfileController;
 use App\Http\Controllers\Supplier\TeamController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+/*
+|--------------------------------------------------------------------------
+| Public Routes
+|--------------------------------------------------------------------------
+*/
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return Inertia::render('Welcome');
 })->name('home');
 
 Route::get('/dashboard', function () {
@@ -82,13 +81,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth', 'role:supplier'])->group(function () {
 
-    Route::get('/supplier/dashboard', function () {
-        return Inertia::render('Supplier/Dashboard');
-    })->name('supplier.dashboard');
-
-});
 
 /*
 |--------------------------------------------------------------------------
@@ -320,28 +313,7 @@ Route::middleware(['auth'])
 
     });
 
-// Supplier Dashboard
-Route::middleware(['auth'])
-    ->prefix('supplier')
-    ->name('supplier.')
-    ->group(function () {
 
-        Route::get('/dashboard', [
-            DashboardController::class,
-            'index',
-        ])->name('dashboard');
-
-        Route::get('/business-profile', [
-            SupplierProfileController::class,
-            'edit',
-        ])->name('business-profile.edit');
-
-        Route::post('/business-profile', [
-            SupplierProfileController::class,
-            'update',
-        ])->name('business-profile.update');
-
-    });
 
 use App\Http\Controllers\MessageController;
 
@@ -353,5 +325,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/messages/team/{team}/coordinator', [MessageController::class, 'startTeamCoordinatorChat'])->name('messages.team.coordinator');
     Route::get('/messages/team/{team}/internal', [MessageController::class, 'openTeamInternalChat'])->name('messages.team.internal');
 });
+
+use App\Http\Controllers\EmailPreviewController;
+
+// Email Notification Visual Previews
+Route::get('/email-previews/{template?}', [EmailPreviewController::class, 'show'])->name('email-previews.show');
 
 require __DIR__.'/auth.php';

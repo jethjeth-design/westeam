@@ -12,6 +12,8 @@ export default function Create({ categories = [] }) {
         title: '',
         event_category_id: '',
         description: '',
+        video_url: '',
+        video_file: null,
         event_date: '',
         client_name: '',
         location: '',
@@ -277,6 +279,109 @@ export default function Create({ categories = [] }) {
                                     />
                                     {errors.description && (
                                         <p className="mt-1 text-xs text-red-500">{errors.description}</p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Card: Video Portfolio (Reel / Highlight) */}
+                            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xs sm:p-8">
+                                <div className="flex items-center gap-2">
+                                    <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-purple-50 text-base">
+                                        🎥
+                                    </span>
+                                    <div>
+                                        <h2 className="text-lg font-black text-slate-900">
+                                            Video Portfolio (Optional)
+                                        </h2>
+                                        <p className="mt-0.5 text-xs text-slate-500">
+                                            Add a highlight reel or showcase video from YouTube, Vimeo, direct MP4 link, or upload a video file.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="mt-6 space-y-4">
+                                    <div>
+                                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                            Video URL (YouTube / Vimeo / MP4 link)
+                                        </label>
+                                        <div className="relative mt-2">
+                                            <input
+                                                type="url"
+                                                value={data.video_url}
+                                                onChange={(e) => setData('video_url', e.target.value)}
+                                                placeholder="https://www.youtube.com/watch?v=... or https://vimeo.com/..."
+                                                className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 shadow-xs transition focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                                            />
+                                            {data.video_url && (
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setData('video_url', '')}
+                                                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-xs text-slate-400 hover:text-slate-600"
+                                                >
+                                                    ✕ Clear
+                                                </button>
+                                            )}
+                                        </div>
+                                        {errors.video_url && (
+                                            <p className="mt-1 text-xs text-red-500">{errors.video_url}</p>
+                                        )}
+                                    </div>
+
+                                    <div className="flex items-center gap-3">
+                                        <div className="h-px flex-1 bg-slate-200" />
+                                        <span className="text-[11px] font-bold text-slate-400 uppercase">OR Upload Video File</span>
+                                        <div className="h-px flex-1 bg-slate-200" />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                            Upload Video File (MP4, WEBM, MOV up to 50MB)
+                                        </label>
+                                        <input
+                                            type="file"
+                                            accept="video/mp4,video/webm,video/ogg,video/quicktime"
+                                            onChange={(e) => {
+                                                if (e.target.files?.[0]) {
+                                                    setData('video_file', e.target.files[0]);
+                                                }
+                                            }}
+                                            className="mt-2 block w-full text-xs text-slate-500 file:mr-4 file:rounded-xl file:border-0 file:bg-purple-50 file:px-4 file:py-2.5 file:text-xs file:font-bold file:text-purple-700 hover:file:bg-purple-100"
+                                        />
+                                        {errors.video_file && (
+                                            <p className="mt-1 text-xs text-red-500">{errors.video_file}</p>
+                                        )}
+                                    </div>
+
+                                    {/* Video URL Preview */}
+                                    {data.video_url && (
+                                        <div className="mt-4 overflow-hidden rounded-2xl border border-purple-100 bg-purple-50/30 p-4">
+                                            <p className="mb-2 text-xs font-bold text-purple-900">
+                                                Preview:
+                                            </p>
+                                            <div className="relative aspect-video w-full max-w-lg overflow-hidden rounded-xl bg-black">
+                                                {data.video_url.includes('youtube.com') || data.video_url.includes('youtu.be') ? (
+                                                    <iframe
+                                                        src={`https://www.youtube.com/embed/${
+                                                            data.video_url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/)?.[1] || ''
+                                                        }`}
+                                                        title="Video Preview"
+                                                        className="h-full w-full border-0"
+                                                        allowFullScreen
+                                                    />
+                                                ) : data.video_url.includes('vimeo.com') ? (
+                                                    <iframe
+                                                        src={`https://player.vimeo.com/video/${
+                                                            data.video_url.match(/vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|)(\d+)/)?.[1] || ''
+                                                        }`}
+                                                        title="Video Preview"
+                                                        className="h-full w-full border-0"
+                                                        allowFullScreen
+                                                    />
+                                                ) : (
+                                                    <video src={data.video_url} controls className="h-full w-full object-contain" />
+                                                )}
+                                            </div>
+                                        </div>
                                     )}
                                 </div>
                             </div>

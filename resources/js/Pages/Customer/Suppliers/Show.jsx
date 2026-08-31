@@ -148,9 +148,9 @@ export default function Show({
                         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
                             {/* Avatar & Info */}
                             <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
-                                <div className="-mt-16 h-28 w-28 overflow-hidden rounded-3xl border-4 border-white bg-indigo-600 font-bold text-white text-3xl flex items-center justify-center shadow-xl shrink-0">
+                                <div className="relative z-10 -mt-16 sm:-mt-20 h-28 w-28 sm:h-32 sm:w-32 overflow-hidden rounded-full border-4 border-white bg-indigo-600 font-bold text-white text-3xl flex items-center justify-center shadow-2xl shrink-0 ring-4 ring-indigo-500/20">
                                     {profilePicture ? (
-                                        <img src={profilePicture} alt={businessName} className="h-full w-full object-cover" />
+                                        <img src={profilePicture} alt={businessName} className="h-full w-full object-cover rounded-full" />
                                     ) : (
                                         businessName.charAt(0).toUpperCase()
                                     )}
@@ -160,7 +160,7 @@ export default function Show({
                                     <div className="flex flex-wrap items-center gap-2">
                                         <h1 className="text-2xl sm:text-3xl font-black text-slate-900">{businessName}</h1>
                                         <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-[10px] font-bold text-emerald-700 ring-1 ring-inset ring-emerald-700/10">
-                                            ✓ Verified Pro
+                                            ✓ Verified
                                         </span>
                                     </div>
 
@@ -269,11 +269,10 @@ export default function Show({
                             key={tab.id}
                             type="button"
                             onClick={() => setActiveTab(tab.id)}
-                            className={`flex items-center gap-2 border-b-2 px-5 py-3 text-xs font-extrabold transition ${
-                                activeTab === tab.id
+                            className={`flex items-center gap-2 border-b-2 px-5 py-3 text-xs font-extrabold transition ${activeTab === tab.id
                                     ? 'border-indigo-600 text-indigo-600'
                                     : 'border-transparent text-slate-500 hover:text-slate-900'
-                            }`}
+                                }`}
                         >
                             <span>{tab.icon}</span>
                             <span>{tab.label}</span>
@@ -372,17 +371,19 @@ export default function Show({
                                                     <button
                                                         type="button"
                                                         onClick={() => {
+                                                            const isTeamPkg = Boolean(pkg.team_id);
                                                             setSelectedBookingItem({
-                                                                type: 'supplier_package',
+                                                                type: isTeamPkg ? 'team_package' : 'supplier_package',
                                                                 item_id: pkg.id,
                                                                 item_name: pkg.name,
                                                                 unit_price: pkg.price,
+                                                                team_id: pkg.team_id || null,
                                                             });
                                                             setShowBookingModal(true);
                                                         }}
                                                         className="flex-1 rounded-xl bg-indigo-600 py-2.5 text-center text-xs font-bold text-white transition hover:bg-indigo-700"
                                                     >
-                                                        Book Package
+                                                        {pkg.team_id ? '👥 Book Team Package' : 'Book Package'}
                                                     </button>
                                                     <button
                                                         type="button"
@@ -497,17 +498,23 @@ export default function Show({
                 {/* Booking Modal */}
                 {selectedBookingItem && (
                     <BookingModal
+                        key={`booking-${selectedBookingItem.type}-${selectedBookingItem.item_id}`}
                         isOpen={showBookingModal}
                         onClose={() => {
                             setShowBookingModal(false);
                             setSelectedBookingItem(null);
                         }}
                         bookingType={selectedBookingItem.type}
+                        teamId={selectedBookingItem.team_id || null}
                         title={`Book ${selectedBookingItem.item_name}`}
                         items={[
                             {
                                 supplier_id: supplier.id,
-                                item_type: selectedBookingItem.type === 'supplier_package' ? 'package' : 'service',
+                                item_type: selectedBookingItem.type === 'team_package'
+                                    ? 'team_package'
+                                    : selectedBookingItem.type === 'supplier_package'
+                                        ? 'package'
+                                        : 'service',
                                 item_id: selectedBookingItem.item_id,
                                 item_name: selectedBookingItem.item_name,
                                 unit_price: selectedBookingItem.unit_price,

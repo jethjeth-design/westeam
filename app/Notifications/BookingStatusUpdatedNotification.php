@@ -28,31 +28,37 @@ class BookingStatusUpdatedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         $statusUpper = strtoupper($this->status);
-        $mail = (new MailMessage)
-            ->subject("Booking Status Update [{$statusUpper}]: {$this->booking->event_name} - {$this->bookingItem->item_name}")
-            ->greeting("Hello {$notifiable->name},");
+        $subject = match ($this->status) {
+            'accepted' => "✓ Booking Confirmed: {$this->booking->event_name} - {$this->bookingItem->item_name}",
+            'rejected' => "Booking Request Declined: {$this->booking->event_name} - {$this->bookingItem->item_name}",
+            'cancelled' => "Booking Cancelled: {$this->booking->event_name} [{$this->booking->booking_reference}]",
+            default => "Booking Status Update [{$statusUpper}]: {$this->booking->event_name}",
+        };
 
-        if ($this->status === 'accepted') {
-            $mail->line("Great news! Your booking request for '{$this->bookingItem->item_name}' has been ACCEPTED by {$this->bookingItem->supplier->name}.")
-                ->line("Booking Reference: {$this->booking->booking_reference}")
-                ->line('Event Date: '.$this->booking->event_date->format('M d, Y'))
-                ->action('View Booking Details', url(route('customer.bookings.show', $this->booking->id)));
-        } elseif ($this->status === 'rejected') {
-            $mail->line("Your booking request for '{$this->bookingItem->item_name}' was DECLINED by {$this->bookingItem->supplier->name}.")
-                ->line("Booking Reference: {$this->booking->booking_reference}");
-            if ($this->rejectionReason) {
-                $mail->line("Reason provided: {$this->rejectionReason}");
-            }
-            $mail->action('Explore Alternative Suppliers', url(route('customer.suppliers.index')));
-        } elseif ($this->status === 'completed') {
-            $mail->line("The service '{$this->bookingItem->item_name}' for event '{$this->booking->event_name}' has been marked as COMPLETED.")
-                ->action('View Booking', url(route('customer.bookings.show', $this->booking->id)));
-        } else {
-            $mail->line("The booking request for '{$this->bookingItem->item_name}' has been cancelled.")
-                ->action('View Details', url(route('customer.bookings.show', $this->booking->id)));
-        }
+        $view = match ($this->status) {
+            'accepted' => 'emails.booking-accepted',
+            'rejected' => 'emails.booking-rejected',
+            'cancelled' => 'emails.booking-cancelled',
+            default => 'emails.booking-accepted',
+        };
 
-        return $mail;
+        $actionUrl = match ($this->status) {
+            'rejected' => route('customer.suppliers.index'),
+            default => route('customer.bookings.show', ['booking' => $this->booking->id ?? 1]),
+        };
+
+        return (new MailMessage)
+            ->subject($subject)
+            ->view($view, [
+                'booking' => $this->booking,
+                'bookingItem' => $this->bookingItem,
+                'status' => $this->status,
+                'rejectionReason' => $this->rejectionReason,
+                'responseNotes' => $this->responseNotes,
+                'recipientName' => $notifiable->name,
+                'actionUrl' => $actionUrl,
+                'subject' => $subject,
+            ]);
     }
 
     public function toArray(object $notifiable): array

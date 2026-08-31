@@ -109,24 +109,24 @@ export default function Dashboard({ stats, upcomingBooking, recentBookings = [] 
                         <p className="mt-1 text-xs text-slate-400">Confirmed booking value</p>
                     </div>
 
-                    {/* AI Planner */}
+                    {/* Find Suppliers */}
                     <div className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-5 shadow-xs transition hover:shadow-md">
                         <div className="flex items-center justify-between">
                             <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                                AI Assistant
+                                Suppliers
                             </span>
                             <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-purple-50 text-purple-600 text-lg font-bold">
-                                🤖
+                                🔍
                             </div>
                         </div>
                         <div className="mt-3">
-                            <span className="text-sm font-black text-purple-700">Multi-Vendor Match</span>
+                            <span className="text-sm font-black text-purple-700">Verified Vendors</span>
                         </div>
                         <Link
-                            href="/customer/ai-assistant"
+                            href={route('customer.suppliers.index')}
                             className="mt-1 block text-xs font-bold text-indigo-600 hover:underline"
                         >
-                            Open AI Assistant →
+                            Browse Directory →
                         </Link>
                     </div>
                 </div>
@@ -399,22 +399,22 @@ export default function Dashboard({ stats, upcomingBooking, recentBookings = [] 
                             </div>
                         </div>
 
-                        {/* AI Assistant Help Banner */}
+                        {/* Explore Suppliers Banner */}
                         <div className="rounded-3xl border border-indigo-100 bg-gradient-to-br from-indigo-50/90 via-purple-50/40 to-white p-6 shadow-xs">
                             <div className="flex items-start gap-3.5">
-                                <span className="text-3xl">🤖</span>
+                                <span className="text-3xl">🎉</span>
                                 <div>
                                     <h3 className="text-sm font-black text-indigo-950">
-                                        Need help planning your event?
+                                        Planning an upcoming celebration?
                                     </h3>
                                     <p className="mt-1 text-xs leading-relaxed text-indigo-900/70">
-                                        Tell our AI assistant your budget and preferences to get matched with suppliers and multi-vendor packages.
+                                        Explore our verified photographers, caterers, venues, and full event packages to make your day unforgettable.
                                     </p>
                                     <Link
-                                        href="/customer/ai-assistant"
+                                        href={route('customer.suppliers.index')}
                                         className="mt-3.5 inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 px-4 py-2 text-xs font-bold text-white shadow-xs transition hover:bg-indigo-700"
                                     >
-                                        <span>Chat with AI Assistant</span>
+                                        <span>Find Suppliers</span>
                                         <span>→</span>
                                     </Link>
                                 </div>

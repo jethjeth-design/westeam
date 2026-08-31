@@ -12,11 +12,14 @@ class EventCategory extends Model
     protected $fillable = [
         'name',
         'description',
+        'image_url',
+        'is_featured',
         'is_active',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'is_featured' => 'boolean',
     ];
 
     public function packages()

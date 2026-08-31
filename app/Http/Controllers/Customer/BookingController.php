@@ -7,7 +7,9 @@ use App\Models\Booking;
 use App\Models\Package;
 use App\Models\Team;
 use App\Models\User;
+use App\Notifications\BookingStatusUpdatedNotification;
 use App\Notifications\BookingSubmittedNotification;
+use App\Notifications\TeamBookingNotification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -72,11 +74,32 @@ class BookingController extends Controller
             $total = collect($validated['items'])->sum('unit_price');
             $ref = 'BK-'.strtoupper(Str::random(4)).'-'.date('Ymd');
 
+            $teamId = $validated['team_id'] ?? null;
+            $bookingType = $validated['booking_type'];
+
+            // Auto-resolve team_id and booking_type if any item is linked to a team package
+            if (! $teamId) {
+                foreach ($validated['items'] as $item) {
+                    if (! empty($item['item_id'])) {
+                        $pkg = Package::find($item['item_id']);
+                        if ($pkg && $pkg->team_id) {
+                            $teamId = $pkg->team_id;
+                            $bookingType = 'team_package';
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if ($teamId && $bookingType !== 'team_package') {
+                $bookingType = 'team_package';
+            }
+
             $booking = Booking::create([
                 'booking_reference' => $ref,
                 'customer_id' => $request->user()->id,
-                'booking_type' => $validated['booking_type'],
-                'team_id' => $validated['team_id'] ?? null,
+                'booking_type' => $bookingType,
+                'team_id' => $teamId,
                 'event_name' => $validated['event_name'],
                 'event_date' => $validated['event_date'],
                 'event_time' => $validated['event_time'] ?? null,
@@ -110,11 +133,11 @@ class BookingController extends Controller
             }
 
             // If Team package, notify team coordinator
-            if ($validated['booking_type'] === 'team_package' && ! empty($validated['team_id'])) {
-                $team = Team::with('coordinator')->find($validated['team_id']);
+            if ($bookingType === 'team_package' && ! empty($teamId)) {
+                $team = Team::with('coordinator')->find($teamId);
                 if ($team && $team->coordinator && $team->coordinator->id !== $request->user()->id) {
                     try {
-                        $team->coordinator->notify(new BookingSubmittedNotification($booking, null, 'coordinator'));
+                        $team->coordinator->notify(new TeamBookingNotification($booking, 'coordinator'));
                     } catch (\Throwable $e) {
                         logger()->error('Coordinator notification mail failed: '.$e->getMessage());
                     }
@@ -173,6 +196,17 @@ class BookingController extends Controller
         DB::transaction(function () use ($booking) {
             $booking->update(['overall_status' => 'cancelled']);
             $booking->items()->update(['status' => 'cancelled']);
+
+            // Notify suppliers
+            foreach ($booking->items as $item) {
+                if ($item->supplier) {
+                    try {
+                        $item->supplier->notify(new BookingStatusUpdatedNotification($booking, $item, 'cancelled'));
+                    } catch (\Throwable $e) {
+                        logger()->error('Cancellation notice error: '.$e->getMessage());
+                    }
+                }
+            }
         });
 
         return back()->with('success', 'Booking has been cancelled.');

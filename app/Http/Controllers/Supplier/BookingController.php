@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\BookingItem;
 use App\Notifications\BookingStatusUpdatedNotification;
+use App\Notifications\ReviewReminderNotification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -39,7 +40,7 @@ class BookingController extends Controller
         $teamBookings = Booking::with([
             'customer',
             'team.coordinator.supplierProfile',
-            'team.members.user.supplierProfile',
+            'team.members.supplier.supplierProfile',
             'items.supplier.supplierProfile',
         ])
             ->where(function ($query) {
@@ -156,9 +157,9 @@ class BookingController extends Controller
             $booking->recalculateStatus();
 
             try {
-                $booking->customer->notify(new BookingStatusUpdatedNotification($booking, $item, 'completed'));
+                $booking->customer->notify(new ReviewReminderNotification($booking, $item));
             } catch (\Throwable $e) {
-                logger()->error('Status update notification error: '.$e->getMessage());
+                logger()->error('Review reminder notification error: '.$e->getMessage());
             }
         });
 
