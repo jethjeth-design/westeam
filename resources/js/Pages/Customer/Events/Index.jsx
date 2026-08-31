@@ -110,11 +110,10 @@ export default function Index({ events = [], stats = {} }) {
                         <button
                             key={tab.key}
                             onClick={() => setFilter(tab.key)}
-                            className={`rounded-xl px-4 py-2 text-xs font-bold transition ${
-                                filter === tab.key
-                                    ? 'bg-indigo-600 text-white shadow-sm'
-                                    : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
-                            }`}
+                            className={`rounded-xl px-4 py-2 text-xs font-bold transition ${filter === tab.key
+                                ? 'bg-indigo-600 text-white shadow-sm'
+                                : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+                                }`}
                         >
                             {tab.label}
                         </button>
@@ -222,7 +221,7 @@ export default function Index({ events = [], stats = {} }) {
                                                     href={route('messages.index')}
                                                     className="rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
                                                 >
-                                                    💬 Message Vendors
+                                                    💬 Message Supplier
                                                 </Link>
                                             </div>
                                         </div>

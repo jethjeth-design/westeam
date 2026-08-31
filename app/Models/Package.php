@@ -17,11 +17,13 @@ class Package extends Model
         'price',
         'inclusions',
         'image_path',
+        'is_featured',
         'is_active',
     ];
 
     protected $casts = [
         'price' => 'decimal:2',
+        'is_featured' => 'boolean',
         'is_active' => 'boolean',
     ];
 

@@ -290,6 +290,12 @@ export default function Index({
                                                     ⭐ Featured
                                                 </span>
                                             )}
+
+                                            {portfolio.video_url && (
+                                                <span className="rounded-md bg-indigo-900/90 px-2.5 py-0.5 text-[11px] font-bold text-white shadow-xs backdrop-blur-xs">
+                                                    🎥 Video
+                                                </span>
+                                            )}
                                         </div>
 
                                         {/* Photos Count Badge */}
@@ -351,10 +357,11 @@ export default function Index({
                                         <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-3.5">
                                             <div className="flex items-center gap-2">
                                                 <Link
-                                                    href={route('customer.portfolios.show', portfolio.id)}
-                                                    className="rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 hover:text-indigo-600"
+                                                    href={route('supplier.portfolio.show', portfolio.id)}
+                                                    className="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-700 transition hover:border-indigo-200 hover:bg-indigo-50/50 hover:text-indigo-600 shadow-2xs"
                                                 >
-                                                    View Live
+                                                    <span>Show Portfolio</span>
+                                                    <span>👁️</span>
                                                 </Link>
 
                                                 <Link

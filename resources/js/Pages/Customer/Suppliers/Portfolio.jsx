@@ -364,6 +364,12 @@ export default function Portfolio({
                                                 </span>
                                             )}
 
+                                            {portfolio.video_url && (
+                                                <span className="absolute left-3 bottom-3 rounded-md bg-purple-900/90 px-2 py-0.5 text-[10px] font-bold text-white shadow-xs backdrop-blur-xs">
+                                                    🎥 Video
+                                                </span>
+                                            )}
+
                                             <span className="absolute bottom-3 right-3 rounded-lg bg-black/60 px-2 py-1 text-[10px] font-bold text-white shadow-xs backdrop-blur-xs">
                                                 📷 {photoCount} {photoCount === 1 ? 'photo' : 'photos'}
                                             </span>
@@ -575,11 +581,11 @@ export default function Portfolio({
                                         <div className="flex justify-between">
                                             <span className="text-slate-400">Date:</span>
                                             <span className="font-bold text-slate-900">
-                                                {new Date(activeProject.event_date).toLocaleDateString('en-US', {
-                                                    month: 'short',
-                                                    day: 'numeric',
-                                                    year: 'numeric',
-                                                })}
+                                                 {new Date(activeProject.event_date).toLocaleDateString('en-US', {
+                                                     month: 'short',
+                                                     day: 'numeric',
+                                                     year: 'numeric',
+                                                 })}
                                             </span>
                                         </div>
                                     )}
@@ -590,6 +596,37 @@ export default function Portfolio({
                                         </div>
                                     )}
                                 </div>
+
+                                {activeProject.video_url && (
+                                    <div className="rounded-2xl border border-purple-100 bg-purple-50/40 p-3">
+                                        <p className="text-[10px] font-bold uppercase tracking-wider text-purple-900 mb-2">
+                                            🎥 Highlight Video
+                                        </p>
+                                        <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-black">
+                                            {activeProject.video_url.includes('youtube.com') || activeProject.video_url.includes('youtu.be') ? (
+                                                <iframe
+                                                    src={`https://www.youtube.com/embed/${
+                                                        activeProject.video_url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/)?.[1] || ''
+                                                    }`}
+                                                    title="Highlight Video"
+                                                    className="h-full w-full border-0"
+                                                    allowFullScreen
+                                                />
+                                            ) : activeProject.video_url.includes('vimeo.com') ? (
+                                                <iframe
+                                                    src={`https://player.vimeo.com/video/${
+                                                        activeProject.video_url.match(/vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|)(\d+)/)?.[1] || ''
+                                                    }`}
+                                                    title="Highlight Video"
+                                                    className="h-full w-full border-0"
+                                                    allowFullScreen
+                                                />
+                                            ) : (
+                                                <video src={activeProject.video_url} controls className="h-full w-full object-contain" />
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
 
                                 {activeProject.description && (
                                     <div>

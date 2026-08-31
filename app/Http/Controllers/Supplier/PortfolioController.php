@@ -99,6 +99,8 @@ class PortfolioController extends Controller
                 Rule::exists('event_categories', 'id')->where('is_active', true),
             ],
             'description' => 'nullable|string',
+            'video_url' => 'nullable|string|max:1000',
+            'video_file' => 'nullable|file|mimes:mp4,mov,avi,webm,ogg|max:51200',
             'event_date' => 'nullable|date',
             'client_name' => 'nullable|string|max:255',
             'location' => 'nullable|string|max:255',
@@ -113,11 +115,18 @@ class PortfolioController extends Controller
 
         $supplierId = Auth::id();
 
+        $videoUrl = $validated['video_url'] ?? null;
+        if ($request->hasFile('video_file')) {
+            $videoPath = $request->file('video_file')->store("portfolios/{$supplierId}/videos", 'public');
+            $videoUrl = '/storage/'.$videoPath;
+        }
+
         $portfolio = SupplierPortfolio::create([
             'supplier_id' => $supplierId,
             'event_category_id' => $validated['event_category_id'] ?? null,
             'title' => $validated['title'],
             'description' => $validated['description'] ?? null,
+            'video_url' => $videoUrl,
             'event_date' => $validated['event_date'] ?? null,
             'client_name' => $validated['client_name'] ?? null,
             'location' => $validated['location'] ?? null,
@@ -145,8 +154,26 @@ class PortfolioController extends Controller
         }
 
         return redirect()
-            ->route('supplier.portfolio.index')
+            ->route('supplier.portfolio.show', $portfolio->id)
             ->with('success', 'Portfolio project created successfully.');
+    }
+
+    /**
+     * Display the specified supplier portfolio project (in-dashboard preview).
+     */
+    public function show(SupplierPortfolio $portfolio): Response
+    {
+        $this->authorizePortfolio($portfolio);
+
+        $portfolio->load([
+            'images',
+            'eventCategory',
+            'supplier.supplierProfile',
+        ]);
+
+        return Inertia::render('Supplier/Portfolio/Show', [
+            'portfolio' => $portfolio,
+        ]);
     }
 
     /**
@@ -185,6 +212,9 @@ class PortfolioController extends Controller
                 Rule::exists('event_categories', 'id')->where('is_active', true),
             ],
             'description' => 'nullable|string',
+            'video_url' => 'nullable|string|max:1000',
+            'video_file' => 'nullable|file|mimes:mp4,mov,avi,webm,ogg|max:51200',
+            'clear_video' => 'nullable|boolean',
             'event_date' => 'nullable|date',
             'client_name' => 'nullable|string|max:255',
             'location' => 'nullable|string|max:255',
@@ -202,11 +232,22 @@ class PortfolioController extends Controller
 
         $supplierId = Auth::id();
 
+        $videoUrl = $portfolio->video_url;
+        if ($request->boolean('clear_video')) {
+            $videoUrl = null;
+        } elseif ($request->hasFile('video_file')) {
+            $videoPath = $request->file('video_file')->store("portfolios/{$supplierId}/videos", 'public');
+            $videoUrl = '/storage/'.$videoPath;
+        } elseif (array_key_exists('video_url', $validated)) {
+            $videoUrl = $validated['video_url'];
+        }
+
         // Update portfolio details
         $portfolio->update([
             'event_category_id' => $validated['event_category_id'] ?? null,
             'title' => $validated['title'],
             'description' => $validated['description'] ?? null,
+            'video_url' => $videoUrl,
             'event_date' => $validated['event_date'] ?? null,
             'client_name' => $validated['client_name'] ?? null,
             'location' => $validated['location'] ?? null,

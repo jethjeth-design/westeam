@@ -22,6 +22,7 @@ class SupplierPortfolio extends Model
         'event_category_id',
         'title',
         'description',
+        'video_url',
         'event_date',
         'client_name',
         'location',

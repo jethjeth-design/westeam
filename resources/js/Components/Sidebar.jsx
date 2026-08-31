@@ -61,7 +61,6 @@ export default function Sidebar() {
         { name: 'Bookings', href: '/admin/bookings', icon: '📅' },
         { name: 'Schedules', href: '/admin/schedules', icon: '📆' },
         { name: 'Messages', href: route('messages.index'), icon: '💬', badge: unreadMessagesCount },
-        { name: 'AI Assistant', href: '/admin/ai-assistant', icon: '🤖' },
         { name: 'Reviews & Ratings', href: '/admin/reviews', icon: '⭐' },
         { name: 'Reports', href: '/admin/reports', icon: '📈' },
     ];
@@ -99,13 +98,11 @@ export default function Sidebar() {
     */
     const customerMenu = [
         { name: 'Dashboard', href: '/customer/dashboard', icon: '📊' },
-        { name: 'AI Assistant Chat', href: '/customer/ai-assistant', icon: '🤖' },
         { name: 'Find Suppliers', href: route('customer.suppliers.index'), icon: '🔍' },
         { name: 'My Events', href: '/customer/events', icon: '🎉' },
         { name: 'My Bookings', href: route('customer.bookings.index'), icon: '📅' },
         { name: 'Messages', href: route('messages.index'), icon: '💬', badge: unreadMessagesCount },
         { name: 'Payments', href: '/customer/payments', icon: '💳' },
-        { name: 'Reviews', href: '/customer/reviews', icon: '⭐' },
         { name: 'Profile', href: route('profile.edit'), icon: '👤' },
         { name: 'Settings', href: '/customer/settings', icon: '⚙️' },
     ];
@@ -184,11 +181,10 @@ export default function Sidebar() {
                         <Link
                             key={item.name}
                             href={item.href}
-                            className={`group flex items-center justify-between rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-all duration-150 active:scale-[0.98] ${
-                                active
-                                    ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/25 font-bold ring-1 ring-indigo-500'
-                                    : 'text-slate-600 hover:bg-indigo-50/60 hover:text-indigo-700'
-                            }`}
+                            className={`group flex items-center justify-between rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-all duration-150 active:scale-[0.98] ${active
+                                ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/25 font-bold ring-1 ring-indigo-500'
+                                : 'text-slate-600 hover:bg-indigo-50/60 hover:text-indigo-700'
+                                }`}
                         >
                             <div className="flex items-center gap-3">
                                 <span className="text-base leading-none transition-transform group-hover:scale-110">
@@ -199,11 +195,10 @@ export default function Sidebar() {
 
                             {Boolean(item.badge && item.badge > 0) && (
                                 <span
-                                    className={`flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-[10px] font-extrabold shadow-xs transition-all ${
-                                        active
-                                            ? 'bg-white text-indigo-700'
-                                            : 'bg-rose-500 text-white animate-pulse'
-                                    }`}
+                                    className={`flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-[10px] font-extrabold shadow-xs transition-all ${active
+                                        ? 'bg-white text-indigo-700'
+                                        : 'bg-rose-500 text-white animate-pulse'
+                                        }`}
                                 >
                                     {item.badge > 99 ? '99+' : item.badge}
                                 </span>
@@ -233,33 +228,30 @@ export default function Sidebar() {
                             <div className="mt-1 ml-4 space-y-1 border-l-2 border-slate-200 pl-2">
                                 <Link
                                     href={route('admin.event-categories.index')}
-                                    className={`flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition ${
-                                        isItemActive(route('admin.event-categories.index'))
-                                            ? 'bg-indigo-600 text-white font-bold shadow-xs'
-                                            : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-600'
-                                    }`}
+                                    className={`flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition ${isItemActive(route('admin.event-categories.index'))
+                                        ? 'bg-indigo-600 text-white font-bold shadow-xs'
+                                        : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-600'
+                                        }`}
                                 >
                                     <span>🎉</span>
                                     <span>Event Categories</span>
                                 </Link>
                                 <Link
                                     href={route('admin.supplier-categories.index')}
-                                    className={`flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition ${
-                                        isItemActive(route('admin.supplier-categories.index'))
-                                            ? 'bg-indigo-600 text-white font-bold shadow-xs'
-                                            : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-600'
-                                    }`}
+                                    className={`flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition ${isItemActive(route('admin.supplier-categories.index'))
+                                        ? 'bg-indigo-600 text-white font-bold shadow-xs'
+                                        : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-600'
+                                        }`}
                                 >
                                     <span>🏷️</span>
                                     <span>Supplier Categories</span>
                                 </Link>
                                 <Link
                                     href="/admin/settings"
-                                    className={`flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition ${
-                                        isItemActive('/admin/settings')
-                                            ? 'bg-indigo-600 text-white font-bold shadow-xs'
-                                            : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-600'
-                                    }`}
+                                    className={`flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition ${isItemActive('/admin/settings')
+                                        ? 'bg-indigo-600 text-white font-bold shadow-xs'
+                                        : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-600'
+                                        }`}
                                 >
                                     <span>⚙️</span>
                                     <span>System Settings</span>

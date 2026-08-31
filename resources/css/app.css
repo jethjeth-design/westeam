@@ -1,3 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    body {
+        @apply bg-cream text-charcoal font-sans antialiased selection:bg-gold/20 selection:text-charcoal;
+        font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    }
+
+    h1, h2, h3, .font-serif-heading {
+        font-family: 'Playfair Display', Georgia, serif;
+    }
+}
+
+@layer utilities {
+    .glass-nav {
+        background: rgba(248, 245, 239, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+    }
+    .glass-card {
+        background: rgba(255, 255, 255, 0.88);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+    .gold-gradient-text {
+        background: linear-gradient(135deg, #A58547 0%, #C8A96B 50%, #E9DBB5 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .gold-gradient-bg {
+        background: linear-gradient(135deg, #B39355 0%, #C8A96B 50%, #DFC88F 100%);
+    }
+    .gold-gradient-border {
+        border-image: linear-gradient(135deg, #C8A96B, #DFC88F, #B39355) 1;
+    }
+}
+

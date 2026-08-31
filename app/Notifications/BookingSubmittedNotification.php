@@ -25,36 +25,29 @@ class BookingSubmittedNotification extends Notification
 
     public function toMail(object $notifiable): MailMessage
     {
-        $mail = (new MailMessage)
-            ->subject("New Booking Request: {$this->booking->event_name} [{$this->booking->booking_reference}]")
-            ->greeting("Hello {$notifiable->name},");
+        $isCustomer = $this->recipientType === 'customer';
+        $isCoordinator = $this->recipientType === 'coordinator';
 
-        if ($this->recipientType === 'customer') {
-            $mail->line("Your booking request for '{$this->booking->event_name}' has been successfully submitted.")
-                ->line("Booking Reference: {$this->booking->booking_reference}")
-                ->line('Event Date: '.$this->booking->event_date->format('M d, Y'))
-                ->line('Total Amount: ₱'.number_format($this->booking->total_amount, 2))
-                ->action('View Booking Details', url(route('customer.bookings.show', $this->booking->id)))
-                ->line('The supplier(s) have been notified and will review your request.');
-        } elseif ($this->recipientType === 'coordinator') {
-            $mail->line("A new Team Package booking has been requested for '{$this->booking->event_name}'.")
-                ->line("Booking Reference: {$this->booking->booking_reference}")
-                ->line("Customer: {$this->booking->customer->name}")
-                ->line('Event Date: '.$this->booking->event_date->format('M d, Y'))
-                ->line('Total Amount: ₱'.number_format($this->booking->total_amount, 2))
-                ->action('Review Team Booking', url(route('supplier.bookings.index')))
-                ->line('As Team Coordinator, please review and accept or reject this team reservation.');
-        } else {
-            $itemName = $this->bookingItem ? $this->bookingItem->item_name : 'Event Services';
-            $mail->line("You have received a new booking request for {$itemName}.")
-                ->line("Event: {$this->booking->event_name}")
-                ->line("Customer: {$this->booking->customer->name}")
-                ->line('Event Date: '.$this->booking->event_date->format('M d, Y'))
-                ->action('Review Booking Request', url(route('supplier.bookings.index')))
-                ->line('Please log in to your dashboard to accept or decline.');
-        }
+        $actionUrl = $isCustomer
+            ? route('customer.bookings.show', ['booking' => $this->booking->id ?? 1])
+            : route('supplier.bookings.index');
 
-        return $mail;
+        $subject = match ($this->recipientType) {
+            'customer' => "Booking Request Confirmation: {$this->booking->event_name} [{$this->booking->booking_reference}]",
+            'coordinator' => "New Team Package Booking: {$this->booking->event_name} [{$this->booking->booking_reference}]",
+            default => "New Booking Request: {$this->booking->event_name} [{$this->booking->booking_reference}]",
+        };
+
+        return (new MailMessage)
+            ->subject($subject)
+            ->view('emails.new-booking', [
+                'booking' => $this->booking,
+                'bookingItem' => $this->bookingItem,
+                'recipientType' => $this->recipientType,
+                'recipientName' => $notifiable->name,
+                'actionUrl' => $actionUrl,
+                'subject' => $subject,
+            ]);
     }
 
     public function toArray(object $notifiable): array

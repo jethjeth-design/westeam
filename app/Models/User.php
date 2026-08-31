@@ -59,6 +59,11 @@ class User extends Authenticatable
         return $this->hasMany(Booking::class, 'customer_id');
     }
 
+    public function bookingItems(): HasMany
+    {
+        return $this->hasMany(BookingItem::class, 'supplier_id');
+    }
+
     public function services(): HasMany
     {
         return $this->hasMany(Service::class, 'supplier_id');
@@ -82,6 +87,11 @@ class User extends Authenticatable
     public function teamMemberships(): HasMany
     {
         return $this->hasMany(TeamMember::class, 'supplier_id');
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class, 'supplier_id');
     }
 
     public function reviewsReceived(): HasMany

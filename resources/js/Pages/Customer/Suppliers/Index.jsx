@@ -152,11 +152,10 @@ export default function Index({
                         <button
                             type="button"
                             onClick={() => handleCategory('all')}
-                            className={`rounded-xl px-3.5 py-1.5 text-xs font-bold transition ${
-                                selectedCategory === 'all'
-                                    ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/20'
-                                    : 'bg-white text-slate-600 border border-slate-200/80 hover:bg-slate-50'
-                            }`}
+                            className={`rounded-xl px-3.5 py-1.5 text-xs font-bold transition ${selectedCategory === 'all'
+                                ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/20'
+                                : 'bg-white text-slate-600 border border-slate-200/80 hover:bg-slate-50'
+                                }`}
                         >
                             All
                         </button>
@@ -165,11 +164,10 @@ export default function Index({
                                 key={category.id}
                                 type="button"
                                 onClick={() => handleCategory(String(category.id))}
-                                className={`rounded-xl px-3.5 py-1.5 text-xs font-bold transition ${
-                                    selectedCategory === String(category.id)
-                                        ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/20'
-                                        : 'bg-white text-slate-600 border border-slate-200/80 hover:bg-slate-50'
-                                }`}
+                                className={`rounded-xl px-3.5 py-1.5 text-xs font-bold transition ${selectedCategory === String(category.id)
+                                    ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/20'
+                                    : 'bg-white text-slate-600 border border-slate-200/80 hover:bg-slate-50'
+                                    }`}
                             >
                                 {category.name}
                             </button>
@@ -232,18 +230,18 @@ export default function Index({
                                             )}
 
                                             <span className="rounded-full bg-emerald-600/90 px-2.5 py-1 text-[10px] font-bold text-white backdrop-blur-xs shadow-xs">
-                                                ✓ Verified Pro
+                                                ✓ Verified
                                             </span>
                                         </div>
                                     </div>
 
                                     {/* Body Info */}
                                     <div className="relative flex flex-1 flex-col justify-between p-5 pt-0">
-                                        {/* Avatar & Chat / FB actions floating */}
-                                        <div className="-mt-8 mb-3 flex items-end justify-between">
-                                            <div className="h-16 w-16 overflow-hidden rounded-2xl border-3 border-white bg-indigo-600 text-white font-bold text-xl flex items-center justify-center shadow-md">
+                                        {/* Avatar & Actions floating over cover */}
+                                        <div className="-mt-10 mb-3 flex items-end justify-between">
+                                            <div className="h-20 w-20 overflow-hidden rounded-full border-4 border-white bg-indigo-600 text-white font-black text-2xl flex items-center justify-center shadow-xl ring-4 ring-indigo-500/10 shrink-0">
                                                 {picture ? (
-                                                    <img src={picture} alt={businessName} className="h-full w-full object-cover" />
+                                                    <img src={picture} alt={businessName} className="h-full w-full object-cover rounded-full" />
                                                 ) : (
                                                     businessName.charAt(0).toUpperCase()
                                                 )}
@@ -326,7 +324,7 @@ export default function Index({
                                         {/* Footer Links */}
                                         <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-3.5">
                                             {profile.address ? (
-                                                <span className="truncate text-[11px] text-slate-400 max-w-[130px]" title={profile.address}>
+                                                <span className="truncate text-[11px] text-slate-400 max-w-[120px]" title={profile.address}>
                                                     📍 {profile.address}
                                                 </span>
                                             ) : (
@@ -336,15 +334,16 @@ export default function Index({
                                             <div className="flex items-center gap-2">
                                                 <Link
                                                     href={route('customer.suppliers.portfolio', profile.user_id)}
-                                                    className="rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+                                                    className="rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50"
                                                 >
                                                     Gallery
                                                 </Link>
                                                 <Link
                                                     href={route('customer.suppliers.show', profile.user_id)}
-                                                    className="rounded-xl bg-indigo-600 px-3.5 py-1.5 text-xs font-semibold text-white shadow-xs transition hover:bg-indigo-700"
+                                                    className="inline-flex items-center gap-1 rounded-xl bg-indigo-600 px-3.5 py-1.5 text-xs font-bold text-white shadow-xs transition hover:bg-indigo-700 active:scale-95"
                                                 >
-                                                    Profile →
+                                                    <span>View Profile</span>
+                                                    <span>→</span>
                                                 </Link>
                                             </div>
                                         </div>
@@ -381,13 +380,12 @@ export default function Index({
                             <Link
                                 key={idx}
                                 href={link.url || '#'}
-                                className={`rounded-xl px-3.5 py-2 text-xs font-bold transition ${
-                                    link.active
-                                        ? 'bg-indigo-600 text-white shadow-xs'
-                                        : link.url
+                                className={`rounded-xl px-3.5 py-2 text-xs font-bold transition ${link.active
+                                    ? 'bg-indigo-600 text-white shadow-xs'
+                                    : link.url
                                         ? 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
                                         : 'text-slate-300 cursor-not-allowed'
-                                }`}
+                                    }`}
                                 dangerouslySetInnerHTML={{ __html: link.label }}
                             />
                         ))}
