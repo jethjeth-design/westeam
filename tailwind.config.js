@@ -17,6 +17,50 @@ export default {
                 serif: ['Playfair Display', 'Cinzel', ...defaultTheme.fontFamily.serif],
             },
             colors: {
+                ivory: {
+                    DEFAULT: '#F8F5EF',
+                    50: '#FCFAF7',
+                    100: '#F8F5EF',
+                },
+                champagne: {
+                    DEFAULT: '#EFE7D8',
+                    100: '#F6F2EB',
+                    200: '#EFE7D8',
+                    300: '#E2D4BD',
+                },
+                warmbeige: {
+                    DEFAULT: '#DCC9A8',
+                    100: '#E9DEC9',
+                    200: '#DCC9A8',
+                    300: '#CCA978',
+                },
+                champagnegold: {
+                    DEFAULT: '#C99632',
+                    hover: '#B58428',
+                    light: '#F4E7CE',
+                },
+                darkgold: {
+                    DEFAULT: '#A87520',
+                    hover: '#8C6016',
+                },
+                softcharcoal: {
+                    DEFAULT: '#24221E',
+                    800: '#2F2B26',
+                    900: '#24221E',
+                },
+                warmgray: {
+                    DEFAULT: '#77736C',
+                    50: '#F9F8F7',
+                    100: '#EFECE9',
+                    200: '#DFDAD4',
+                    300: '#BFB8AF',
+                    400: '#9E978D',
+                    500: '#77736C',
+                    600: '#64615B',
+                    700: '#524F4A',
+                    800: '#3F3D39',
+                    900: '#2C2B28',
+                },
                 cream: {
                     DEFAULT: '#F8F5EF',
                     50: '#FCFAF7',

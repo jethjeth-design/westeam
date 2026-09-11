@@ -610,326 +610,188 @@ export default function Index({
                 ====================================================== */}
 
                 {showViewModal && selectedSupplier && (
-
-                    <div className="fixed inset-0 z-50 flex items-center
-                                    justify-center bg-black/50 p-4">
-
+                    <div
+                        className="fixed inset-0 z-50 flex items-center justify-center p-4"
+                        style={{ backgroundColor: 'rgba(15,23,42,0.7)', backdropFilter: 'blur(6px)' }}
+                        onClick={closeViewModal}
+                    >
                         <div
-                            className="w-full max-w-2xl overflow-hidden
-                                       rounded-2xl bg-white shadow-2xl"
+                            className="w-full max-w-2xl overflow-hidden rounded-3xl bg-white shadow-2xl"
+                            style={{ maxHeight: '92vh', display: 'flex', flexDirection: 'column' }}
+                            onClick={(e) => e.stopPropagation()}
                         >
+                            {/* Cover + Avatar Hero */}
+                            <div className="relative h-40 w-full shrink-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600">
+                                {selectedSupplier.cover_photo && (
+                                    <img
+                                        src={`/storage/${selectedSupplier.cover_photo}`}
+                                        alt="Cover"
+                                        className="absolute inset-0 h-full w-full object-cover"
+                                    />
+                                )}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
 
-                            {/* Modal Header */}
-
-                            <div className="flex items-center justify-between
-                                            border-b px-6 py-4">
-
-                                <div>
-
-                                    <h2 className="text-lg font-bold text-gray-900">
-                                        Supplier Details
-                                    </h2>
-
-                                    <p className="text-sm text-gray-500">
-                                        Review supplier information
-                                    </p>
-
-                                </div>
-
+                                {/* Close button */}
                                 <button
                                     type="button"
                                     onClick={closeViewModal}
-                                    className="rounded-lg p-2 text-gray-400
-                                               hover:bg-gray-100 hover:text-gray-600"
+                                    className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition hover:bg-white/40"
                                 >
                                     ✕
                                 </button>
 
+                                {/* Status badge */}
+                                <div className="absolute left-4 top-4">
+                                    {statusBadge(selectedSupplier.status)}
+                                </div>
+
+                                {/* Avatar overlapping cover */}
+                                <div className="absolute -bottom-12 left-6 h-24 w-24 overflow-hidden rounded-2xl border-4 border-white bg-indigo-100 shadow-xl">
+                                    {selectedSupplier.profile_picture ? (
+                                        <img
+                                            src={`/storage/${selectedSupplier.profile_picture}`}
+                                            alt={selectedSupplier.business_name}
+                                            className="h-full w-full object-cover"
+                                        />
+                                    ) : (
+                                        <div className="flex h-full w-full items-center justify-center text-3xl">👤</div>
+                                    )}
+                                </div>
                             </div>
 
+                            {/* Scrollable body */}
+                            <div className="overflow-y-auto flex-1 px-6 pb-6" style={{ paddingTop: '3.5rem' }}>
 
-                            {/* Modal Body */}
+                                {/* Name + email */}
+                                <div>
+                                    <h2 className="text-xl font-black text-slate-900">
+                                        {selectedSupplier.business_name || selectedSupplier.user?.name}
+                                    </h2>
+                                    <p className="mt-0.5 text-sm text-slate-500">{selectedSupplier.user?.email}</p>
+                                    {selectedSupplier.user?.name && selectedSupplier.business_name && (
+                                        <p className="mt-0.5 text-xs text-slate-400">Account: {selectedSupplier.user.name}</p>
+                                    )}
+                                </div>
 
-                            <div className="max-h-[70vh] overflow-y-auto p-6">
-
-                                {/* Profile */}
-
-                                <div className="flex flex-col items-center
-                                                gap-4 sm:flex-row">
-
-                                    <div className="h-24 w-24 overflow-hidden
-                                                    rounded-2xl bg-gray-100">
-
-                                        {selectedSupplier.profile_picture ? (
-
-                                            <img
-                                                src={`/storage/${selectedSupplier.profile_picture}`}
-                                                alt={
-                                                    selectedSupplier.business_name
-                                                }
-                                                className="h-full w-full object-cover"
-                                            />
-
-                                        ) : (
-
-                                            <div className="flex h-full
-                                                            items-center
-                                                            justify-center
-                                                            text-3xl">
-                                                👤
-                                            </div>
-
-                                        )}
-
+                                {/* Info grid */}
+                                <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                                    <div className="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4">
+                                        <span className="mt-0.5 text-lg">📞</span>
+                                        <div>
+                                            <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">Contact Number</p>
+                                            <p className="mt-0.5 text-sm font-semibold text-slate-800">
+                                                {selectedSupplier.contact_number || <span className="font-normal text-slate-400">Not provided</span>}
+                                            </p>
+                                        </div>
                                     </div>
 
+                                    <div className="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4">
+                                        <span className="mt-0.5 text-lg">📍</span>
+                                        <div>
+                                            <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">Address</p>
+                                            <p className="mt-0.5 text-sm font-semibold text-slate-800">
+                                                {selectedSupplier.address || <span className="font-normal text-slate-400">Not provided</span>}
+                                            </p>
+                                        </div>
+                                    </div>
 
-                                    <div className="text-center sm:text-left">
+                                    <div className="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4">
+                                        <span className="mt-0.5 text-lg">⏳</span>
+                                        <div>
+                                            <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">Experience</p>
+                                            <p className="mt-0.5 text-sm font-semibold text-slate-800">
+                                                {selectedSupplier.years_of_experience
+                                                    ? `${selectedSupplier.years_of_experience} Years`
+                                                    : <span className="font-normal text-slate-400">Not specified</span>}
+                                            </p>
+                                        </div>
+                                    </div>
 
-                                        <h3 className="text-xl font-bold text-gray-900">
-                                            {selectedSupplier.business_name ||
-                                                selectedSupplier.user?.name}
-                                        </h3>
-
-                                        <p className="text-sm text-gray-500">
-                                            {selectedSupplier.user?.email}
-                                        </p>
-
-                                        <div className="mt-2">
-                                            {statusBadge(
-                                                selectedSupplier.status
+                                    <div className="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4">
+                                        <span className="mt-0.5 text-lg">🔗</span>
+                                        <div className="min-w-0">
+                                            <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">Facebook Page</p>
+                                            {selectedSupplier.facebook_page || selectedSupplier.facebook_url ? (
+                                                <a
+                                                    href={(selectedSupplier.facebook_page || selectedSupplier.facebook_url).startsWith('http')
+                                                        ? (selectedSupplier.facebook_page || selectedSupplier.facebook_url)
+                                                        : `https://${selectedSupplier.facebook_page || selectedSupplier.facebook_url}`}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="mt-0.5 block truncate text-sm font-semibold text-blue-600 hover:underline"
+                                                >
+                                                    {selectedSupplier.facebook_page || selectedSupplier.facebook_url}
+                                                </a>
+                                            ) : (
+                                                <p className="mt-0.5 text-sm text-slate-400">Not provided</p>
                                             )}
                                         </div>
-
                                     </div>
-
                                 </div>
 
-
-                                {/* Information */}
-
-                                <div className="mt-6 grid gap-4 sm:grid-cols-2">
-
-                                    <div className="rounded-xl bg-gray-50 p-4">
-
-                                        <p className="text-xs font-semibold
-                                                      uppercase text-gray-400">
-                                            Contact Number
-                                        </p>
-
-                                        <p className="mt-1 text-sm font-medium
-                                                      text-gray-800">
-                                            {selectedSupplier.contact_number ||
-                                                'Not provided'}
-                                        </p>
-
-                                    </div>
-
-
-                                    <div className="rounded-xl bg-gray-50 p-4">
-
-                                        <p className="text-xs font-semibold
-                                                      uppercase text-gray-400">
-                                            Address
-                                        </p>
-
-                                        <p className="mt-1 text-sm font-medium
-                                                      text-gray-800">
-                                            {selectedSupplier.address ||
-                                                'Not provided'}
-                                        </p>
-
-                                    </div>
-
-                                    <div className="rounded-xl bg-gray-50 p-4">
-
-                                        <p className="text-xs font-semibold
-                                                      uppercase text-gray-400">
-                                            Years of Experience
-                                        </p>
-
-                                        <p className="mt-1 text-sm font-medium
-                                                      text-gray-800">
-                                            {selectedSupplier.years_of_experience
-                                                ? `${selectedSupplier.years_of_experience} Years`
-                                                : 'Not specified'}
-                                        </p>
-
-                                    </div>
-
-                                    <div className="rounded-xl bg-gray-50 p-4">
-
-                                        <p className="text-xs font-semibold
-                                                      uppercase text-gray-400">
-                                            Facebook Page / URL
-                                        </p>
-
-                                        {selectedSupplier.facebook_page || selectedSupplier.facebook_url ? (
-                                            <a
-                                                href={(selectedSupplier.facebook_page || selectedSupplier.facebook_url).startsWith('http')
-                                                    ? (selectedSupplier.facebook_page || selectedSupplier.facebook_url)
-                                                    : `https://${selectedSupplier.facebook_page || selectedSupplier.facebook_url}`}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="mt-1 text-sm font-medium text-blue-600 hover:underline truncate block"
-                                            >
-                                                {selectedSupplier.facebook_page || selectedSupplier.facebook_url}
-                                            </a>
-                                        ) : (
-                                            <p className="mt-1 text-sm font-medium text-gray-800">
-                                                Not provided
-                                            </p>
-                                        )}
-
-                                    </div>
-
-                                </div>
-
-                                {/* Cover Photo Preview */}
-                                {selectedSupplier.cover_photo && (
-                                    <div className="mt-4 overflow-hidden rounded-xl border border-gray-200">
-                                        <p className="bg-gray-50 px-3 py-1.5 text-xs font-semibold uppercase text-gray-500">
-                                            Cover Photo
-                                        </p>
-                                        <img
-                                            src={`/storage/${selectedSupplier.cover_photo}`}
-                                            alt="Supplier Cover"
-                                            className="h-36 w-full object-cover"
-                                        />
+                                {/* Categories */}
+                                {selectedSupplier.categories?.length > 0 && (
+                                    <div className="mt-5">
+                                        <p className="mb-2 text-xs font-bold uppercase tracking-wide text-slate-500">Supplier Categories</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            {selectedSupplier.categories.map((cat) => (
+                                                <span
+                                                    key={cat.id}
+                                                    className="rounded-xl bg-indigo-50 px-3 py-1.5 text-xs font-bold text-indigo-700 ring-1 ring-inset ring-indigo-200"
+                                                >
+                                                    {cat.name}
+                                                </span>
+                                            ))}
+                                        </div>
                                     </div>
                                 )}
 
 
-                                {/* Categories */}
-
-                                <div className="mt-5">
-
-                                    <p className="mb-2 text-sm font-semibold
-                                                  text-gray-700">
-                                        Supplier Categories
-                                    </p>
-
-                                    <div className="flex flex-wrap gap-2">
-
-                                        {selectedSupplier.categories?.length > 0 ? (
-
-                                            selectedSupplier.categories.map(
-                                                (category) => (
-
-                                                    <span
-                                                        key={category.id}
-                                                        className="rounded-lg
-                                                                   bg-indigo-50
-                                                                   px-3 py-1.5
-                                                                   text-sm
-                                                                   font-medium
-                                                                   text-indigo-700"
-                                                    >
-                                                        {category.name}
-                                                    </span>
-
-                                                )
-                                            )
-
-                                        ) : (
-
-                                            <span className="text-sm text-gray-400">
-                                                No categories selected.
-                                            </span>
-
-                                        )}
-
-                                    </div>
-
-                                </div>
-
 
                                 {/* Description */}
-
-                                <div className="mt-5">
-
-                                    <p className="mb-2 text-sm font-semibold
-                                                  text-gray-700">
-                                        Description
-                                    </p>
-
-                                    <div className="rounded-xl bg-gray-50 p-4">
-
-                                        <p className="whitespace-pre-line
-                                                      text-sm text-gray-600">
-                                            {selectedSupplier.description ||
-                                                'No description provided.'}
-                                        </p>
-
+                                {selectedSupplier.description && (
+                                    <div className="mt-5">
+                                        <p className="mb-2 text-xs font-bold uppercase tracking-wide text-slate-500">About</p>
+                                        <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+                                            <p className="whitespace-pre-line text-sm leading-relaxed text-slate-600">
+                                                {selectedSupplier.description}
+                                            </p>
+                                        </div>
                                     </div>
-
-                                </div>
-
+                                )}
                             </div>
 
-
-                            {/* Modal Footer */}
-
-                            <div className="flex justify-end gap-2
-                                            border-t bg-gray-50 px-6 py-4">
-
+                            {/* Footer */}
+                            <div className="flex shrink-0 items-center justify-between border-t border-slate-100 bg-slate-50 px-6 py-4">
                                 <button
                                     type="button"
                                     onClick={closeViewModal}
-                                    className="rounded-xl border
-                                               border-gray-200 bg-white
-                                               px-4 py-2.5 text-sm
-                                               font-semibold text-gray-700
-                                               hover:bg-gray-50"
+                                    className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-bold text-slate-700 shadow-xs transition hover:bg-slate-50"
                                 >
                                     Close
                                 </button>
 
-
                                 {selectedSupplier.status === 'pending' && (
-
-                                    <>
+                                    <div className="flex gap-2">
                                         <button
                                             type="button"
-                                            onClick={() => {
-                                                closeViewModal();
-                                                openApproveModal(
-                                                    selectedSupplier
-                                                );
-                                            }}
-                                            className="rounded-xl bg-green-600
-                                                       px-4 py-2.5 text-sm
-                                                       font-semibold text-white
-                                                       hover:bg-green-700"
+                                            onClick={() => { closeViewModal(); openRejectModal(selectedSupplier); }}
+                                            className="rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-xs font-bold text-red-700 transition hover:bg-red-600 hover:text-white"
                                         >
-                                            Approve Supplier
+                                            ✕ Reject
                                         </button>
-
                                         <button
                                             type="button"
-                                            onClick={() => {
-                                                closeViewModal();
-                                                openRejectModal(
-                                                    selectedSupplier
-                                                );
-                                            }}
-                                            className="rounded-xl bg-red-600
-                                                       px-4 py-2.5 text-sm
-                                                       font-semibold text-white
-                                                       hover:bg-red-700"
+                                            onClick={() => { closeViewModal(); openApproveModal(selectedSupplier); }}
+                                            className="rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-emerald-700"
                                         >
-                                            Reject Supplier
+                                            ✓ Approve Supplier
                                         </button>
-                                    </>
-
+                                    </div>
                                 )}
-
                             </div>
-
                         </div>
-
                     </div>
-
                 )}
 
 
@@ -938,91 +800,58 @@ export default function Index({
                 ====================================================== */}
 
                 {showApproveModal && selectedSupplier && (
-
-                    <div className="fixed inset-0 z-[60] flex items-center
-                                    justify-center bg-black/50 p-4">
-
-                        <div className="w-full max-w-md rounded-2xl
-                                        bg-white shadow-2xl">
-
-                            <div className="p-6">
-
-                                <div className="mx-auto flex h-14 w-14
-                                                items-center justify-center
-                                                rounded-full bg-green-100
-                                                text-2xl">
+                    <div
+                        className="fixed inset-0 z-[60] flex items-center justify-center p-4"
+                        style={{ backgroundColor: 'rgba(15,23,42,0.75)', backdropFilter: 'blur(8px)' }}
+                        onClick={closeApproveModal}
+                    >
+                        <div
+                            className="w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            {/* Green gradient header */}
+                            <div className="bg-gradient-to-br from-emerald-500 to-green-600 px-6 py-8 text-center text-white">
+                                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/20 text-3xl shadow-inner backdrop-blur-sm">
                                     ✓
                                 </div>
-
-
-                                <div className="mt-4 text-center">
-
-                                    <h2 className="text-xl font-bold text-gray-900">
-                                        Approve Supplier?
-                                    </h2>
-
-                                    <p className="mt-2 text-sm leading-6 text-gray-500">
-
-                                        Are you sure you want to approve{' '}
-
-                                        <span className="font-semibold text-gray-800">
-                                            {selectedSupplier.business_name ||
-                                                selectedSupplier.user?.name}
-                                        </span>
-                                        ?
-
-                                        <br />
-
-                                        This supplier will become visible
-                                        to customers and can receive bookings.
-
-                                    </p>
-
-                                </div>
-
+                                <h2 className="text-xl font-black">Approve Supplier?</h2>
+                                <p className="mt-1 text-sm text-emerald-100">
+                                    This action will make the supplier visible to customers.
+                                </p>
                             </div>
 
+                            <div className="p-6">
+                                <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-4 text-center">
+                                    <p className="text-sm text-slate-600">
+                                        You are approving{' '}
+                                        <span className="font-black text-slate-900">
+                                            {selectedSupplier.business_name || selectedSupplier.user?.name}
+                                        </span>
+                                        . They will be able to receive bookings from customers immediately.
+                                    </p>
+                                </div>
+                            </div>
 
-                            <div className="flex justify-end gap-3
-                                            border-t bg-gray-50 px-6 py-4">
-
+                            <div className="flex gap-3 border-t border-slate-100 bg-slate-50 px-6 py-4">
                                 <button
                                     type="button"
                                     onClick={closeApproveModal}
                                     disabled={processing}
-                                    className="rounded-xl border
-                                               border-gray-200 bg-white
-                                               px-4 py-2.5 text-sm
-                                               font-semibold text-gray-700
-                                               hover:bg-gray-50
-                                               disabled:opacity-50"
+                                    className="flex-1 rounded-xl border border-slate-200 bg-white py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50 disabled:opacity-50"
                                 >
                                     Cancel
                                 </button>
-
-
                                 <button
                                     type="button"
                                     onClick={approveSupplier}
                                     disabled={processing}
-                                    className="rounded-xl bg-green-600
-                                               px-4 py-2.5 text-sm
-                                               font-semibold text-white
-                                               hover:bg-green-700
-                                               disabled:cursor-not-allowed
-                                               disabled:opacity-50"
+                                    className="flex-1 rounded-xl bg-emerald-600 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
                                 >
-                                    {processing
-                                        ? 'Approving...'
-                                        : 'Yes, Approve'}
+                                    {processing ? '⏳ Approving...' : '✓ Yes, Approve'}
                                 </button>
-
                             </div>
-
                         </div>
-
                     </div>
-
                 )}
 
 
@@ -1031,151 +860,101 @@ export default function Index({
                 ====================================================== */}
 
                 {showRejectModal && selectedSupplier && (
-
-                    <div className="fixed inset-0 z-[60] flex items-center
-                                    justify-center bg-black/50 p-4">
-
-                        <div className="w-full max-w-lg rounded-2xl
-                                        bg-white shadow-2xl">
-
+                    <div
+                        className="fixed inset-0 z-[60] flex items-center justify-center p-4"
+                        style={{ backgroundColor: 'rgba(15,23,42,0.75)', backdropFilter: 'blur(8px)' }}
+                        onClick={closeRejectModal}
+                    >
+                        <div
+                            className="w-full max-w-lg overflow-hidden rounded-3xl bg-white shadow-2xl"
+                            onClick={(e) => e.stopPropagation()}
+                        >
                             <form onSubmit={rejectSupplier}>
-
-                                {/* Header */}
-
-                                <div className="flex items-center
-                                                justify-between border-b
-                                                px-6 py-4">
-
-                                    <div>
-
-                                        <h2 className="text-lg font-bold text-gray-900">
-                                            Reject Supplier
-                                        </h2>
-
-                                        <p className="text-sm text-gray-500">
-                                            Provide a reason for rejection.
-                                        </p>
-
+                                {/* Red gradient header */}
+                                <div className="bg-gradient-to-br from-red-500 to-rose-600 px-6 py-6 text-white">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-3">
+                                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-xl backdrop-blur-sm">
+                                                ✕
+                                            </div>
+                                            <div>
+                                                <h2 className="text-lg font-black">Reject Supplier</h2>
+                                                <p className="text-xs text-red-100">Provide a reason for rejection</p>
+                                            </div>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={closeRejectModal}
+                                            disabled={processing}
+                                            className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-white transition hover:bg-white/40"
+                                        >
+                                            ✕
+                                        </button>
                                     </div>
-
-                                    <button
-                                        type="button"
-                                        onClick={closeRejectModal}
-                                        disabled={processing}
-                                        className="rounded-lg p-2 text-gray-400
-                                                   hover:bg-gray-100
-                                                   hover:text-gray-600"
-                                    >
-                                        ✕
-                                    </button>
-
                                 </div>
 
-
-                                {/* Body */}
-
-                                <div className="p-6">
-
-                                    <div className="rounded-xl bg-red-50 p-4">
-
-                                        <p className="text-sm text-red-700">
-
-                                            You are rejecting:
-
-                                            <span className="ml-1 font-bold">
-                                                {selectedSupplier.business_name ||
-                                                    selectedSupplier.user?.name}
-                                            </span>
-
-                                        </p>
-
+                                <div className="p-6 space-y-4">
+                                    {/* Who is being rejected */}
+                                    <div className="flex items-center gap-3 rounded-2xl border border-red-100 bg-red-50 p-4">
+                                        <div className="h-10 w-10 overflow-hidden rounded-xl bg-red-100 shrink-0">
+                                            {selectedSupplier.profile_picture ? (
+                                                <img src={`/storage/${selectedSupplier.profile_picture}`} alt="" className="h-full w-full object-cover" />
+                                            ) : (
+                                                <div className="flex h-full w-full items-center justify-center text-lg">👤</div>
+                                            )}
+                                        </div>
+                                        <div>
+                                            <p className="text-xs font-bold uppercase tracking-wide text-red-500">Rejecting</p>
+                                            <p className="text-sm font-black text-slate-900">
+                                                {selectedSupplier.business_name || selectedSupplier.user?.name}
+                                            </p>
+                                            <p className="text-xs text-slate-400">{selectedSupplier.user?.email}</p>
+                                        </div>
                                     </div>
 
-
-                                    <div className="mt-5">
-
+                                    {/* Rejection reason */}
+                                    <div>
                                         <label
                                             htmlFor="rejection_reason"
-                                            className="mb-2 block text-sm
-                                                       font-semibold text-gray-700"
+                                            className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-600"
                                         >
                                             Rejection Reason
-                                            <span className="ml-1 text-gray-400">
-                                                (Optional)
-                                            </span>
+                                            <span className="ml-1 font-normal normal-case text-slate-400">(optional)</span>
                                         </label>
-
                                         <textarea
                                             id="rejection_reason"
                                             value={rejectionReason}
-                                            onChange={(e) =>
-                                                setRejectionReason(
-                                                    e.target.value
-                                                )
-                                            }
-                                            rows="5"
-                                            placeholder="Explain why this supplier application is being rejected..."
-                                            className="w-full rounded-xl
-                                                       border-gray-300
-                                                       text-sm
-                                                       focus:border-red-500
-                                                       focus:ring-red-500"
+                                            onChange={(e) => setRejectionReason(e.target.value)}
+                                            rows="4"
+                                            placeholder="Explain why this supplier application is being rejected so they can correct it..."
+                                            className="w-full rounded-xl border-slate-200 text-sm focus:border-red-400 focus:ring-red-400"
                                         />
-
-                                        <p className="mt-2 text-xs text-gray-400">
-                                            This reason can be shown to the
-                                            supplier so they know what needs
-                                            to be corrected.
+                                        <p className="mt-1.5 text-xs text-slate-400">
+                                            💡 This reason may be shown to the supplier so they know what to correct.
                                         </p>
-
                                     </div>
-
                                 </div>
 
-
-                                {/* Footer */}
-
-                                <div className="flex justify-end gap-3
-                                                border-t bg-gray-50 px-6 py-4">
-
+                                <div className="flex gap-3 border-t border-slate-100 bg-slate-50 px-6 py-4">
                                     <button
                                         type="button"
                                         onClick={closeRejectModal}
                                         disabled={processing}
-                                        className="rounded-xl border
-                                                   border-gray-200 bg-white
-                                                   px-4 py-2.5 text-sm
-                                                   font-semibold text-gray-700
-                                                   hover:bg-gray-50
-                                                   disabled:opacity-50"
+                                        className="flex-1 rounded-xl border border-slate-200 bg-white py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50 disabled:opacity-50"
                                     >
                                         Cancel
                                     </button>
-
-
                                     <button
                                         type="submit"
                                         disabled={processing}
-                                        className="rounded-xl bg-red-600
-                                                   px-4 py-2.5 text-sm
-                                                   font-semibold text-white
-                                                   hover:bg-red-700
-                                                   disabled:cursor-not-allowed
-                                                   disabled:opacity-50"
+                                        className="flex-1 rounded-xl bg-red-600 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
                                     >
-                                        {processing
-                                            ? 'Rejecting...'
-                                            : 'Reject Supplier'}
+                                        {processing ? '⏳ Rejecting...' : '✕ Reject Supplier'}
                                     </button>
-
                                 </div>
-
                             </form>
-
                         </div>
-
                     </div>
-
                 )}
 
             </div>

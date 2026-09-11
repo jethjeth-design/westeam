@@ -54,6 +54,7 @@ export default function Sidebar() {
     */
     const adminMenu = [
         { name: 'Dashboard', href: '/admin/dashboard', icon: '📊' },
+        { name: 'Homepage Management', href: route('admin.homepage.index'), icon: '🎨' },
         { name: 'Users', href: '/admin/users', icon: '👥' },
         { name: 'Suppliers', href: route('admin.suppliers.index'), icon: '🏢' },
         { name: 'Customers', href: '/admin/customers', icon: '👤' },
@@ -62,6 +63,8 @@ export default function Sidebar() {
         { name: 'Schedules', href: '/admin/schedules', icon: '📆' },
         { name: 'Messages', href: route('messages.index'), icon: '💬', badge: unreadMessagesCount },
         { name: 'Reviews & Ratings', href: '/admin/reviews', icon: '⭐' },
+        { name: 'Featured Suppliers', href: route('admin.featured-suppliers.index'), icon: '🌟' },
+        { name: 'Top Packages', href: route('admin.top-packages.index'), icon: '🏆' },
         { name: 'Reports', href: '/admin/reports', icon: '📈' },
     ];
 
@@ -245,6 +248,16 @@ export default function Sidebar() {
                                 >
                                     <span>🏷️</span>
                                     <span>Supplier Categories</span>
+                                </Link>
+                                <Link
+                                    href={route('profile.edit')}
+                                    className={`flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition ${isItemActive(route('admin.supplier-categories.index'))
+                                        ? 'bg-indigo-600 text-white font-bold shadow-xs'
+                                        : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-600'
+                                        }`}
+                                >
+                                    <span>👥</span>
+                                    <span>Account Profile</span>
                                 </Link>
                                 <Link
                                     href="/admin/settings"

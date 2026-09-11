@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Supplier;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\BookingItem;
+use App\Models\Package;
 use App\Notifications\BookingStatusUpdatedNotification;
 use App\Notifications\ReviewReminderNotification;
 use Illuminate\Http\RedirectResponse;
@@ -160,6 +161,10 @@ class BookingController extends Controller
                 $booking->customer->notify(new ReviewReminderNotification($booking, $item));
             } catch (\Throwable $e) {
                 logger()->error('Review reminder notification error: '.$e->getMessage());
+            }
+
+            if ($item->item_type === 'package' && $item->item_id) {
+                Package::find($item->item_id)?->syncPerformanceAndTopStatus();
             }
         });
 

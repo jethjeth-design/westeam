@@ -172,7 +172,7 @@ export default function BusinessProfileForm({
                                 </span>
                                 <div>
                                     <h2 className="text-sm font-bold text-slate-900">
-                                        Business Profile (Direct Edit)
+                                        Business Profile
                                     </h2>
                                     <p className="text-xs text-slate-500">
                                         Update your business information directly.
