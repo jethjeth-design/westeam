@@ -4,10 +4,13 @@ use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\EventCategoryController;
+use App\Http\Controllers\Admin\FeaturedSupplierController;
+use App\Http\Controllers\Admin\HomepageController as AdminHomepageController;
 use App\Http\Controllers\Admin\PackageController as AdminPackageController;
 use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
 use App\Http\Controllers\Admin\SupplierCategoryController;
 use App\Http\Controllers\Admin\SupplierController;
+use App\Http\Controllers\Admin\TopPackageController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Customer\BookingController as CustomerBookingController;
 use App\Http\Controllers\Customer\EventController as CustomerEventController;
@@ -15,6 +18,11 @@ use App\Http\Controllers\Customer\PortfolioController as CustomerPortfolioContro
 use App\Http\Controllers\Customer\ReviewController as CustomerReviewController;
 use App\Http\Controllers\Customer\SupplierDirectoryController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Public\EventController as PublicEventController;
+use App\Http\Controllers\Public\GalleryController as PublicGalleryController;
+use App\Http\Controllers\Public\HomeController as PublicHomeController;
+use App\Http\Controllers\Public\PackageController as PublicPackageController;
+use App\Http\Controllers\Public\SupplierController as PublicSupplierController;
 use App\Http\Controllers\Supplier\BookingController as SupplierBookingController;
 use App\Http\Controllers\Supplier\DashboardController;
 use App\Http\Controllers\Supplier\PackageController;
@@ -25,16 +33,19 @@ use App\Http\Controllers\Supplier\SettingsController;
 use App\Http\Controllers\Supplier\SupplierProfileController;
 use App\Http\Controllers\Supplier\TeamController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
 | Public Routes
 |--------------------------------------------------------------------------
 */
-Route::get('/', function () {
-    return Inertia::render('Welcome');
-})->name('home');
+Route::get('/', [PublicHomeController::class, 'index'])->name('home');
+Route::get('/suppliers', [PublicSupplierController::class, 'index'])->name('suppliers.index');
+Route::get('/suppliers/{supplier}', [PublicSupplierController::class, 'show'])->name('suppliers.show');
+Route::get('/events', [PublicEventController::class, 'index'])->name('events.index');
+Route::get('/packages', [PublicPackageController::class, 'index'])->name('packages.index');
+Route::get('/packages/{package}', [PublicPackageController::class, 'show'])->name('packages.show');
+Route::get('/gallery', [PublicGalleryController::class, 'index'])->name('gallery.index');
 
 Route::get('/dashboard', function () {
 
@@ -73,6 +84,33 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/admin/reviews/{review}/reject', [AdminReviewController::class, 'reject'])->name('admin.reviews.reject');
     Route::delete('/admin/reviews/{review}', [AdminReviewController::class, 'destroy'])->name('admin.reviews.destroy');
 
+    // Admin Featured Supplier Management
+    Route::get('/admin/featured-suppliers', [FeaturedSupplierController::class, 'index'])->name('admin.featured-suppliers.index');
+    Route::post('/admin/featured-suppliers/{supplier}/feature', [FeaturedSupplierController::class, 'feature'])->name('admin.featured-suppliers.feature');
+    Route::post('/admin/featured-suppliers/{supplier}/unfeature', [FeaturedSupplierController::class, 'unfeature'])->name('admin.featured-suppliers.unfeature');
+    Route::post('/admin/featured-suppliers/{supplier}/toggle', [FeaturedSupplierController::class, 'toggle'])->name('admin.featured-suppliers.toggle');
+    Route::post('/admin/featured-suppliers/{supplier}/restore-auto', [FeaturedSupplierController::class, 'restoreAuto'])->name('admin.featured-suppliers.restore-auto');
+    Route::post('/admin/featured-suppliers/recalculate', [FeaturedSupplierController::class, 'recalculate'])->name('admin.featured-suppliers.recalculate');
+
+    // Admin Top Packages Management
+    Route::get('/admin/top-packages', [TopPackageController::class, 'index'])->name('admin.top-packages.index');
+    Route::post('/admin/top-packages/{package}/feature', [TopPackageController::class, 'feature'])->name('admin.top-packages.feature');
+    Route::post('/admin/top-packages/{package}/unfeature', [TopPackageController::class, 'unfeature'])->name('admin.top-packages.unfeature');
+    Route::post('/admin/top-packages/{package}/toggle', [TopPackageController::class, 'toggle'])->name('admin.top-packages.toggle');
+    Route::post('/admin/top-packages/{package}/restore-auto', [TopPackageController::class, 'restoreAuto'])->name('admin.top-packages.restore-auto');
+    Route::post('/admin/top-packages/{package}/toggle-active', [TopPackageController::class, 'toggleActive'])->name('admin.top-packages.toggle-active');
+    Route::post('/admin/top-packages/recalculate', [TopPackageController::class, 'recalculate'])->name('admin.top-packages.recalculate');
+
+    // Admin Homepage Management
+    Route::get('/admin/homepage', [AdminHomepageController::class, 'index'])->name('admin.homepage.index');
+    Route::post('/admin/homepage/banners', [AdminHomepageController::class, 'storeBanner'])->name('admin.homepage.banners.store');
+    Route::put('/admin/homepage/banners/{banner}', [AdminHomepageController::class, 'updateBanner'])->name('admin.homepage.banners.update');
+    Route::delete('/admin/homepage/banners/{banner}', [AdminHomepageController::class, 'destroyBanner'])->name('admin.homepage.banners.destroy');
+    Route::post('/admin/homepage/banners/{banner}/toggle', [AdminHomepageController::class, 'toggleBanner'])->name('admin.homepage.banners.toggle');
+    Route::post('/admin/homepage/banners/reorder', [AdminHomepageController::class, 'reorderBanners'])->name('admin.homepage.banners.reorder');
+    Route::put('/admin/homepage/sections/{section}', [AdminHomepageController::class, 'updateSection'])->name('admin.homepage.sections.update');
+    Route::post('/admin/homepage/sections/{section}/toggle', [AdminHomepageController::class, 'toggleSection'])->name('admin.homepage.sections.toggle');
+    Route::post('/admin/homepage/settings', [AdminHomepageController::class, 'updateSettings'])->name('admin.homepage.settings.update');
 });
 
 /*
@@ -80,8 +118,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 | Supplier
 |--------------------------------------------------------------------------
 */
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -312,8 +348,6 @@ Route::middleware(['auth'])
         ])->name('suppliers.reject');
 
     });
-
-
 
 use App\Http\Controllers\MessageController;
 

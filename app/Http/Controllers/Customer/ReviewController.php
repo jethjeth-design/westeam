@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Models\BookingItem;
+use App\Models\Package;
 use App\Models\Review;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -70,6 +71,10 @@ class ReviewController extends Controller
             'comment' => $validated['comment'],
             'status' => 'approved',
         ]);
+
+        if ($bookingItem->item_type === 'package' && $bookingItem->item_id) {
+            Package::find($bookingItem->item_id)?->syncPerformanceAndTopStatus();
+        }
 
         return back()->with('success', "Thank you! Your review for '{$bookingItem->item_name}' has been successfully submitted.");
     }

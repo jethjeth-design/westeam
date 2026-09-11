@@ -1,1252 +1,544 @@
+import PublicLayout from '@/Layouts/PublicLayout';
 import { Head, Link } from '@inertiajs/react';
+import { useEffect, useState } from 'react';
 
-export default function Welcome({ auth }) {
-    const events = [
+export default function Welcome({ banners = [], sections = {}, settings = {}, featuredSuppliers = [], highlights = [] }) {
+    // 6-photo banner slider state
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+
+    // Featured suppliers carousel state
+    const [supplierSlide, setSupplierSlide] = useState(0);
+
+    // Curated fallback suppliers matching design mockup
+    const defaultFeaturedSuppliers = [
         {
-            icon: '💍',
-            name: 'Weddings',
-            description: 'Make your special day unforgettable.',
+            id: 1,
+            user_id: 15,
+            business_name: 'ABC Photography',
+            category: 'Photography',
+            categories: ['Photography', 'Videography'],
+            cover_photo_url: 'https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=800&q=80',
+            profile_picture_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
+            rating: 4.9,
+            reviews_count: 35,
+            address: 'Manila, Philippines',
+            is_featured: true,
         },
         {
-            icon: '🎂',
-            name: 'Birthdays',
-            description: 'Celebrate another wonderful year.',
+            id: 2,
+            user_id: 16,
+            business_name: 'Dream Events',
+            category: 'Event Planner',
+            categories: ['Event Planner', 'Event Coordination'],
+            cover_photo_url: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+            profile_picture_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
+            rating: 4.8,
+            reviews_count: 28,
+            address: 'Cebu, Philippines',
+            is_featured: true,
         },
         {
-            icon: '🎓',
-            name: 'Debuts',
-            description: 'Create a celebration worth remembering.',
+            id: 3,
+            user_id: 17,
+            business_name: 'Elegant Catering',
+            category: 'Catering',
+            categories: ['Catering', 'Banquet'],
+            cover_photo_url: 'https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=800&q=80',
+            profile_picture_url: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80',
+            rating: 4.7,
+            reviews_count: 22,
+            address: 'Davao, Philippines',
+            is_featured: true,
         },
         {
-            icon: '🏢',
-            name: 'Corporate',
-            description: 'Professional events made simple.',
+            id: 4,
+            user_id: 18,
+            business_name: 'Bloom Decoration',
+            category: 'Decoration',
+            categories: ['Decoration', 'Floral Styling'],
+            cover_photo_url: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=800&q=80',
+            profile_picture_url: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80',
+            rating: 4.6,
+            reviews_count: 18,
+            address: 'Quezon City, Philippines',
+            is_featured: true,
         },
         {
-            icon: '💐',
-            name: 'Anniversaries',
-            description: 'Celebrate milestones together.',
+            id: 5,
+            user_id: 19,
+            business_name: 'Vision Videography',
+            category: 'Videography',
+            categories: ['Videography', 'Cinematography'],
+            cover_photo_url: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=800&q=80',
+            profile_picture_url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
+            rating: 4.8,
+            reviews_count: 20,
+            address: 'Manila, Philippines',
+            is_featured: true,
         },
         {
-            icon: '🎉',
-            name: 'Other Events',
-            description: 'Whatever the occasion, we can help.',
+            id: 6,
+            user_id: 24,
+            business_name: 'Tasteful Bites',
+            category: 'Catering',
+            categories: ['Catering', 'Pastry'],
+            cover_photo_url: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=800&q=80',
+            profile_picture_url: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80',
+            rating: 4.6,
+            reviews_count: 15,
+            address: 'Laguna, Philippines',
+            is_featured: true,
+        },
+        {
+            id: 7,
+            user_id: 15,
+            business_name: 'Perfect Moments',
+            category: 'Photography',
+            categories: ['Photography', 'Portraits'],
+            cover_photo_url: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80',
+            profile_picture_url: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=400&q=80',
+            rating: 4.7,
+            reviews_count: 19,
+            address: 'Cavite, Philippines',
+            is_featured: true,
+        },
+        {
+            id: 8,
+            user_id: 17,
+            business_name: 'Event Styling Co.',
+            category: 'Decoration',
+            categories: ['Decoration', 'Event Design'],
+            cover_photo_url: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80',
+            profile_picture_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
+            rating: 4.5,
+            reviews_count: 12,
+            address: 'Taguig, Philippines',
+            is_featured: true,
         },
     ];
 
-    const features = [
+    // Merge backend suppliers with fallback if fewer than 4 exist
+    const allSuppliers = (() => {
+        if (!featuredSuppliers || featuredSuppliers.length === 0) {
+            return defaultFeaturedSuppliers;
+        }
+        if (featuredSuppliers.length < 4) {
+            const existingIds = new Set(featuredSuppliers.map((s) => s.id));
+            const fillers = defaultFeaturedSuppliers.filter((s) => !existingIds.has(s.id));
+            return [...featuredSuppliers, ...fillers];
+        }
+        return featuredSuppliers;
+    })();
+
+    const prevSupplierSlide = () => {
+        setSupplierSlide((prev) => (prev <= 0 ? Math.max(0, allSuppliers.length - 4) : prev - 1));
+    };
+
+    const nextSupplierSlide = () => {
+        setSupplierSlide((prev) => (prev >= allSuppliers.length - 4 ? 0 : prev + 1));
+    };
+
+    // Calculate currently visible 4 suppliers (with wrap-around if needed)
+    const visibleSuppliers = [];
+    const countToShow = Math.min(4, allSuppliers.length);
+    for (let i = 0; i < countToShow; i++) {
+        visibleSuppliers.push(allSuppliers[(supplierSlide + i) % allSuppliers.length]);
+    }
+
+    const bannerList = banners && banners.length > 0 ? banners : [
         {
-            icon: '🔍',
-            title: 'Find Suppliers',
-            description:
-                'Discover trusted photographers, caterers, decorators, venues, entertainers, and other event professionals.',
-            bg: 'bg-indigo-100',
-        },
-        {
-            icon: '🤖',
-            title: 'AI Recommendations',
-            description:
-                'Tell our assistant your event type and budget and get supplier recommendations that fit your needs.',
-            bg: 'bg-purple-100',
-        },
-        {
-            icon: '📦',
-            title: 'Compare Packages',
-            description:
-                'Explore supplier packages, inclusions, prices, and services before making your decision.',
-            bg: 'bg-green-100',
-        },
-        {
-            icon: '📅',
-            title: 'Manage Bookings',
-            description:
-                'Keep your event bookings, suppliers, schedules, and event details organized in one place.',
-            bg: 'bg-orange-100',
+            id: 1,
+            badge: 'Your Perfect Event Starts Here',
+            title: 'Find the Best Suppliers for Your Special Moments',
+            subtitle: 'Connect with trusted suppliers, explore amazing packages, and make your dream event a reality.',
+            image_url: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=2000&q=80',
+            button_text: 'Explore Suppliers',
+            button_url: '/suppliers',
+            secondary_button_text: 'View Packages',
+            secondary_button_url: '/packages',
         },
     ];
 
-    const packages = [
-        {
-            icon: '🌿',
-            name: 'Basic Package',
-            description: 'Perfect for simple and intimate celebrations.',
-            price: '₱25,000',
-            features: [
-                'Event coordination',
-                'Basic decoration',
-                'Photography',
-                'Basic sound system',
-            ],
-        },
-        {
-            icon: '💎',
-            name: 'Premium Package',
-            description: 'A complete package for a memorable celebration.',
-            price: '₱75,000',
-            popular: true,
-            features: [
-                'Full event coordination',
-                'Premium decoration',
-                'Professional photography',
-                'Catering',
-                'Entertainment',
-            ],
-        },
-        {
-            icon: '👑',
-            name: 'Luxury Package',
-            description: 'Everything you need for an extraordinary event.',
-            price: '₱150,000+',
-            features: [
-                'Full event planning',
-                'Luxury venue decoration',
-                'Premium catering',
-                'Photo & video coverage',
-                'Live entertainment',
-            ],
-        },
-    ];
+    // Automatic slide rotation
+    useEffect(() => {
+        if (!isAutoPlaying || bannerList.length <= 1) return;
+
+        const interval = setInterval(() => {
+            setCurrentSlide((prev) => (prev + 1) % bannerList.length);
+        }, 5500);
+
+        return () => clearInterval(interval);
+    }, [isAutoPlaying, bannerList.length]);
+
+    const nextSlide = () => {
+        setCurrentSlide((prev) => (prev + 1) % bannerList.length);
+    };
+
+    const prevSlide = () => {
+        setCurrentSlide((prev) => (prev - 1 + bannerList.length) % bannerList.length);
+    };
+
+    const activeBanner = bannerList[currentSlide] || bannerList[0];
+
+    // Highlight icons mapping
+    const getHighlightIcon = (iconName) => {
+        switch (iconName) {
+            case 'shield-check':
+                return (
+                    <svg className="w-6 h-6 text-[#A87520]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                );
+            case 'sparkles':
+                return (
+                    <svg className="w-6 h-6 text-[#A87520]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                    </svg>
+                );
+            case 'calendar-check':
+                return (
+                    <svg className="w-6 h-6 text-[#A87520]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                );
+            case 'gift':
+            default:
+                return (
+                    <svg className="w-6 h-6 text-[#A87520]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                    </svg>
+                );
+        }
+    };
 
     return (
-        <>
-            <Head title="Evently | Event & Wedding Supplier Management" />
+        <PublicLayout title="Home - Event & Wedding Supplier Management">
+            <Head>
+                <meta name="description" content="Discover and book premier wedding and event suppliers, photographers, caterers, stylists, and exclusive packages." />
+            </Head>
 
-            <div className="min-h-screen bg-white text-gray-900">
-
-                {/* =========================================================
-                    NAVIGATION
-                ========================================================= */}
-                <header className="absolute left-0 right-0 top-0 z-50">
-                    <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-8">
-
-                        {/* Logo */}
-                        <Link href="/" className="flex items-center gap-3">
-                            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-600 text-xl text-white shadow-lg shadow-indigo-200">
-                                🎉
-                            </div>
-
-                            <div>
-                                <h1 className="text-xl font-bold tracking-tight text-gray-900">
-                                    Evently
-                                </h1>
-
-                                <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-gray-400">
-                                    Event Management
-                                </p>
-                            </div>
-                        </Link>
-
-                        {/* Desktop Navigation */}
-                        <nav className="hidden items-center gap-8 md:flex">
-
-                            <a
-                                href="#suppliers"
-                                className="text-sm font-medium text-gray-600 transition hover:text-indigo-600"
-                            >
-                                Suppliers
-                            </a>
-
-                            <a
-                                href="#events"
-                                className="text-sm font-medium text-gray-600 transition hover:text-indigo-600"
-                            >
-                                Events
-                            </a>
-
-                            <a
-                                href="#packages"
-                                className="text-sm font-medium text-gray-600 transition hover:text-indigo-600"
-                            >
-                                Packages
-                            </a>
-
-                            <a
-                                href="#gallery"
-                                className="text-sm font-medium text-gray-600 transition hover:text-indigo-600"
-                            >
-                                Gallery
-                            </a>
-
-                        </nav>
-
-                        {/* Authentication */}
-                        <div className="flex items-center gap-2 sm:gap-3">
-
-                            {auth?.user ? (
-                                <Link
-                                    href={route('dashboard')}
-                                    className="rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700"
-                                >
-                                    Dashboard
-                                </Link>
-                            ) : (
-                                <>
-                                    <Link
-                                        href={route('login')}
-                                        className="hidden rounded-xl px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-100 sm:block"
-                                    >
-                                        Log in
-                                    </Link>
-
-                                    <Link
-                                        href={route('register')}
-                                        className="rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 hover:shadow-md"
-                                    >
-                                        Get Started
-                                    </Link>
-                                </>
-                            )}
-
-                        </div>
+            {/* ========================================================================= */}
+            {/* 1. 6-PHOTO BANNER SLIDER (Hero Section)                                   */}
+            {/* ========================================================================= */}
+            <section
+                className="relative w-full h-[620px] lg:h-[680px] overflow-hidden bg-[#24221E]"
+                onMouseEnter={() => setIsAutoPlaying(false)}
+                onMouseLeave={() => setIsAutoPlaying(true)}
+            >
+                {/* Background Slides */}
+                {bannerList.map((banner, index) => (
+                    <div
+                        key={banner.id || index}
+                        className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                            index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105 pointer-events-none'
+                        } transition-transform duration-[7000ms]`}
+                    >
+                        <img
+                            src={banner.image_url}
+                            alt={banner.title}
+                            className="w-full h-full object-cover object-center"
+                        />
+                        {/* Elegant luxury gradient overlays */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#24221E]/80 via-[#24221E]/40 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#24221E]/60 via-transparent to-black/20" />
                     </div>
-                </header>
-
-
-                {/* =========================================================
-                    HERO SECTION
-                ========================================================= */}
-                <section className="relative overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-purple-50 pt-36">
-
-                    {/* Background decorations */}
-                    <div className="absolute -left-40 top-40 h-96 w-96 rounded-full bg-indigo-200/30 blur-3xl" />
-
-                    <div className="absolute -right-40 top-20 h-96 w-96 rounded-full bg-purple-200/30 blur-3xl" />
-
-                    <div className="relative mx-auto max-w-7xl px-6 pb-24 lg:px-8 lg:pb-32">
-
-                        <div className="grid items-center gap-16 lg:grid-cols-2">
-
-                            {/* Hero Content */}
-                            <div>
-
-                                <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-white px-4 py-2 shadow-sm">
-
-                                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-100 text-sm">
-                                        ✨
-                                    </span>
-
-                                    <span className="text-sm font-semibold text-indigo-700">
-                                        Everything for your perfect event
-                                    </span>
-
-                                </div>
-
-                                <h1 className="max-w-3xl text-5xl font-extrabold leading-tight tracking-tight text-gray-900 sm:text-6xl lg:text-7xl">
-
-                                    Plan your
-
-                                    <span className="text-indigo-600">
-                                        {' '}perfect event
-                                    </span>
-
-                                    {' '}with ease.
-
-                                </h1>
-
-                                <p className="mt-6 max-w-xl text-lg leading-8 text-gray-600">
-                                    Discover trusted event and wedding suppliers,
-                                    compare packages, manage your budget, and
-                                    organize everything you need in one place.
-                                </p>
-
-                                {/* CTA Buttons */}
-                                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-
-                                    <Link
-                                        href={route('register')}
-                                        className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-200 transition hover:-translate-y-0.5 hover:bg-indigo-700"
-                                    >
-                                        Start Planning
-                                        <span className="ml-2">→</span>
-                                    </Link>
-
-                                    <a
-                                        href="#how-it-works"
-                                        className="inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white px-7 py-3.5 text-sm font-bold text-gray-700 shadow-sm transition hover:bg-gray-50"
-                                    >
-                                        How It Works
-                                    </a>
-
-                                </div>
-
-                                {/* Trust indicators */}
-                                <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm text-gray-500">
-
-                                    <div className="flex items-center gap-2">
-                                        <span className="font-bold text-green-500">
-                                            ✓
-                                        </span>
-                                        Trusted Suppliers
-                                    </div>
-
-                                    <div className="flex items-center gap-2">
-                                        <span className="font-bold text-green-500">
-                                            ✓
-                                        </span>
-                                        Budget Friendly
-                                    </div>
-
-                                    <div className="flex items-center gap-2">
-                                        <span className="font-bold text-green-500">
-                                            ✓
-                                        </span>
-                                        Easy Booking
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-                            {/* Hero Visual */}
-                            <div className="relative">
-
-                                <div className="relative mx-auto max-w-lg">
-
-                                    {/* Main Card */}
-                                    <div className="rounded-3xl border border-white bg-white p-4 shadow-2xl shadow-indigo-100">
-
-                                        <div className="relative flex h-[390px] items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-400">
-
-                                            {/* Overlay */}
-                                            <div className="absolute inset-0 bg-black/10" />
-
-                                            {/* Main content */}
-                                            <div className="relative text-center text-white">
-
-                                                <div className="text-7xl">
-                                                    💍
-                                                </div>
-
-                                                <h3 className="mt-5 text-2xl font-bold">
-                                                    Your Dream Wedding
-                                                </h3>
-
-                                                <p className="mt-2 text-sm text-white/80">
-                                                    Everything you need in one place
-                                                </p>
-
-                                            </div>
-
-
-                                            {/* Photography floating card */}
-                                            <div className="absolute left-5 top-6 rounded-2xl bg-white/95 p-3 shadow-xl">
-
-                                                <div className="flex items-center gap-3">
-
-                                                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-pink-100">
-                                                        📸
-                                                    </div>
-
-                                                    <div>
-                                                        <p className="text-xs font-bold text-gray-900">
-                                                            Photography
-                                                        </p>
-
-                                                        <p className="text-[10px] text-gray-500">
-                                                            4.9 ⭐
-                                                        </p>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-
-                                            {/* Budget floating card */}
-                                            <div className="absolute bottom-6 right-5 rounded-2xl bg-white/95 p-3 shadow-xl">
-
-                                                <div className="flex items-center gap-3">
-
-                                                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-green-100">
-                                                        💰
-                                                    </div>
-
-                                                    <div>
-                                                        <p className="text-xs font-bold text-gray-900">
-                                                            Event Budget
-                                                        </p>
-
-                                                        <p className="text-[10px] font-semibold text-green-600">
-                                                            ₱100,000
-                                                        </p>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-
-                                        {/* Card bottom */}
-                                        <div className="flex items-center justify-between px-2 pt-4">
-
-                                            <div>
-                                                <p className="text-sm font-bold text-gray-900">
-                                                    Wedding Planning
-                                                </p>
-
-                                                <p className="text-xs text-gray-500">
-                                                    7 suppliers selected
-                                                </p>
-                                            </div>
-
-                                            <div className="flex -space-x-2">
-
-                                                <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-pink-200 text-xs">
-                                                    📸
-                                                </div>
-
-                                                <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-blue-200 text-xs">
-                                                    🎵
-                                                </div>
-
-                                                <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-yellow-200 text-xs">
-                                                    🍰
-                                                </div>
-
-                                                <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-indigo-200 text-xs font-bold">
-                                                    +4
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-
-                                    {/* AI Floating Card */}
-                                    <div className="absolute -bottom-8 -left-8 hidden rounded-2xl border border-gray-100 bg-white p-4 shadow-xl sm:block">
-
-                                        <div className="flex items-center gap-3">
-
-                                            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-100 text-xl">
-                                                🤖
-                                            </div>
-
-                                            <div>
-                                                <p className="text-xs font-bold text-gray-900">
-                                                    AI Assistant
-                                                </p>
-
-                                                <p className="mt-1 text-xs text-gray-500">
-                                                    Finding suppliers for you...
-                                                </p>
-                                            </div>
-
-                                            <span className="h-2 w-2 animate-pulse rounded-full bg-green-500" />
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </section>
-
-
-                {/* =========================================================
-                    FEATURES
-                ========================================================= */}
-                <section
-                    id="suppliers"
-                    className="bg-white py-24"
+                ))}
+
+                {/* Left/Right Navigation Arrows */}
+                <button
+                    onClick={prevSlide}
+                    aria-label="Previous Slide"
+                    className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-md text-white border border-white/30 flex items-center justify-center transition-all duration-200 hover:scale-105 shadow-lg group"
                 >
-                    <div className="mx-auto max-w-7xl px-6 lg:px-8">
-
-                        <div className="mx-auto max-w-2xl text-center">
-
-                            <p className="text-sm font-bold uppercase tracking-widest text-indigo-600">
-                                Find the right people
-                            </p>
-
-                            <h2 className="mt-3 text-4xl font-bold tracking-tight text-gray-900">
-                                Everything you need to plan
-                            </h2>
-
-                            <p className="mt-4 text-gray-500">
-                                Connect with event professionals and manage
-                                your entire celebration from one platform.
-                            </p>
-
-                        </div>
-
-
-                        <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-
-                            {features.map((feature) => (
-                                <div
-                                    key={feature.title}
-                                    className="group rounded-2xl border border-gray-100 bg-gray-50 p-6 transition duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-xl"
-                                >
-
-                                    <div
-                                        className={`flex h-12 w-12 items-center justify-center rounded-xl text-2xl ${feature.bg} transition duration-300 group-hover:scale-110`}
-                                    >
-                                        {feature.icon}
-                                    </div>
-
-                                    <h3 className="mt-5 font-bold text-gray-900">
-                                        {feature.title}
-                                    </h3>
-
-                                    <p className="mt-2 text-sm leading-6 text-gray-500">
-                                        {feature.description}
-                                    </p>
-
-                                </div>
-                            ))}
-
-                        </div>
-                    </div>
-                </section>
-
-
-                {/* =========================================================
-                    EVENTS
-                ========================================================= */}
-                <section
-                    id="events"
-                    className="bg-gray-50 py-24"
+                    <svg className="w-5 h-5 text-white group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+                <button
+                    onClick={nextSlide}
+                    aria-label="Next Slide"
+                    className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-md text-white border border-white/30 flex items-center justify-center transition-all duration-200 hover:scale-105 shadow-lg group"
                 >
-                    <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                    <svg className="w-5 h-5 text-white group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
 
-                        <div className="text-center">
-
-                            <p className="text-sm font-bold uppercase tracking-widest text-indigo-600">
-                                Any Celebration
-                            </p>
-
-                            <h2 className="mt-3 text-4xl font-bold tracking-tight text-gray-900">
-                                One platform for every event
-                            </h2>
-
-                            <p className="mx-auto mt-4 max-w-2xl text-gray-500">
-                                Whether you're planning a wedding, birthday,
-                                debut, corporate event, or anniversary,
-                                Evently helps you find what you need.
-                            </p>
-
+                {/* Hero Floating Content Card (Matches Design Mockup) */}
+                <div className="relative z-10 max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center">
+                    <div className="max-w-xl lg:max-w-2xl bg-[#F8F5EF]/95 backdrop-blur-md p-8 sm:p-10 lg:p-12 rounded-3xl border border-[#DCC9A8]/50 shadow-2xl animate-fade-in">
+                        {/* Badge */}
+                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EFE7D8] border border-[#DCC9A8] text-[#A87520] text-xs font-bold tracking-wider uppercase mb-5 shadow-xs">
+                            <span className="w-2 h-2 rounded-full bg-[#C99632] animate-pulse" />
+                            {activeBanner.badge || 'Your Perfect Event Starts Here'}
                         </div>
 
+                        {/* Title */}
+                        <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#24221E] leading-[1.15] mb-4">
+                            {activeBanner.title}
+                        </h1>
 
-                        <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
-
-                            {events.map((event) => (
-                                <div
-                                    key={event.name}
-                                    className="group rounded-2xl border border-gray-100 bg-white p-6 text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
-                                >
-
-                                    <div className="text-4xl transition duration-300 group-hover:scale-110">
-                                        {event.icon}
-                                    </div>
-
-                                    <h3 className="mt-4 text-sm font-bold text-gray-900">
-                                        {event.name}
-                                    </h3>
-
-                                    <p className="mt-2 text-xs leading-5 text-gray-500">
-                                        {event.description}
-                                    </p>
-
-                                </div>
-                            ))}
-
-                        </div>
-
-                    </div>
-                </section>
-
-
-                {/* =========================================================
-                    HOW IT WORKS
-                ========================================================= */}
-                <section
-                    id="how-it-works"
-                    className="bg-white py-24"
-                >
-                    <div className="mx-auto max-w-7xl px-6 lg:px-8">
-
-                        <div className="grid items-center gap-16 lg:grid-cols-2">
-
-                            {/* Left */}
-                            <div>
-
-                                <p className="text-sm font-bold uppercase tracking-widest text-indigo-600">
-                                    Simple Process
-                                </p>
-
-                                <h2 className="mt-3 text-4xl font-bold tracking-tight text-gray-900">
-                                    Plan your event in three simple steps.
-                                </h2>
-
-                                <p className="mt-5 max-w-xl leading-7 text-gray-500">
-                                    From choosing your event type to booking
-                                    suppliers, Evently keeps your planning
-                                    simple and organized.
-                                </p>
-
-                                <Link
-                                    href={route('register')}
-                                    className="mt-8 inline-flex rounded-xl bg-indigo-600 px-6 py-3 text-sm font-bold text-white transition hover:bg-indigo-700"
-                                >
-                                    Start Planning →
-                                </Link>
-
-                            </div>
-
-
-                            {/* Right */}
-                            <div className="space-y-5">
-
-                                {/* Step 1 */}
-                                <div className="flex gap-5 rounded-2xl border border-gray-100 bg-gray-50 p-6 transition hover:bg-white hover:shadow-lg">
-
-                                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-indigo-600 font-bold text-white">
-                                        01
-                                    </div>
-
-                                    <div>
-                                        <h3 className="font-bold text-gray-900">
-                                            Tell us about your event
-                                        </h3>
-
-                                        <p className="mt-2 text-sm leading-6 text-gray-500">
-                                            Choose your event type, date,
-                                            location, and budget.
-                                        </p>
-                                    </div>
-
-                                </div>
-
-
-                                {/* Step 2 */}
-                                <div className="flex gap-5 rounded-2xl border border-gray-100 bg-gray-50 p-6 transition hover:bg-white hover:shadow-lg">
-
-                                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-purple-600 font-bold text-white">
-                                        02
-                                    </div>
-
-                                    <div>
-                                        <h3 className="font-bold text-gray-900">
-                                            Discover suppliers
-                                        </h3>
-
-                                        <p className="mt-2 text-sm leading-6 text-gray-500">
-                                            Browse suppliers or ask the AI
-                                            assistant for recommendations
-                                            based on your budget.
-                                        </p>
-                                    </div>
-
-                                </div>
-
-
-                                {/* Step 3 */}
-                                <div className="flex gap-5 rounded-2xl border border-gray-100 bg-gray-50 p-6 transition hover:bg-white hover:shadow-lg">
-
-                                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-green-600 font-bold text-white">
-                                        03
-                                    </div>
-
-                                    <div>
-                                        <h3 className="font-bold text-gray-900">
-                                            Book and manage
-                                        </h3>
-
-                                        <p className="mt-2 text-sm leading-6 text-gray-500">
-                                            Select packages, book suppliers,
-                                            and manage your event from one
-                                            convenient dashboard.
-                                        </p>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </section>
-
-
-                {/* =========================================================
-                    PACKAGES
-                ========================================================= */}
-                <section
-                    id="packages"
-                    className="bg-gray-50 py-24"
-                >
-                    <div className="mx-auto max-w-7xl px-6 lg:px-8">
-
-                        <div className="mx-auto max-w-2xl text-center">
-
-                            <p className="text-sm font-bold uppercase tracking-widest text-indigo-600">
-                                Event Packages
-                            </p>
-
-                            <h2 className="mt-3 text-4xl font-bold tracking-tight text-gray-900">
-                                Packages for every celebration
-                            </h2>
-
-                            <p className="mt-4 text-gray-500">
-                                Explore packages that match your event,
-                                preferences, and budget.
-                            </p>
-
-                        </div>
-
-
-                        <div className="mt-12 grid gap-6 lg:grid-cols-3">
-
-                            {packages.map((pkg) => (
-                                <div
-                                    key={pkg.name}
-                                    className={`relative rounded-2xl bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl ${pkg.popular
-                                        ? 'border-2 border-indigo-600'
-                                        : 'border border-gray-200'
-                                        }`}
-                                >
-
-                                    {pkg.popular && (
-                                        <div className="absolute right-5 top-5 rounded-full bg-indigo-600 px-3 py-1 text-xs font-bold text-white">
-                                            POPULAR
-                                        </div>
-                                    )}
-
-                                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-100 text-2xl">
-                                        {pkg.icon}
-                                    </div>
-
-                                    <h3 className="mt-5 text-xl font-bold text-gray-900">
-                                        {pkg.name}
-                                    </h3>
-
-                                    <p className="mt-2 text-sm leading-6 text-gray-500">
-                                        {pkg.description}
-                                    </p>
-
-                                    <div className="mt-6">
-                                        <span className="text-3xl font-extrabold text-gray-900">
-                                            {pkg.price}
-                                        </span>
-                                    </div>
-
-                                    <div className="my-6 h-px bg-gray-100" />
-
-                                    <ul className="space-y-3">
-                                        {pkg.features.map((item) => (
-                                            <li
-                                                key={item}
-                                                className="flex items-center gap-2 text-sm text-gray-600"
-                                            >
-                                                <span className="font-bold text-green-500">
-                                                    ✓
-                                                </span>
-
-                                                {item}
-                                            </li>
-                                        ))}
-                                    </ul>
-
-                                    <Link
-                                        href={route('register')}
-                                        className={`mt-7 block rounded-xl px-4 py-3 text-center text-sm font-semibold transition ${pkg.popular
-                                            ? 'bg-indigo-600 text-white hover:bg-indigo-700'
-                                            : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                                            }`}
-                                    >
-                                        Explore Package
-                                    </Link>
-
-                                </div>
-                            ))}
-
-                        </div>
-
-                        <p className="mt-8 text-center text-sm text-gray-500">
-                            Actual supplier packages and prices may vary.
+                        {/* Subtitle / Description */}
+                        <p className="text-[#77736C] text-sm sm:text-base leading-relaxed mb-8">
+                            {activeBanner.subtitle}
                         </p>
 
-                    </div>
-                </section>
-
-
-                {/* =========================================================
-                    GALLERY
-                ========================================================= */}
-                <section
-                    id="gallery"
-                    className="bg-white py-24"
-                >
-                    <div className="mx-auto max-w-7xl px-6 lg:px-8">
-
-                        <div className="mx-auto max-w-2xl text-center">
-
-                            <p className="text-sm font-bold uppercase tracking-widest text-indigo-600">
-                                Event Gallery
-                            </p>
-
-                            <h2 className="mt-3 text-4xl font-bold tracking-tight text-gray-900">
-                                Inspiration for your next event
-                            </h2>
-
-                            <p className="mt-4 text-gray-500">
-                                Get inspired by beautiful celebrations and
-                                imagine what your own event could look like.
-                            </p>
-
-                        </div>
-
-
-                        <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4">
-
-                            {/* Wedding */}
-                            <div className="group relative h-72 overflow-hidden rounded-2xl bg-gradient-to-br from-pink-300 via-purple-400 to-indigo-500 md:row-span-2 md:h-full">
-
-                                <div className="flex h-full items-center justify-center text-8xl transition duration-500 group-hover:scale-110">
-                                    💍
-                                </div>
-
-                                <div className="absolute bottom-0 left-0 right-0 bg-black/50 p-4 text-white backdrop-blur-sm">
-                                    <p className="font-bold">
-                                        Wedding
-                                    </p>
-
-                                    <p className="mt-1 text-xs text-white/80">
-                                        Elegant celebrations
-                                    </p>
-                                </div>
-
-                            </div>
-
-
-                            {/* Birthday */}
-                            <div className="group relative h-52 overflow-hidden rounded-2xl bg-gradient-to-br from-yellow-200 to-orange-400">
-
-                                <div className="flex h-full items-center justify-center text-7xl transition duration-500 group-hover:scale-110">
-                                    🎂
-                                </div>
-
-                                <div className="absolute bottom-0 left-0 right-0 bg-black/50 p-3 text-sm font-bold text-white">
-                                    Birthday
-                                </div>
-
-                            </div>
-
-
-                            {/* Debut */}
-                            <div className="group relative h-52 overflow-hidden rounded-2xl bg-gradient-to-br from-blue-300 to-indigo-500">
-
-                                <div className="flex h-full items-center justify-center text-7xl transition duration-500 group-hover:scale-110">
-                                    🎓
-                                </div>
-
-                                <div className="absolute bottom-0 left-0 right-0 bg-black/50 p-3 text-sm font-bold text-white">
-                                    Debut
-                                </div>
-
-                            </div>
-
-
-                            {/* Corporate */}
-                            <div className="group relative h-52 overflow-hidden rounded-2xl bg-gradient-to-br from-green-300 to-teal-500">
-
-                                <div className="flex h-full items-center justify-center text-7xl transition duration-500 group-hover:scale-110">
-                                    🏢
-                                </div>
-
-                                <div className="absolute bottom-0 left-0 right-0 bg-black/50 p-3 text-sm font-bold text-white">
-                                    Corporate
-                                </div>
-
-                            </div>
-
-
-                            {/* Anniversary */}
-                            <div className="group relative h-52 overflow-hidden rounded-2xl bg-gradient-to-br from-rose-300 to-pink-500">
-
-                                <div className="flex h-full items-center justify-center text-7xl transition duration-500 group-hover:scale-110">
-                                    💐
-                                </div>
-
-                                <div className="absolute bottom-0 left-0 right-0 bg-black/50 p-3 text-sm font-bold text-white">
-                                    Anniversary
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                </section>
-
-
-                {/* =========================================================
-                    AI SECTION
-                ========================================================= */}
-                <section className="bg-gray-50 py-24">
-
-                    <div className="mx-auto max-w-7xl px-6 lg:px-8">
-
-                        <div className="overflow-hidden rounded-3xl bg-indigo-600">
-
-                            <div className="grid items-center gap-10 px-8 py-12 md:px-12 lg:grid-cols-2 lg:px-16">
-
-                                {/* Text */}
-                                <div>
-
-                                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/20 text-3xl">
-                                        🤖
-                                    </div>
-
-                                    <h2 className="mt-6 text-3xl font-bold text-white sm:text-4xl">
-                                        Let AI help you find the right suppliers.
-                                    </h2>
-
-                                    <p className="mt-4 max-w-xl leading-7 text-indigo-100">
-                                        Tell us your event type and budget.
-                                        Our recommendation system can help
-                                        you discover suppliers and packages
-                                        that fit your requirements.
-                                    </p>
-
-                                    <Link
-                                        href={route('register')}
-                                        className="mt-7 inline-flex rounded-xl bg-white px-6 py-3 text-sm font-bold text-indigo-600 transition hover:bg-indigo-50"
-                                    >
-                                        Try AI Recommendations →
-                                    </Link>
-
-                                </div>
-
-
-                                {/* AI Preview */}
-                                <div className="rounded-2xl bg-white p-5 shadow-2xl">
-
-                                    <div className="flex items-center gap-3 border-b border-gray-100 pb-4">
-
-                                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-100">
-                                            🤖
-                                        </div>
-
-                                        <div>
-                                            <p className="text-sm font-bold text-gray-900">
-                                                Evently Assistant
-                                            </p>
-
-                                            <p className="text-xs text-green-500">
-                                                ● Online
-                                            </p>
-                                        </div>
-
-                                    </div>
-
-
-                                    <div className="space-y-4 py-5">
-
-                                        <div className="max-w-xs rounded-2xl rounded-tl-sm bg-gray-100 p-3 text-sm text-gray-600">
-                                            What's your event and budget?
-                                        </div>
-
-                                        <div className="ml-auto max-w-xs rounded-2xl rounded-tr-sm bg-indigo-600 p-3 text-sm text-white">
-                                            Wedding with a ₱100,000 budget.
-                                        </div>
-
-                                        <div className="max-w-xs rounded-2xl rounded-tl-sm bg-gray-100 p-3 text-sm text-gray-600">
-                                            Great! Here are suppliers and
-                                            packages that may fit your budget. ✨
-                                        </div>
-
-                                    </div>
-
-
-                                    <div className="grid grid-cols-3 gap-2">
-
-                                        <div className="rounded-xl bg-pink-50 p-3 text-center">
-                                            <div className="text-2xl">
-                                                📸
-                                            </div>
-
-                                            <p className="mt-1 text-[10px] font-semibold text-gray-700">
-                                                Photography
-                                            </p>
-                                        </div>
-
-                                        <div className="rounded-xl bg-purple-50 p-3 text-center">
-                                            <div className="text-2xl">
-                                                🍰
-                                            </div>
-
-                                            <p className="mt-1 text-[10px] font-semibold text-gray-700">
-                                                Catering
-                                            </p>
-                                        </div>
-
-                                        <div className="rounded-xl bg-blue-50 p-3 text-center">
-                                            <div className="text-2xl">
-                                                🎵
-                                            </div>
-
-                                            <p className="mt-1 text-[10px] font-semibold text-gray-700">
-                                                Entertainment
-                                            </p>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                </section>
-
-
-                {/* =========================================================
-                    SUPPLIER CTA
-                ========================================================= */}
-                <section className="bg-white py-24">
-
-                    <div className="mx-auto max-w-7xl px-6 lg:px-8">
-
-                        <div className="rounded-3xl border border-gray-100 bg-gradient-to-br from-gray-50 to-indigo-50 p-8 md:p-12">
-
-                            <div className="flex flex-col items-center justify-between gap-8 text-center md:flex-row md:text-left">
-
-                                <div>
-
-                                    <p className="text-sm font-bold uppercase tracking-widest text-indigo-600">
-                                        For Event Suppliers
-                                    </p>
-
-                                    <h2 className="mt-3 text-3xl font-bold text-gray-900 sm:text-4xl">
-                                        Grow your event business with Evently.
-                                    </h2>
-
-                                    <p className="mt-4 max-w-2xl text-gray-500">
-                                        Showcase your services, create packages,
-                                        manage bookings, and connect with customers
-                                        looking for event suppliers.
-                                    </p>
-
-                                </div>
-
-                                <Link
-                                    href={route('supplier.register')}
-                                    className="shrink-0 rounded-xl bg-indigo-600 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-200 transition hover:-translate-y-0.5 hover:bg-indigo-700"
-                                >
-                                    Become a Supplier →
-                                </Link>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </section>
-
-
-                {/* =========================================================
-                    FINAL CTA
-                ========================================================= */}
-                <section className="bg-indigo-600 px-6 py-24 text-center">
-
-                    <div className="mx-auto max-w-3xl">
-
-                        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-white/20 text-3xl">
-                            🎉
-                        </div>
-
-                        <h2 className="mt-6 text-4xl font-extrabold tracking-tight text-white">
-                            Your perfect event starts here.
-                        </h2>
-
-                        <p className="mx-auto mt-4 max-w-xl text-indigo-100">
-                            Find the right suppliers, discover packages,
-                            stay within your budget, and make your event memorable.
-                        </p>
-
-                        <div className="mt-8">
-
+                        {/* Call to Action Buttons */}
+                        <div className="flex flex-wrap items-center gap-4">
                             <Link
-                                href={route('register')}
-                                className="inline-flex rounded-xl bg-white px-8 py-4 text-sm font-bold text-indigo-600 shadow-lg transition hover:-translate-y-0.5 hover:bg-indigo-50"
+                                href={activeBanner.button_url || '/suppliers'}
+                                className="px-8 py-3.5 rounded-full bg-[#C99632] hover:bg-[#A87520] text-white text-xs sm:text-sm font-bold tracking-wider uppercase shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5"
                             >
-                                Start Planning Today →
+                                {activeBanner.button_text || 'Explore Suppliers'}
                             </Link>
-
+                            <Link
+                                href={activeBanner.secondary_button_url || '/packages'}
+                                className="px-8 py-3.5 rounded-full bg-transparent hover:bg-[#EFE7D8]/80 text-[#24221E] border-2 border-[#DCC9A8] hover:border-[#C99632] text-xs sm:text-sm font-bold tracking-wider uppercase transition-all duration-200"
+                            >
+                                {activeBanner.secondary_button_text || 'View Packages'}
+                            </Link>
                         </div>
-
                     </div>
+                </div>
 
-                </section>
+                {/* Banner Dot Indicators */}
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 bg-[#24221E]/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+                    {bannerList.map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => setCurrentSlide(index)}
+                            aria-label={`Go to slide ${index + 1}`}
+                            className={`transition-all duration-300 rounded-full ${
+                                index === currentSlide
+                                    ? 'w-7 h-2 bg-[#C99632]'
+                                    : 'w-2 h-2 bg-white/50 hover:bg-white'
+                            }`}
+                        />
+                    ))}
+                </div>
+            </section>
 
-
-                {/* =========================================================
-                    FOOTER
-                ========================================================= */}
-                <footer className="border-t border-gray-100 bg-gray-50">
-
-                    <div className="mx-auto max-w-7xl px-6 py-10 lg:px-8">
-
-                        <div className="grid gap-10 md:grid-cols-4">
-
-                            {/* Brand */}
-                            <div className="md:col-span-2">
-
-                                <Link
-                                    href="/"
-                                    className="flex items-center gap-3"
-                                >
-
-                                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-lg text-white">
-                                        🎉
-                                    </div>
-
-                                    <div>
-                                        <p className="font-bold text-gray-900">
-                                            Evently
-                                        </p>
-
-                                        <p className="text-[9px] font-semibold uppercase tracking-widest text-gray-400">
-                                            Event Management
-                                        </p>
-                                    </div>
-
-                                </Link>
-
-                                <p className="mt-4 max-w-md text-sm leading-6 text-gray-500">
-                                    An event and wedding supplier management
-                                    platform designed to make planning,
-                                    discovering suppliers, and booking services
-                                    easier.
+            {/* ========================================================================= */}
+            {/* 2. HIGHLIGHTS FEATURE BAR (4 Value Propositions)                          */}
+            {/* ========================================================================= */}
+            <section className="relative z-20 -mt-8 sm:-mt-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                    {(highlights && highlights.length > 0 ? highlights : [
+                        { icon: 'shield-check', title: 'Trusted Suppliers', subtitle: 'Verified & Professional' },
+                        { icon: 'sparkles', title: 'Quality Services', subtitle: 'Premium Experience' },
+                        { icon: 'calendar-check', title: 'Easy Booking', subtitle: 'Simple & Secure' },
+                        { icon: 'gift', title: 'Best Packages', subtitle: 'For Every Occasion' },
+                    ]).map((item, index) => (
+                        <div
+                            key={index}
+                            className="flex items-center gap-4 p-5 rounded-2xl bg-white border border-[#EFE7D8] shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 group"
+                        >
+                            <div className="w-12 h-12 rounded-xl bg-[#EFE7D8]/80 border border-[#DCC9A8]/40 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                                {getHighlightIcon(item.icon)}
+                            </div>
+                            <div>
+                                <h3 className="font-serif font-bold text-sm text-[#24221E] leading-tight">
+                                    {item.title}
+                                </h3>
+                                <p className="text-xs text-[#77736C] mt-0.5 font-medium">
+                                    {item.subtitle}
                                 </p>
-
                             </div>
-
-
-                            {/* Platform */}
-                            <div>
-
-                                <h3 className="text-sm font-bold text-gray-900">
-                                    Platform
-                                </h3>
-
-                                <ul className="mt-4 space-y-3 text-sm text-gray-500">
-
-                                    <li>
-                                        <a
-                                            href="#suppliers"
-                                            className="transition hover:text-indigo-600"
-                                        >
-                                            Suppliers
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a
-                                            href="#events"
-                                            className="transition hover:text-indigo-600"
-                                        >
-                                            Events
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a
-                                            href="#packages"
-                                            className="transition hover:text-indigo-600"
-                                        >
-                                            Packages
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a
-                                            href="#gallery"
-                                            className="transition hover:text-indigo-600"
-                                        >
-                                            Gallery
-                                        </a>
-                                    </li>
-
-                                </ul>
-
-                            </div>
-
-
-                            {/* Account */}
-                            <div>
-
-                                <h3 className="text-sm font-bold text-gray-900">
-                                    Account
-                                </h3>
-
-                                <ul className="mt-4 space-y-3 text-sm text-gray-500">
-
-                                    <li>
-                                        <Link
-                                            href={route('login')}
-                                            className="transition hover:text-indigo-600"
-                                        >
-                                            Log in
-                                        </Link>
-                                    </li>
-
-                                    <li>
-                                        <Link
-                                            href={route('register')}
-                                            className="transition hover:text-indigo-600"
-                                        >
-                                            Create Account
-                                        </Link>
-                                    </li>
-
-                                    <li>
-                                        <Link
-                                            href={route('supplier.register')}
-                                            className="transition hover:text-indigo-600"
-                                        >
-                                            Become a Supplier
-                                        </Link>
-                                    </li>
-
-                                </ul>
-
-                            </div>
-
                         </div>
+                    ))}
+                </div>
+            </section>
 
-
-                        <div className="mt-10 flex flex-col gap-3 border-t border-gray-200 pt-6 sm:flex-row sm:items-center sm:justify-between">
-
-                            <p className="text-xs text-gray-500">
-                                © {new Date().getFullYear()} Evently.
-                                All rights reserved.
-                            </p>
-
-                            <p className="text-xs text-gray-400">
-                                Event & Wedding Supplier Management System
-                            </p>
-
+            {/* ========================================================================= */}
+            {/* 3. FEATURED SUPPLIERS SECTION                                             */}
+            {/* ========================================================================= */}
+            <section className="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+                    <div>
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EFE7D8]/80 border border-[#DCC9A8]/60 text-[#A87520] text-[10px] font-bold tracking-wider uppercase mb-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#C99632]" />
+                            Top Performers
                         </div>
-
+                        <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-[#24221E]">
+                            Featured Suppliers
+                        </h2>
+                        <p className="text-[#77736C] text-sm mt-1.5">
+                            Top-rated suppliers based on customer reviews and bookings.
+                        </p>
                     </div>
 
-                </footer>
+                    <div className="flex items-center gap-4">
+                        {/* Carousel mini indicator / arrow controls */}
+                        {allSuppliers.length > 4 && (
+                            <div className="hidden sm:flex items-center gap-2">
+                                <button
+                                    onClick={prevSupplierSlide}
+                                    aria-label="Previous Suppliers"
+                                    className="w-9 h-9 rounded-full bg-white border border-[#DCC9A8] hover:border-[#C99632] hover:bg-[#EFE7D8] text-[#24221E] flex items-center justify-center transition-all duration-200 shadow-xs active:scale-95"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
+                                    </svg>
+                                </button>
+                                <button
+                                    onClick={nextSupplierSlide}
+                                    aria-label="Next Suppliers"
+                                    className="w-9 h-9 rounded-full bg-white border border-[#DCC9A8] hover:border-[#C99632] hover:bg-[#EFE7D8] text-[#24221E] flex items-center justify-center transition-all duration-200 shadow-xs active:scale-95"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </button>
+                            </div>
+                        )}
 
-            </div>
-        </>
+                        <Link
+                            href="/suppliers"
+                            className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#C99632] hover:text-[#A87520] group"
+                        >
+                            <span>View All</span>
+                            <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </Link>
+                    </div>
+                </div>
+
+                {/* Suppliers Carousel Container */}
+                <div className="relative">
+                    {/* Floating Side Arrows (Visible on larger screens) */}
+                    {allSuppliers.length > 4 && (
+                        <>
+                            <button
+                                onClick={prevSupplierSlide}
+                                aria-label="Previous Suppliers"
+                                className="hidden lg:flex absolute -left-5 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/95 backdrop-blur-xs border border-[#DCC9A8] shadow-md hover:bg-[#EFE7D8] hover:scale-105 text-[#24221E] items-center justify-center transition-all duration-200"
+                            >
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </button>
+                            <button
+                                onClick={nextSupplierSlide}
+                                aria-label="Next Suppliers"
+                                className="hidden lg:flex absolute -right-5 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/95 backdrop-blur-xs border border-[#DCC9A8] shadow-md hover:bg-[#EFE7D8] hover:scale-105 text-[#24221E] items-center justify-center transition-all duration-200"
+                            >
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </>
+                    )}
+
+                    {/* Suppliers Cards Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {visibleSuppliers.map((supplier, index) => (
+                            <div
+                                key={supplier.id || index}
+                                className="bg-white rounded-2xl overflow-hidden border border-[#EFE7D8] shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1"
+                            >
+                                {/* Photo Container */}
+                                <div className="relative h-52 w-full overflow-hidden bg-[#EFE7D8]">
+                                    <img
+                                        src={supplier.cover_photo_url || supplier.profile_picture_url}
+                                        alt={supplier.business_name}
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80';
+                                        }}
+                                    />
+                                    <span className="absolute top-3 left-3 px-3 py-1 rounded-full bg-[#24221E]/80 backdrop-blur-xs text-white text-[10px] font-bold tracking-wider uppercase shadow-xs">
+                                        {supplier.category || 'Specialist'}
+                                    </span>
+                                    <button
+                                        type="button"
+                                        className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-[#C99632] flex items-center justify-center transition-all shadow-xs hover:scale-110"
+                                        title="Save to favorites"
+                                        aria-label="Save to favorites"
+                                    >
+                                        <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                {/* Content */}
+                                <div className="p-5 flex-1 flex flex-col justify-between">
+                                    <div>
+                                        <h3 className="font-serif font-bold text-base text-[#24221E] line-clamp-1 group-hover:text-[#A87520] transition-colors">
+                                            {supplier.business_name}
+                                        </h3>
+                                        <p className="text-xs text-[#77736C] mt-1 line-clamp-1">
+                                            {supplier.categories && supplier.categories.length > 0
+                                                ? supplier.categories.join(' • ')
+                                                : supplier.category}
+                                        </p>
+
+                                        {/* Rating & Reviews */}
+                                        <div className="flex items-center gap-1.5 mt-3 text-xs">
+                                            <span className="text-[#C99632] font-bold text-sm leading-none">★</span>
+                                            <span className="font-bold text-[#24221E]">{supplier.rating || 4.9}</span>
+                                            <span className="text-[#77736C]">({supplier.reviews_count || 15} reviews)</span>
+                                        </div>
+
+                                        {/* Location */}
+                                        <p className="text-xs text-[#77736C] mt-2 flex items-center gap-1.5">
+                                            <svg className="w-3.5 h-3.5 text-[#C99632] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            </svg>
+                                            <span className="line-clamp-1">{supplier.address || 'Metro Manila, Philippines'}</span>
+                                        </p>
+                                    </div>
+
+                                    {/* Action Button */}
+                                    <div className="mt-5 pt-4 border-t border-[#EFE7D8]">
+                                        <Link
+                                            href={`/suppliers/${supplier.user_id || supplier.id}`}
+                                            className="block w-full text-center py-2.5 rounded-full border border-[#DCC9A8] hover:border-[#C99632] hover:bg-[#C99632] hover:text-white text-xs font-bold text-[#24221E] uppercase tracking-wider transition-all duration-200 shadow-2xs"
+                                        >
+                                            View Profile
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ========================================================================= */}
+            {/* 4. PROMOTIONAL BANNER SECTION ("Make Your Event More Special")             */}
+            {/* ========================================================================= */}
+            <section className="py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="relative rounded-3xl overflow-hidden shadow-xl border border-[#DCC9A8]/40">
+                    <img
+                        src={settings.promo_background_image || 'https://images.unsplash.com/photo-1544077960-604201fe74bc?auto=format&fit=crop&w=2000&q=80'}
+                        alt="Event celebration"
+                        className="w-full h-80 sm:h-96 object-cover object-center"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#24221E]/90 via-[#24221E]/60 to-transparent" />
+
+                    <div className="absolute inset-0 flex items-center px-6 sm:px-12 lg:px-16">
+                        <div className="max-w-lg text-white">
+                            <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight mb-4">
+                                {settings.promo_heading || 'Make Your Event More Special'}
+                            </h2>
+                            <p className="text-xs sm:text-sm text-[#DFDAD4] leading-relaxed mb-8">
+                                {settings.promo_description || 'From weddings to birthdays, debuts, corporate events, and intimate milestones, our verified partners bring the expertise and passion to make every detail unforgettable.'}
+                            </p>
+                            <Link
+                                href={settings.promo_button_url || '/packages'}
+                                className="inline-block px-8 py-3.5 rounded-full bg-[#C99632] hover:bg-[#A87520] text-white text-xs sm:text-sm font-bold uppercase tracking-wider shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5"
+                            >
+                                {settings.promo_button_text || 'Browse Packages'}
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </PublicLayout>
     );
 }

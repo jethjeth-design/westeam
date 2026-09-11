@@ -58,35 +58,32 @@ export default function Edit({ mustVerifyEmail, status }) {
                         <button
                             type="button"
                             onClick={() => setActiveTab('profile')}
-                            className={`flex-1 rounded-xl py-2 text-xs font-bold transition ${
-                                activeTab === 'profile'
-                                    ? 'bg-white text-indigo-600 shadow-sm'
-                                    : 'text-slate-600 hover:text-slate-900'
-                            }`}
+                            className={`flex-1 rounded-xl py-2 text-xs font-bold transition ${activeTab === 'profile'
+                                ? 'bg-white text-indigo-600 shadow-sm'
+                                : 'text-slate-600 hover:text-slate-900'
+                                }`}
                         >
                             👤 Profile Info
                         </button>
                         <button
                             type="button"
                             onClick={() => setActiveTab('security')}
-                            className={`flex-1 rounded-xl py-2 text-xs font-bold transition ${
-                                activeTab === 'security'
-                                    ? 'bg-white text-indigo-600 shadow-sm'
-                                    : 'text-slate-600 hover:text-slate-900'
-                            }`}
+                            className={`flex-1 rounded-xl py-2 text-xs font-bold transition ${activeTab === 'security'
+                                ? 'bg-white text-indigo-600 shadow-sm'
+                                : 'text-slate-600 hover:text-slate-900'
+                                }`}
                         >
                             🔒 Security
                         </button>
                         <button
                             type="button"
                             onClick={() => setActiveTab('danger')}
-                            className={`flex-1 rounded-xl py-2 text-xs font-bold transition ${
-                                activeTab === 'danger'
-                                    ? 'bg-white text-red-600 shadow-sm'
-                                    : 'text-slate-600 hover:text-slate-900'
-                            }`}
+                            className={`flex-1 rounded-xl py-2 text-xs font-bold transition ${activeTab === 'danger'
+                                ? 'bg-white text-red-600 shadow-sm'
+                                : 'text-slate-600 hover:text-slate-900'
+                                }`}
                         >
-                            ⚠️ Danger Zone
+                            ⚠️ Delete Account
                         </button>
                     </div>
 
@@ -107,7 +104,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                         </div>
                     )}
 
-                    {/* Tab 3: Danger Zone */}
+                    {/* Tab 3: Delete Account */}
                     {(activeTab === 'danger' || activeTab === 'all') && (
                         <div className="rounded-3xl border border-red-100 bg-white p-6 sm:p-8 shadow-xs">
                             <DeleteUserForm />
