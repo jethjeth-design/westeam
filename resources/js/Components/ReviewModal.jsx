@@ -38,7 +38,7 @@ export default function ReviewModal({
 
     return (
         <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm animate-fadeIn"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-softcharcoal/60 p-4 backdrop-blur-sm animate-fadeIn"
             onClick={onClose}
         >
             <div
@@ -52,22 +52,22 @@ export default function ReviewModal({
                             <span className="inline-flex items-center rounded-lg bg-amber-50 px-2.5 py-0.5 text-xs font-bold text-amber-700 ring-1 ring-inset ring-amber-700/10">
                                 ⭐ Verified Review
                             </span>
-                            <span className="text-xs text-slate-400">
+                            <span className="text-xs text-warmgray">
                                 {booking?.booking_reference || 'Completed Booking'}
                             </span>
                         </div>
-                        <h3 className="mt-2 text-xl font-black tracking-tight text-slate-900">
+                        <h3 className="mt-2 text-xl font-black tracking-tight text-softcharcoal">
                             Rate & Review {supplierName}
                         </h3>
-                        <p className="mt-1 text-xs text-slate-500">
-                            For service: <strong className="text-slate-700">{bookingItem.item_name}</strong>
+                        <p className="mt-1 text-xs text-warmgray">
+                            For service: <strong className="text-softcharcoal">{bookingItem.item_name}</strong>
                         </p>
                     </div>
 
                     <button
                         type="button"
                         onClick={onClose}
-                        className="rounded-full p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition"
+                        className="rounded-full p-2 text-warmgray hover:bg-champagne hover:text-softcharcoal transition"
                     >
                         ✕
                     </button>
@@ -77,17 +77,17 @@ export default function ReviewModal({
                 <form onSubmit={handleSubmit} className="mt-6 space-y-6">
                     {/* Star Rating Section */}
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                        <label className="block text-xs font-bold uppercase tracking-wider text-softcharcoal mb-2">
                             Overall Rating <span className="text-red-500">*</span>
                         </label>
-                        <div className="rounded-2xl border border-slate-200 bg-slate-50/50 p-4 flex flex-col items-center justify-center gap-2">
+                        <div className="rounded-2xl border border-warmbeige bg-ivory/50 p-4 flex flex-col items-center justify-center gap-2">
                             <RatingStars
                                 rating={data.rating}
                                 size="xl"
                                 interactive={true}
                                 onChange={(val) => setData('rating', val)}
                             />
-                            <p className="text-[11px] text-slate-400">
+                            <p className="text-[11px] text-warmgray">
                                 Click or tap the stars above to select your rating (1 to 5)
                             </p>
                         </div>
@@ -99,10 +99,10 @@ export default function ReviewModal({
                     {/* Written Review */}
                     <div>
                         <div className="flex items-center justify-between mb-1.5">
-                            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                            <label className="block text-xs font-bold uppercase tracking-wider text-softcharcoal">
                                 Written Feedback <span className="text-red-500">*</span>
                             </label>
-                            <span className="text-[11px] text-slate-400">
+                            <span className="text-[11px] text-warmgray">
                                 {data.comment.length} / 2000 characters
                             </span>
                         </div>
@@ -111,7 +111,7 @@ export default function ReviewModal({
                             value={data.comment}
                             onChange={(e) => setData('comment', e.target.value)}
                             placeholder="Share your experience! How was their professionalism, quality of service, communication, and punctuality during your event?"
-                            className="w-full rounded-2xl border border-slate-200 bg-slate-50/50 p-4 text-xs text-slate-900 outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-100"
+                            className="w-full rounded-2xl border border-warmbeige bg-ivory/50 p-4 text-xs text-softcharcoal outline-none transition focus:border-champagnegold focus:bg-white focus:ring-2 focus:ring-champagne"
                             required
                         />
                         {errors.comment && (
@@ -120,19 +120,19 @@ export default function ReviewModal({
                     </div>
 
                     {/* Actions */}
-                    <div className="flex items-center justify-end gap-3 pt-2 border-t border-slate-100">
+                    <div className="flex items-center justify-end gap-3 pt-2 border-t border-champagne">
                         <button
                             type="button"
                             onClick={onClose}
                             disabled={processing}
-                            className="rounded-xl border border-slate-200 px-4 py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50 disabled:opacity-50"
+                            className="rounded-xl border border-warmbeige px-4 py-2.5 text-xs font-bold text-softcharcoal transition hover:bg-ivory disabled:opacity-50"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
                             disabled={processing || !data.rating || data.comment.trim().length < 3}
-                            className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-6 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-indigo-700 active:scale-95 disabled:opacity-50"
+                            className="inline-flex items-center gap-2 rounded-xl bg-champagnegold px-6 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-darkgold active:scale-95 disabled:opacity-50"
                         >
                             {processing ? (
                                 <>

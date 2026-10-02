@@ -43,13 +43,24 @@ class ReviewReminderNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
+            'title' => 'Review Your Completed Booking',
+            'message' => "Please rate and review '{$this->bookingItem->item_name}' from '{$this->booking->event_name}'.",
+            'action_url' => route('customer.bookings.show', $this->booking->id),
+            'category' => 'review',
+            'type' => 'review_reminder',
+            'icon' => '⭐',
+            'role' => 'customer',
+            'meta' => [
+                'booking_id' => $this->booking->id,
+                'booking_reference' => $this->booking->booking_reference,
+                'booking_item_id' => $this->bookingItem->id,
+                'item_name' => $this->bookingItem->item_name,
+            ],
+            // Backward-compatibility keys
             'booking_id' => $this->booking->id,
             'booking_reference' => $this->booking->booking_reference,
             'booking_item_id' => $this->bookingItem->id,
             'item_name' => $this->bookingItem->item_name,
-            'title' => 'Review Your Completed Booking',
-            'message' => "Please rate and review '{$this->bookingItem->item_name}' from '{$this->booking->event_name}'.",
-            'action_url' => route('customer.bookings.show', $this->booking->id),
         ];
     }
 }

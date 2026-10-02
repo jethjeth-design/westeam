@@ -40,12 +40,30 @@ class NewMessageNotification extends Notification implements ShouldQueue
 
     public function toArray(object $notifiable): array
     {
+        $senderName = $this->sender->supplierProfile?->business_name ?: $this->sender->name;
+        $snippet = $this->message->body ? mb_substr($this->message->body, 0, 80) : 'Sent an attachment';
+
         return [
+            'title' => 'New Message from '.$senderName,
+            'message' => $snippet,
+            'action_url' => route('messages.index', ['conversation' => $this->message->conversation_id]),
+            'category' => 'message',
+            'type' => 'new_message',
+            'icon' => '💬',
+            'role' => $notifiable->role ?? null,
+            'meta' => [
+                'message_id' => $this->message->id,
+                'conversation_id' => $this->message->conversation_id,
+                'sender_id' => $this->sender->id,
+                'sender_name' => $senderName,
+                'body_snippet' => $snippet,
+            ],
+            // Backward-compatibility keys
             'message_id' => $this->message->id,
             'conversation_id' => $this->message->conversation_id,
             'sender_id' => $this->sender->id,
-            'sender_name' => $this->sender->name,
-            'body_snippet' => mb_substr($this->message->body ?? 'Attachment', 0, 80),
+            'sender_name' => $senderName,
+            'body_snippet' => $snippet,
         ];
     }
 }

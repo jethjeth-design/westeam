@@ -97,16 +97,16 @@ export default function Show({
             <Head title={`${portfolio?.title || 'Portfolio'} - ${businessName}`} />
 
             <div
-                className="min-h-screen bg-slate-50 text-slate-900"
+                className="min-h-screen bg-ivory text-softcharcoal"
                 tabIndex={-1}
                 onKeyDown={handleKeyDown}
             >
                 {/* Header */}
-                <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur-md">
+                <header className="sticky top-0 z-40 border-b border-warmbeige/80 bg-white/95 backdrop-blur-md">
                     <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
                         <Link
                             href={route('customer.suppliers.portfolio', portfolio.supplier_id)}
-                            className="flex items-center gap-2 text-xs font-bold text-slate-600 transition hover:text-indigo-600"
+                            className="flex items-center gap-2 text-xs font-bold text-softcharcoal transition hover:text-champagnegold"
                         >
                             <span className="text-base">←</span>
                             <span>Back to {businessName}'s Portfolio</span>
@@ -115,13 +115,13 @@ export default function Show({
                         <div className="flex items-center gap-3">
                             <Link
                                 href={route('customer.suppliers.show', portfolio.supplier_id)}
-                                className="rounded-xl border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-50 transition"
+                                className="rounded-xl border border-warmbeige bg-white px-3.5 py-1.5 text-xs font-bold text-softcharcoal hover:bg-ivory transition"
                             >
                                 View Supplier Details
                             </Link>
                             <Link
                                 href={route('customer.dashboard')}
-                                className="rounded-xl bg-indigo-50 px-3.5 py-1.5 text-xs font-bold text-indigo-700 hover:bg-indigo-100 transition"
+                                className="rounded-xl bg-champagne px-3.5 py-1.5 text-xs font-bold text-darkgold hover:bg-champagne transition"
                             >
                                 Dashboard
                             </Link>
@@ -130,11 +130,11 @@ export default function Show({
                 </header>
 
                 {/* Project Showcase Top Header */}
-                <section className="border-b border-slate-200/80 bg-white">
+                <section className="border-b border-warmbeige/80 bg-white">
                     <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
                         <div className="flex flex-wrap items-center gap-2">
                             {portfolio?.event_category && (
-                                <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-bold text-indigo-700 ring-1 ring-inset ring-indigo-600/10">
+                                <span className="rounded-full bg-champagne px-3 py-1 text-xs font-bold text-darkgold ring-1 ring-inset ring-champagnegold/10">
                                     {portfolio.event_category.name}
                                 </span>
                             )}
@@ -145,21 +145,21 @@ export default function Show({
                             )}
                         </div>
 
-                        <h1 className="mt-4 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
+                        <h1 className="mt-4 text-3xl font-black tracking-tight text-softcharcoal sm:text-4xl lg:text-5xl">
                             {portfolio?.title}
                         </h1>
 
-                        <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-3 text-xs text-slate-500">
+                        <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-3 text-xs text-warmgray">
                             {portfolio?.client_name && (
                                 <div className="flex items-center gap-1.5">
                                     <span>👤</span>
-                                    <span className="font-semibold text-slate-700">Client: {portfolio.client_name}</span>
+                                    <span className="font-semibold text-softcharcoal">Client: {portfolio.client_name}</span>
                                 </div>
                             )}
                             {portfolio?.event_date && (
                                 <div className="flex items-center gap-1.5">
                                     <span>📅</span>
-                                    <span className="font-semibold text-slate-700">
+                                    <span className="font-semibold text-softcharcoal">
                                         {new Date(portfolio.event_date).toLocaleDateString('en-US', {
                                             year: 'numeric',
                                             month: 'long',
@@ -171,7 +171,7 @@ export default function Show({
                             {portfolio?.location && (
                                 <div className="flex items-center gap-1.5">
                                     <span>📍</span>
-                                    <span className="font-semibold text-slate-700">{portfolio.location}</span>
+                                    <span className="font-semibold text-softcharcoal">{portfolio.location}</span>
                                 </div>
                             )}
                         </div>
@@ -184,10 +184,10 @@ export default function Show({
                                         🎥
                                     </span>
                                     <div>
-                                        <h3 className="text-sm font-extrabold text-slate-900">
+                                        <h3 className="text-sm font-extrabold text-softcharcoal">
                                             Video Portfolio Reel
                                         </h3>
-                                        <p className="text-xs text-slate-400">
+                                        <p className="text-xs text-warmgray">
                                             Highlight reel & showcase video
                                         </p>
                                     </div>
@@ -224,11 +224,11 @@ export default function Show({
                         )}
 
                         {portfolio?.description && (
-                            <div className="mt-8 rounded-3xl border border-slate-100 bg-slate-50/80 p-6 sm:p-8">
-                                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                            <div className="mt-8 rounded-3xl border border-champagne bg-ivory/80 p-6 sm:p-8">
+                                <h3 className="text-xs font-bold uppercase tracking-wider text-warmgray">
                                     Project Overview & Highlights
                                 </h3>
-                                <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-slate-700">
+                                <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-softcharcoal">
                                     {portfolio.description}
                                 </p>
                             </div>
@@ -240,16 +240,16 @@ export default function Show({
                 <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
                     <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
                         <div>
-                            <h2 className="text-2xl font-black tracking-tight text-slate-900">
+                            <h2 className="text-2xl font-black tracking-tight text-softcharcoal">
                                 Photo Gallery
                             </h2>
-                            <p className="mt-0.5 text-xs text-slate-500">
+                            <p className="mt-0.5 text-xs text-warmgray">
                                 Showing {images.length} {images.length === 1 ? 'photograph' : 'photographs'}
                             </p>
                         </div>
 
                         {images.length > 0 && (
-                            <p className="text-xs text-indigo-600 font-semibold">
+                            <p className="text-xs text-champagnegold font-semibold">
                                 Click any photo to view in high resolution
                             </p>
                         )}
@@ -262,9 +262,9 @@ export default function Show({
                                     type="button"
                                     key={image.id || index}
                                     onClick={() => openLightbox(index)}
-                                    className="group relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white text-left shadow-xs transition duration-300 hover:-translate-y-1 hover:border-indigo-300 hover:shadow-xl"
+                                    className="group relative overflow-hidden rounded-3xl border border-warmbeige/80 bg-white text-left shadow-xs transition duration-300 hover:-translate-y-1 hover:border-indigo-300 hover:shadow-xl"
                                 >
-                                    <div className="aspect-[4/3] overflow-hidden bg-slate-100">
+                                    <div className="aspect-[4/3] overflow-hidden bg-champagne">
                                         <img
                                             src={getImageUrl(image)}
                                             alt={image.caption || portfolio.title}
@@ -276,10 +276,10 @@ export default function Show({
                                     </div>
 
                                     {/* Overlay */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-softcharcoal/60 via-transparent to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
 
                                     <div className="absolute bottom-4 left-4 right-4 translate-y-2 opacity-0 transition duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                                        <span className="inline-flex rounded-xl bg-white px-4 py-2 text-xs font-bold text-slate-900 shadow-md">
+                                        <span className="inline-flex rounded-xl bg-white px-4 py-2 text-xs font-bold text-softcharcoal shadow-md">
                                             View Photo 🔍
                                         </span>
                                     </div>
@@ -287,7 +287,7 @@ export default function Show({
                                     {/* Caption */}
                                     {image.caption && (
                                         <div className="p-4">
-                                            <p className="line-clamp-2 text-xs font-medium text-slate-600">
+                                            <p className="line-clamp-2 text-xs font-medium text-softcharcoal">
                                                 {image.caption}
                                             </p>
                                         </div>
@@ -296,12 +296,12 @@ export default function Show({
                             ))}
                         </div>
                     ) : (
-                        <div className="mt-8 rounded-3xl border-2 border-dashed border-slate-300 bg-white px-6 py-16 text-center">
+                        <div className="mt-8 rounded-3xl border-2 border-dashed border-warmbeige bg-white px-6 py-16 text-center">
                             <div className="text-4xl">📷</div>
-                            <h3 className="mt-3 text-base font-bold text-slate-900">
+                            <h3 className="mt-3 text-base font-bold text-softcharcoal">
                                 No photos available
                             </h3>
-                            <p className="mt-1 text-xs text-slate-500">
+                            <p className="mt-1 text-xs text-warmgray">
                                 This supplier has not attached photographs to this project yet.
                             </p>
                         </div>
@@ -309,20 +309,20 @@ export default function Show({
 
                     {/* Related Projects */}
                     {relatedPortfolios.length > 0 && (
-                        <section className="mt-16 border-t border-slate-200/80 pt-12">
+                        <section className="mt-16 border-t border-warmbeige/80 pt-12">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <h2 className="text-2xl font-black text-slate-900">
+                                    <h2 className="text-2xl font-black text-softcharcoal">
                                         More Projects from {businessName}
                                     </h2>
-                                    <p className="mt-0.5 text-xs text-slate-500">
+                                    <p className="mt-0.5 text-xs text-warmgray">
                                         Explore additional milestones and event themes.
                                     </p>
                                 </div>
 
                                 <Link
                                     href={route('customer.suppliers.portfolio', portfolio.supplier_id)}
-                                    className="text-xs font-bold text-indigo-600 hover:text-indigo-700"
+                                    className="text-xs font-bold text-champagnegold hover:text-darkgold"
                                 >
                                     View All Works →
                                 </Link>
@@ -333,9 +333,9 @@ export default function Show({
                                     <Link
                                         key={item.id}
                                         href={route('customer.portfolios.show', item.id)}
-                                        className="group overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-xs transition duration-300 hover:-translate-y-1 hover:border-indigo-200 hover:shadow-xl"
+                                        className="group overflow-hidden rounded-3xl border border-warmbeige/80 bg-white shadow-xs transition duration-300 hover:-translate-y-1 hover:border-indigo-200 hover:shadow-xl"
                                     >
-                                        <div className="aspect-[4/3] overflow-hidden bg-slate-100">
+                                        <div className="aspect-[4/3] overflow-hidden bg-champagne">
                                             <img
                                                 src={getPortfolioCover(item)}
                                                 alt={item.title || 'Portfolio project'}
@@ -344,10 +344,10 @@ export default function Show({
                                         </div>
 
                                         <div className="p-5">
-                                            <h4 className="line-clamp-1 text-sm font-bold text-slate-900 transition group-hover:text-indigo-600">
+                                            <h4 className="line-clamp-1 text-sm font-bold text-softcharcoal transition group-hover:text-champagnegold">
                                                 {item.title}
                                             </h4>
-                                            <p className="mt-1 text-[11px] font-medium text-slate-500">
+                                            <p className="mt-1 text-[11px] font-medium text-warmgray">
                                                 {item.event_category?.name || 'Event'}
                                             </p>
                                         </div>
@@ -361,7 +361,7 @@ export default function Show({
                 {/* Lightbox */}
                 {lightboxIndex !== null && images[lightboxIndex] && (
                     <div
-                        className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/90 p-4 backdrop-blur-md"
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-softcharcoal/90 p-4 backdrop-blur-md"
                         onClick={closeLightbox}
                     >
                         <button

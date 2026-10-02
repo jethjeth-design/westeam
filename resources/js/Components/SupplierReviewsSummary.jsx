@@ -30,22 +30,22 @@ export default function SupplierReviewsSummary({
     return (
         <div className="space-y-8">
             {/* Header & Overview Card */}
-            <div className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xs sm:p-8">
+            <div className="overflow-hidden rounded-3xl border border-warmbeige/80 bg-white p-6 shadow-xs sm:p-8">
                 <div>
-                    <h2 className="text-xl font-black tracking-tight text-slate-900">{title}</h2>
-                    {subtitle && <p className="mt-1 text-xs text-slate-500">{subtitle}</p>}
+                    <h2 className="text-xl font-black tracking-tight text-softcharcoal">{title}</h2>
+                    {subtitle && <p className="mt-1 text-xs text-warmgray">{subtitle}</p>}
                 </div>
 
                 <div className="mt-6 grid gap-8 md:grid-cols-12 md:items-center">
                     {/* Score Box */}
                     <div className="flex flex-col items-center justify-center rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50/50 p-6 text-center border border-amber-100/80 md:col-span-4">
-                        <span className="text-5xl font-black tracking-tight text-slate-900">
+                        <span className="text-5xl font-black tracking-tight text-softcharcoal">
                             {averageScore}
                         </span>
                         <div className="mt-2">
                             <RatingStars rating={averageScore} size="lg" />
                         </div>
-                        <p className="mt-2 text-xs font-bold text-slate-700">
+                        <p className="mt-2 text-xs font-bold text-softcharcoal">
                             {totalCount} {totalCount === 1 ? 'Verified Review' : 'Verified Reviews'}
                         </p>
                         <span className="mt-2 inline-flex items-center gap-1 rounded-full bg-emerald-100/80 px-2.5 py-0.5 text-[10px] font-bold text-emerald-800">
@@ -70,17 +70,17 @@ export default function SupplierReviewsSummary({
                                     }
                                     className={`w-full flex items-center gap-3 rounded-xl px-3 py-1.5 transition text-left ${
                                         selectedStarFilter === String(stars)
-                                            ? 'bg-indigo-50/80 ring-1 ring-indigo-200'
-                                            : 'hover:bg-slate-50'
+                                            ? 'bg-champagne/80 ring-1 ring-indigo-200'
+                                            : 'hover:bg-ivory'
                                     }`}
                                 >
-                                    <div className="flex items-center gap-1 w-14 shrink-0 text-xs font-extrabold text-slate-700">
+                                    <div className="flex items-center gap-1 w-14 shrink-0 text-xs font-extrabold text-softcharcoal">
                                         <span>{stars}</span>
                                         <span className="text-amber-400">★</span>
                                     </div>
 
                                     {/* Bar */}
-                                    <div className="h-3 flex-1 overflow-hidden rounded-full bg-slate-100">
+                                    <div className="h-3 flex-1 overflow-hidden rounded-full bg-champagne">
                                         <div
                                             className="h-full rounded-full bg-amber-400 transition-all duration-500"
                                             style={{ width: `${percentage}%` }}
@@ -88,8 +88,8 @@ export default function SupplierReviewsSummary({
                                     </div>
 
                                     <div className="flex items-center justify-end gap-2 w-20 shrink-0 text-right text-xs">
-                                        <span className="font-bold text-slate-800">{count}</span>
-                                        <span className="text-[11px] text-slate-400">({percentage}%)</span>
+                                        <span className="font-bold text-softcharcoal">{count}</span>
+                                        <span className="text-[11px] text-warmgray">({percentage}%)</span>
                                     </div>
                                 </button>
                             );
@@ -101,14 +101,14 @@ export default function SupplierReviewsSummary({
             {/* Filter Pills */}
             {totalCount > 0 && (
                 <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-xs font-bold text-slate-500 mr-2">Filter by:</span>
+                    <span className="text-xs font-bold text-warmgray mr-2">Filter by:</span>
                     <button
                         type="button"
                         onClick={() => setSelectedStarFilter('all')}
                         className={`rounded-xl px-3 py-1.5 text-xs font-bold transition ${
                             selectedStarFilter === 'all'
-                                ? 'bg-indigo-600 text-white shadow-xs'
-                                : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+                                ? 'bg-champagnegold text-white shadow-xs'
+                                : 'bg-white text-softcharcoal border border-warmbeige hover:bg-ivory'
                         }`}
                     >
                         All Ratings ({totalCount})
@@ -120,8 +120,8 @@ export default function SupplierReviewsSummary({
                             onClick={() => setSelectedStarFilter(String(star))}
                             className={`rounded-xl px-3 py-1.5 text-xs font-bold transition ${
                                 selectedStarFilter === String(star)
-                                    ? 'bg-indigo-600 text-white shadow-xs'
-                                    : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+                                    ? 'bg-champagnegold text-white shadow-xs'
+                                    : 'bg-white text-softcharcoal border border-warmbeige hover:bg-ivory'
                             }`}
                         >
                             {star} ★ ({distribution[star] || 0})
@@ -147,11 +147,11 @@ export default function SupplierReviewsSummary({
                         return (
                             <div
                                 key={review.id}
-                                className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xs transition hover:border-slate-300"
+                                className="rounded-3xl border border-warmbeige/80 bg-white p-6 shadow-xs transition hover:border-warmbeige"
                             >
                                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                                     <div className="flex items-center gap-3">
-                                        <div className="h-10 w-10 shrink-0 overflow-hidden rounded-2xl bg-indigo-100 text-indigo-700 font-black text-sm flex items-center justify-center shadow-xs">
+                                        <div className="h-10 w-10 shrink-0 overflow-hidden rounded-2xl bg-champagne text-darkgold font-black text-sm flex items-center justify-center shadow-xs">
                                             {avatar ? (
                                                 <img src={avatar} alt={customerName} className="h-full w-full object-cover" />
                                             ) : (
@@ -161,13 +161,13 @@ export default function SupplierReviewsSummary({
 
                                         <div>
                                             <div className="flex items-center gap-2">
-                                                <h4 className="text-sm font-bold text-slate-900">{customerName}</h4>
+                                                <h4 className="text-sm font-bold text-softcharcoal">{customerName}</h4>
                                                 <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700 ring-1 ring-inset ring-emerald-700/10">
                                                     ✓ Verified Customer
                                                 </span>
                                             </div>
                                             {reviewDate && (
-                                                <p className="text-[11px] text-slate-400">{reviewDate}</p>
+                                                <p className="text-[11px] text-warmgray">{reviewDate}</p>
                                             )}
                                         </div>
                                     </div>
@@ -179,11 +179,11 @@ export default function SupplierReviewsSummary({
 
                                 {/* Booked Item Badge */}
                                 {review.item_name && (
-                                    <div className="mt-3.5 inline-flex items-center gap-1.5 rounded-xl bg-slate-50 px-3 py-1 text-[11px] font-semibold text-slate-600 border border-slate-100">
-                                        <span className="text-slate-400">Booked:</span>
-                                        <span className="font-bold text-slate-800">{review.item_name}</span>
+                                    <div className="mt-3.5 inline-flex items-center gap-1.5 rounded-xl bg-ivory px-3 py-1 text-[11px] font-semibold text-softcharcoal border border-champagne">
+                                        <span className="text-warmgray">Booked:</span>
+                                        <span className="font-bold text-softcharcoal">{review.item_name}</span>
                                         {review.item_type && (
-                                            <span className="rounded-md bg-indigo-50 px-1.5 py-0.5 text-[9px] font-bold uppercase text-indigo-700">
+                                            <span className="rounded-md bg-champagne px-1.5 py-0.5 text-[9px] font-bold uppercase text-darkgold">
                                                 {review.item_type}
                                             </span>
                                         )}
@@ -191,7 +191,7 @@ export default function SupplierReviewsSummary({
                                 )}
 
                                 {/* Comment Content */}
-                                <p className="mt-3 text-xs leading-relaxed text-slate-700 whitespace-pre-line">
+                                <p className="mt-3 text-xs leading-relaxed text-softcharcoal whitespace-pre-line">
                                     {review.comment}
                                 </p>
                             </div>
@@ -200,14 +200,14 @@ export default function SupplierReviewsSummary({
                 </div>
             ) : (
                 /* Empty state */
-                <div className="flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-slate-200 bg-white p-12 text-center shadow-xs">
+                <div className="flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-warmbeige bg-white p-12 text-center shadow-xs">
                     <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-50 text-2xl">
                         ⭐
                     </div>
-                    <h3 className="mt-4 text-base font-bold text-slate-900">
+                    <h3 className="mt-4 text-base font-bold text-softcharcoal">
                         {totalCount === 0 ? 'No Reviews Yet' : 'No Reviews Matching Filter'}
                     </h3>
-                    <p className="mt-1 max-w-sm text-xs text-slate-500">
+                    <p className="mt-1 max-w-sm text-xs text-warmgray">
                         {totalCount === 0
                             ? 'Verified customer ratings and reviews will appear here once clients complete bookings with this supplier.'
                             : 'Try selecting a different star filter to view other feedback.'}
@@ -216,7 +216,7 @@ export default function SupplierReviewsSummary({
                         <button
                             type="button"
                             onClick={() => setSelectedStarFilter('all')}
-                            className="mt-4 rounded-xl bg-indigo-600 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-indigo-700"
+                            className="mt-4 rounded-xl bg-champagnegold px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-darkgold"
                         >
                             Reset Filter
                         </button>

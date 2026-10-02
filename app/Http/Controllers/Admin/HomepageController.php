@@ -8,6 +8,7 @@ use App\Models\HomepageSection;
 use App\Models\HomepageSetting;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -46,7 +47,8 @@ class HomepageController extends Controller
             'title' => 'required|string|max:255',
             'subtitle' => 'nullable|string|max:1000',
             'badge' => 'nullable|string|max:255',
-            'image_url' => 'required|string|max:2000',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,avif|max:5120',
+            'image_url' => 'nullable|string|max:2000',
             'button_text' => 'nullable|string|max:100',
             'button_url' => 'nullable|string|max:255',
             'secondary_button_text' => 'nullable|string|max:100',
@@ -54,6 +56,14 @@ class HomepageController extends Controller
             'sort_order' => 'nullable|integer',
             'is_active' => 'boolean',
         ]);
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('banners', 'public');
+            $validated['image_url'] = '/storage/'.$path;
+        } elseif (empty($validated['image_url'])) {
+            return back()->withErrors(['image' => 'Please upload a banner image file.']);
+        }
+        unset($validated['image']);
 
         if (! isset($validated['sort_order'])) {
             $validated['sort_order'] = (HomepageBanner::max('sort_order') ?? 0) + 1;
@@ -73,7 +83,8 @@ class HomepageController extends Controller
             'title' => 'required|string|max:255',
             'subtitle' => 'nullable|string|max:1000',
             'badge' => 'nullable|string|max:255',
-            'image_url' => 'required|string|max:2000',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,avif|max:5120',
+            'image_url' => 'nullable|string|max:2000',
             'button_text' => 'nullable|string|max:100',
             'button_url' => 'nullable|string|max:255',
             'secondary_button_text' => 'nullable|string|max:100',
@@ -81,6 +92,18 @@ class HomepageController extends Controller
             'sort_order' => 'nullable|integer',
             'is_active' => 'boolean',
         ]);
+
+        if ($request->hasFile('image')) {
+            if ($banner->image_url && str_starts_with($banner->image_url, '/storage/')) {
+                $oldPath = str_replace('/storage/', '', $banner->image_url);
+                Storage::disk('public')->delete($oldPath);
+            }
+            $path = $request->file('image')->store('banners', 'public');
+            $validated['image_url'] = '/storage/'.$path;
+        } elseif (empty($validated['image_url'])) {
+            $validated['image_url'] = $banner->image_url;
+        }
+        unset($validated['image']);
 
         $banner->update($validated);
 
@@ -92,6 +115,11 @@ class HomepageController extends Controller
      */
     public function destroyBanner(HomepageBanner $banner): RedirectResponse
     {
+        if ($banner->image_url && str_starts_with($banner->image_url, '/storage/')) {
+            $oldPath = str_replace('/storage/', '', $banner->image_url);
+            Storage::disk('public')->delete($oldPath);
+        }
+
         $banner->delete();
 
         return back()->with('success', 'Banner deleted successfully.');

@@ -146,9 +146,9 @@ export default function Index({
                 ))}
                 {hasHalf && <span className="text-sm opacity-80">★</span>}
                 {[...Array(Math.max(0, emptyStars))].map((_, i) => (
-                    <span key={`e-${i}`} className="text-sm text-slate-200">★</span>
+                    <span key={`e-${i}`} className="text-sm text-warmbeige">★</span>
                 ))}
-                <span className="ml-1.5 text-xs font-bold text-slate-700">{Number(rating).toFixed(1)}</span>
+                <span className="ml-1.5 text-xs font-bold text-softcharcoal">{Number(rating).toFixed(1)}</span>
             </div>
         );
     };
@@ -164,7 +164,7 @@ export default function Index({
         }
         if (rank === 2) {
             return (
-                <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-slate-100 text-slate-700 text-xs font-black shadow-xs ring-2 ring-slate-300">
+                <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-champagne text-softcharcoal text-xs font-black shadow-xs ring-2 ring-warmbeige">
                     🥈
                 </span>
             );
@@ -177,7 +177,7 @@ export default function Index({
             );
         }
         return (
-            <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-slate-100 text-slate-500 text-xs font-bold">
+            <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-champagne text-warmgray text-xs font-bold">
                 #{rank}
             </span>
         );
@@ -187,7 +187,7 @@ export default function Index({
         <DashboardLayout>
             <Head title="Featured Supplier Management - Westeam" />
 
-            <div className="min-h-screen bg-slate-50/60 p-6 lg:p-8 space-y-6">
+            <div className="min-h-screen bg-ivory/60 p-4 sm:p-6 lg:p-8 space-y-6">
 
                 {/* ========================================================================= */}
                 {/* HEADER & QUICK ACTIONS                                                    */}
@@ -195,16 +195,16 @@ export default function Index({
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <div className="flex items-center gap-2">
-                            <span className="inline-flex items-center gap-1.5 rounded-lg bg-indigo-50 px-2.5 py-1 text-xs font-bold text-indigo-700 ring-1 ring-inset ring-indigo-600/20">
+                            <span className="inline-flex items-center gap-1.5 rounded-lg bg-champagne px-2.5 py-1 text-xs font-bold text-darkgold ring-1 ring-inset ring-champagnegold/20">
                                 <span>⭐</span>
                                 <span>Admin Portal</span>
                             </span>
-                            <span className="text-xs text-slate-400">• Supplier Discovery System</span>
+                            <span className="text-xs text-warmgray">• Supplier Discovery System</span>
                         </div>
-                        <h1 className="mt-2 text-2xl sm:text-3xl font-black tracking-tight text-slate-900">
+                        <h1 className="mt-2 text-2xl sm:text-3xl font-black tracking-tight text-softcharcoal">
                             Featured Supplier Management
                         </h1>
-                        <p className="mt-1 text-sm text-slate-500">
+                        <p className="mt-1 text-sm text-warmgray">
                             Automatically calculate ratings, verified reviews & completed bookings to qualify and feature top suppliers.
                         </p>
                     </div>
@@ -214,7 +214,7 @@ export default function Index({
                             type="button"
                             onClick={handleRecalculate}
                             disabled={isRecalculating}
-                            className={`inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-4 py-2.5 text-xs font-bold text-white shadow-md shadow-indigo-500/20 transition-all hover:from-indigo-700 hover:to-violet-700 active:scale-95 ${
+                            className={`inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-champagnegold to-darkgold px-4 py-2.5 text-xs font-bold text-white shadow-md shadow-champagnegold/20 transition-all hover:from-indigo-700 hover:to-violet-700 active:scale-95 ${
                                 isRecalculating ? 'opacity-75 cursor-not-allowed' : ''
                             }`}
                         >
@@ -229,54 +229,54 @@ export default function Index({
                 {/* ========================================================================= */}
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                     {/* Card 1: Currently Featured */}
-                    <div className="rounded-2xl border border-indigo-100 bg-white p-5 shadow-xs transition hover:shadow-md">
+                    <div className="rounded-2xl border border-champagne bg-white p-5 shadow-xs transition hover:shadow-md">
                         <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Currently Featured</span>
+                            <span className="text-xs font-bold uppercase tracking-wider text-warmgray">Currently Featured</span>
                             <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-amber-50 text-base shadow-xs ring-1 ring-amber-500/20">
                                 ⭐
                             </span>
                         </div>
                         <div className="mt-3 flex items-baseline gap-2">
-                            <span className="text-3xl font-black text-slate-900">{stats.total_featured ?? 0}</span>
+                            <span className="text-3xl font-black text-softcharcoal">{stats.total_featured ?? 0}</span>
                             <span className="text-xs font-semibold text-emerald-600">Active spotlight</span>
                         </div>
-                        <p className="mt-1 text-[11px] text-slate-400">
+                        <p className="mt-1 text-[11px] text-warmgray">
                             Suppliers actively granted Featured status on platform
                         </p>
                     </div>
 
                     {/* Card 2: Qualified Suppliers */}
-                    <div className="rounded-2xl border border-indigo-100 bg-white p-5 shadow-xs transition hover:shadow-md">
+                    <div className="rounded-2xl border border-champagne bg-white p-5 shadow-xs transition hover:shadow-md">
                         <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Qualified Candidates</span>
+                            <span className="text-xs font-bold uppercase tracking-wider text-warmgray">Qualified Candidates</span>
                             <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-50 text-base shadow-xs ring-1 ring-emerald-500/20">
                                 🎖️
                             </span>
                         </div>
                         <div className="mt-3 flex items-baseline gap-2">
-                            <span className="text-3xl font-black text-slate-900">{stats.total_qualified ?? 0}</span>
-                            <span className="text-xs font-semibold text-indigo-600">
+                            <span className="text-3xl font-black text-softcharcoal">{stats.total_qualified ?? 0}</span>
+                            <span className="text-xs font-semibold text-champagnegold">
                                 {qualifiedPending.length} pending feature
                             </span>
                         </div>
-                        <p className="mt-1 text-[11px] text-slate-400">
+                        <p className="mt-1 text-[11px] text-warmgray">
                             Passed all 4 automated performance rules
                         </p>
                     </div>
 
                     {/* Card 3: Total Evaluated */}
-                    <div className="rounded-2xl border border-indigo-100 bg-white p-5 shadow-xs transition hover:shadow-md">
+                    <div className="rounded-2xl border border-champagne bg-white p-5 shadow-xs transition hover:shadow-md">
                         <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Suppliers Evaluated</span>
-                            <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-violet-50 text-base shadow-xs ring-1 ring-violet-500/20">
+                            <span className="text-xs font-bold uppercase tracking-wider text-warmgray">Suppliers Evaluated</span>
+                            <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-violet-50 text-base shadow-xs ring-1 ring-darkgold/20">
                                 🏢
                             </span>
                         </div>
                         <div className="mt-3 flex items-baseline gap-2">
-                            <span className="text-3xl font-black text-slate-900">{stats.total_suppliers ?? 0}</span>
-                            <span className="text-xs font-semibold text-slate-500">Approved pool</span>
+                            <span className="text-3xl font-black text-softcharcoal">{stats.total_suppliers ?? 0}</span>
+                            <span className="text-xs font-semibold text-warmgray">Approved pool</span>
                         </div>
-                        <p className="mt-1 text-[11px] text-slate-400">
+                        <p className="mt-1 text-[11px] text-warmgray">
                             Total approved vendor profiles in ranking index
                         </p>
                     </div>
@@ -311,19 +311,19 @@ export default function Index({
                 {/* ========================================================================= */}
                 <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     {/* Navigation Tabs */}
-                    <div className="flex items-center gap-1 rounded-2xl bg-slate-200/70 p-1">
+                    <div className="flex items-center gap-1 rounded-2xl bg-warmbeige/70 p-1">
                         <button
                             type="button"
                             onClick={() => setActiveTab('featured')}
                             className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition-all ${
                                 activeTab === 'featured'
-                                    ? 'bg-white text-indigo-700 shadow-sm'
-                                    : 'text-slate-600 hover:text-slate-900'
+                                    ? 'bg-white text-darkgold shadow-sm'
+                                    : 'text-softcharcoal hover:text-softcharcoal'
                             }`}
                         >
                             <span>⭐ Currently Featured</span>
                             <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${
-                                activeTab === 'featured' ? 'bg-indigo-100 text-indigo-700' : 'bg-slate-300 text-slate-700'
+                                activeTab === 'featured' ? 'bg-champagne text-darkgold' : 'bg-warmbeige text-softcharcoal'
                             }`}>
                                 {currentlyFeatured.length}
                             </span>
@@ -334,13 +334,13 @@ export default function Index({
                             onClick={() => setActiveTab('qualified')}
                             className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition-all ${
                                 activeTab === 'qualified'
-                                    ? 'bg-white text-indigo-700 shadow-sm'
-                                    : 'text-slate-600 hover:text-slate-900'
+                                    ? 'bg-white text-darkgold shadow-sm'
+                                    : 'text-softcharcoal hover:text-softcharcoal'
                             }`}
                         >
                             <span>🎖️ Qualified Candidates</span>
                             <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${
-                                activeTab === 'qualified' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-300 text-slate-700'
+                                activeTab === 'qualified' ? 'bg-emerald-100 text-emerald-700' : 'bg-warmbeige text-softcharcoal'
                             }`}>
                                 {qualifiedPending.length}
                             </span>
@@ -351,13 +351,13 @@ export default function Index({
                             onClick={() => setActiveTab('all')}
                             className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition-all ${
                                 activeTab === 'all'
-                                    ? 'bg-white text-indigo-700 shadow-sm'
-                                    : 'text-slate-600 hover:text-slate-900'
+                                    ? 'bg-white text-darkgold shadow-sm'
+                                    : 'text-softcharcoal hover:text-softcharcoal'
                             }`}
                         >
                             <span>📊 All Rankings Leaderboard</span>
                             <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${
-                                activeTab === 'all' ? 'bg-slate-100 text-slate-700' : 'bg-slate-300 text-slate-700'
+                                activeTab === 'all' ? 'bg-champagne text-softcharcoal' : 'bg-warmbeige text-softcharcoal'
                             }`}>
                                 {allRankings.length}
                             </span>
@@ -367,18 +367,18 @@ export default function Index({
                     {/* Search bar */}
                     <form onSubmit={handleSearch} className="flex items-center gap-2">
                         <div className="relative">
-                            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-slate-400">🔍</span>
+                            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-warmgray">🔍</span>
                             <input
                                 type="text"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 placeholder="Search suppliers, categories..."
-                                className="w-64 sm:w-72 rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-4 text-xs font-semibold text-slate-800 placeholder-slate-400 focus:border-indigo-500 focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20"
+                                className="w-64 sm:w-72 rounded-xl border border-warmbeige bg-white py-2 pl-9 pr-4 text-xs font-semibold text-softcharcoal placeholder-warmgray focus:border-champagnegold focus:outline-hidden focus:ring-2 focus:ring-champagnegold/20"
                             />
                         </div>
                         <button
                             type="submit"
-                            className="rounded-xl bg-slate-800 px-3.5 py-2 text-xs font-bold text-white shadow-xs transition hover:bg-slate-900"
+                            className="rounded-xl bg-softcharcoal px-3.5 py-2 text-xs font-bold text-white shadow-xs transition hover:bg-softcharcoal"
                         >
                             Filter
                         </button>
@@ -388,11 +388,11 @@ export default function Index({
                 {/* ========================================================================= */}
                 {/* SUPPLIER TABLE LIST                                                       */}
                 {/* ========================================================================= */}
-                <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xs">
+                <div className="overflow-hidden rounded-2xl border border-warmbeige bg-white shadow-xs">
                     <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse">
                             <thead>
-                                <tr className="border-b border-slate-100 bg-slate-50/75 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                                <tr className="border-b border-champagne bg-ivory/75 text-[11px] font-bold uppercase tracking-wider text-warmgray">
                                     <th className="py-4 pl-6 pr-3 w-16 text-center">Rank</th>
                                     <th className="py-4 px-4 min-w-[220px]">Supplier</th>
                                     <th className="py-4 px-4 text-center">Average Rating</th>
@@ -403,14 +403,14 @@ export default function Index({
                                     <th className="py-4 pr-6 pl-4 text-right">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-slate-100 text-xs">
+                            <tbody className="divide-y divide-champagne text-xs">
                                 {currentList.length === 0 ? (
                                     <tr>
-                                        <td colSpan={8} className="py-16 text-center text-slate-400">
+                                        <td colSpan={8} className="py-16 text-center text-warmgray">
                                             <div className="flex flex-col items-center justify-center gap-2">
                                                 <span className="text-4xl">🌟</span>
-                                                <p className="text-sm font-bold text-slate-600">No suppliers found in this view</p>
-                                                <p className="text-xs text-slate-400">
+                                                <p className="text-sm font-bold text-softcharcoal">No suppliers found in this view</p>
+                                                <p className="text-xs text-warmgray">
                                                     {activeTab === 'featured'
                                                         ? 'No featured suppliers currently active. Manually feature a candidate or run recalculate.'
                                                         : activeTab === 'qualified'
@@ -427,7 +427,7 @@ export default function Index({
                                         return (
                                             <tr
                                                 key={supplier.id}
-                                                className={`transition-colors hover:bg-slate-50/80 ${
+                                                className={`transition-colors hover:bg-ivory/80 ${
                                                     supplier.is_featured ? 'bg-amber-50/20' : ''
                                                 }`}
                                             >
@@ -439,7 +439,7 @@ export default function Index({
                                                 {/* Supplier info */}
                                                 <td className="py-4 px-4">
                                                     <div className="flex items-center gap-3">
-                                                        <div className="h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-slate-200 bg-slate-100">
+                                                        <div className="h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-warmbeige bg-champagne">
                                                             {supplier.profile_picture ? (
                                                                 <img
                                                                     src={`/storage/${supplier.profile_picture}`}
@@ -447,14 +447,14 @@ export default function Index({
                                                                     className="h-full w-full object-cover"
                                                                 />
                                                             ) : (
-                                                                <div className="flex h-full w-full items-center justify-center font-bold text-slate-400 text-base">
+                                                                <div className="flex h-full w-full items-center justify-center font-bold text-warmgray text-base">
                                                                     🏢
                                                                 </div>
                                                             )}
                                                         </div>
                                                         <div className="min-w-0">
                                                             <div className="flex items-center gap-2">
-                                                                <p className="font-bold text-slate-900 truncate max-w-[180px]">
+                                                                <p className="font-bold text-softcharcoal truncate max-w-[180px]">
                                                                     {supplier.name}
                                                                 </p>
                                                                 {supplier.is_featured && (
@@ -463,7 +463,7 @@ export default function Index({
                                                                     </span>
                                                                 )}
                                                             </div>
-                                                            <p className="text-[11px] text-slate-400 truncate">
+                                                            <p className="text-[11px] text-warmgray truncate">
                                                                 {supplier.user?.email}
                                                             </p>
                                                             {/* Category Tags */}
@@ -471,13 +471,13 @@ export default function Index({
                                                                 {supplier.categories?.slice(0, 2).map((cat) => (
                                                                     <span
                                                                         key={cat.id}
-                                                                        className="rounded-md bg-slate-100 px-1.5 py-0.5 text-[9px] font-semibold text-slate-600"
+                                                                        className="rounded-md bg-champagne px-1.5 py-0.5 text-[9px] font-semibold text-softcharcoal"
                                                                     >
                                                                         {cat.name}
                                                                     </span>
                                                                 ))}
                                                                 {supplier.categories?.length > 2 && (
-                                                                    <span className="text-[9px] font-bold text-slate-400">
+                                                                    <span className="text-[9px] font-bold text-warmgray">
                                                                         +{supplier.categories.length - 2}
                                                                     </span>
                                                                 )}
@@ -490,7 +490,7 @@ export default function Index({
                                                 <td className="py-4 px-4 text-center">
                                                     <div className="flex flex-col items-center justify-center">
                                                         {renderStars(supplier.average_rating)}
-                                                        <span className="text-[10px] text-slate-400 mt-0.5">
+                                                        <span className="text-[10px] text-warmgray mt-0.5">
                                                             {supplier.reviews_count > 0 ? 'Verified Reviews' : 'No ratings yet'}
                                                         </span>
                                                     </div>
@@ -499,11 +499,11 @@ export default function Index({
                                                 {/* Customer Reviews (Completed bookings only) */}
                                                 <td className="py-4 px-4 text-center">
                                                     <div className="inline-flex flex-col items-center">
-                                                        <span className="font-bold text-slate-800 text-sm">
+                                                        <span className="font-bold text-softcharcoal text-sm">
                                                             {supplier.reviews_count}
                                                         </span>
                                                         <span className={`text-[10px] font-semibold ${
-                                                            supplier.reviews_count >= 5 ? 'text-emerald-600' : 'text-slate-400'
+                                                            supplier.reviews_count >= 5 ? 'text-emerald-600' : 'text-warmgray'
                                                         }`}>
                                                             {supplier.reviews_count >= 5 ? '✓ Meets requirement' : `${5 - supplier.reviews_count} needed`}
                                                         </span>
@@ -513,11 +513,11 @@ export default function Index({
                                                 {/* Completed Bookings */}
                                                 <td className="py-4 px-4 text-center">
                                                     <div className="inline-flex flex-col items-center">
-                                                        <span className="font-bold text-slate-800 text-sm">
+                                                        <span className="font-bold text-softcharcoal text-sm">
                                                             {supplier.completed_bookings_count}
                                                         </span>
                                                         <span className={`text-[10px] font-semibold ${
-                                                            supplier.completed_bookings_count >= 5 ? 'text-emerald-600' : 'text-slate-400'
+                                                            supplier.completed_bookings_count >= 5 ? 'text-emerald-600' : 'text-warmgray'
                                                         }`}>
                                                             {supplier.completed_bookings_count >= 5 ? '✓ Meets requirement' : `${5 - supplier.completed_bookings_count} needed`}
                                                         </span>
@@ -527,12 +527,12 @@ export default function Index({
                                                 {/* Featured Score */}
                                                 <td className="py-4 px-4 text-center">
                                                     <div className="inline-flex flex-col items-center">
-                                                        <span className="font-extrabold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-xl ring-1 ring-inset ring-indigo-700/10 text-xs">
+                                                        <span className="font-extrabold text-darkgold bg-champagne px-2.5 py-1 rounded-xl ring-1 ring-inset ring-indigo-700/10 text-xs">
                                                             {Number(supplier.featured_score).toFixed(1)} pts
                                                         </span>
-                                                        <div className="mt-1.5 w-16 bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                                                        <div className="mt-1.5 w-16 bg-champagne rounded-full h-1.5 overflow-hidden">
                                                             <div
-                                                                className="bg-gradient-to-r from-indigo-500 to-violet-500 h-1.5 rounded-full"
+                                                                className="bg-gradient-to-r from-champagnegold to-darkgold h-1.5 rounded-full"
                                                                 style={{ width: `${Math.min(100, (supplier.featured_score / 150) * 100)}%` }}
                                                             />
                                                         </div>
@@ -547,7 +547,7 @@ export default function Index({
                                                             <span>Qualified</span>
                                                         </span>
                                                     ) : (
-                                                        <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-500 ring-1 ring-inset ring-slate-400/20">
+                                                        <span className="inline-flex items-center gap-1 rounded-full bg-champagne px-2.5 py-1 text-[11px] font-bold text-warmgray ring-1 ring-inset ring-warmgray/20">
                                                             <span>⏳</span>
                                                             <span>In Progress</span>
                                                         </span>
@@ -568,7 +568,7 @@ export default function Index({
                                                         <button
                                                             type="button"
                                                             onClick={() => setSelectedSupplier(supplier)}
-                                                            className="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 shadow-2xs transition hover:bg-slate-50 hover:text-indigo-600"
+                                                            className="rounded-lg border border-warmbeige bg-white px-2.5 py-1.5 text-xs font-semibold text-softcharcoal shadow-2xs transition hover:bg-ivory hover:text-champagnegold"
                                                         >
                                                             Inspect
                                                         </button>
@@ -591,7 +591,7 @@ export default function Index({
                                                                 className={`rounded-lg px-2.5 py-1.5 text-xs font-bold transition ${
                                                                     supplier.is_qualified
                                                                         ? 'bg-emerald-600 text-white shadow-xs hover:bg-emerald-700'
-                                                                        : 'border border-slate-200 bg-white text-slate-700 hover:bg-indigo-50 hover:text-indigo-600'
+                                                                        : 'border border-warmbeige bg-white text-softcharcoal hover:bg-champagne hover:text-champagnegold'
                                                                 }`}
                                                             >
                                                                 {isActionLoading ? '...' : 'Feature Now'}
@@ -604,7 +604,7 @@ export default function Index({
                                                                 type="button"
                                                                 onClick={() => handleRestoreAuto(supplier)}
                                                                 title="Restore to automatic evaluation"
-                                                                className="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 text-xs text-slate-500 hover:bg-slate-100 hover:text-slate-800"
+                                                                className="rounded-lg border border-warmbeige bg-ivory px-2 py-1.5 text-xs text-warmgray hover:bg-champagne hover:text-softcharcoal"
                                                             >
                                                                 Reset Auto
                                                             </button>
@@ -634,7 +634,7 @@ export default function Index({
                             onClick={(e) => e.stopPropagation()}
                         >
                             {/* Header Banner */}
-                            <div className="relative h-32 shrink-0 bg-gradient-to-r from-indigo-600 via-violet-600 to-pink-500 p-6">
+                            <div className="relative h-32 shrink-0 bg-gradient-to-r from-champagnegold via-darkgold to-pink-500 p-6">
                                 {selectedSupplier.cover_photo_url && (
                                     <img
                                         src={selectedSupplier.cover_photo_url}
@@ -678,50 +678,50 @@ export default function Index({
 
                                 {/* Performance Matrix */}
                                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                                    <div className="rounded-2xl border border-slate-100 bg-slate-50/80 p-3 text-center">
-                                        <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Rating</p>
-                                        <p className="mt-1 text-base font-black text-slate-900">
+                                    <div className="rounded-2xl border border-champagne bg-ivory/80 p-3 text-center">
+                                        <p className="text-[10px] font-bold uppercase tracking-wider text-warmgray">Rating</p>
+                                        <p className="mt-1 text-base font-black text-softcharcoal">
                                             {Number(selectedSupplier.average_rating).toFixed(1)} ★
                                         </p>
-                                        <span className="text-[9px] text-slate-400">Target ≥ 4.5</span>
+                                        <span className="text-[9px] text-warmgray">Target ≥ 4.5</span>
                                     </div>
-                                    <div className="rounded-2xl border border-slate-100 bg-slate-50/80 p-3 text-center">
-                                        <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Reviews</p>
-                                        <p className="mt-1 text-base font-black text-slate-900">
+                                    <div className="rounded-2xl border border-champagne bg-ivory/80 p-3 text-center">
+                                        <p className="text-[10px] font-bold uppercase tracking-wider text-warmgray">Reviews</p>
+                                        <p className="mt-1 text-base font-black text-softcharcoal">
                                             {selectedSupplier.reviews_count}
                                         </p>
-                                        <span className="text-[9px] text-slate-400">Target ≥ 5</span>
+                                        <span className="text-[9px] text-warmgray">Target ≥ 5</span>
                                     </div>
-                                    <div className="rounded-2xl border border-slate-100 bg-slate-50/80 p-3 text-center">
-                                        <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Completed</p>
-                                        <p className="mt-1 text-base font-black text-slate-900">
+                                    <div className="rounded-2xl border border-champagne bg-ivory/80 p-3 text-center">
+                                        <p className="text-[10px] font-bold uppercase tracking-wider text-warmgray">Completed</p>
+                                        <p className="mt-1 text-base font-black text-softcharcoal">
                                             {selectedSupplier.completed_bookings_count}
                                         </p>
-                                        <span className="text-[9px] text-slate-400">Target ≥ 5</span>
+                                        <span className="text-[9px] text-warmgray">Target ≥ 5</span>
                                     </div>
-                                    <div className="rounded-2xl border border-indigo-100 bg-indigo-50/50 p-3 text-center">
-                                        <p className="text-[10px] font-bold uppercase tracking-wider text-indigo-600">Score</p>
-                                        <p className="mt-1 text-base font-black text-indigo-700">
+                                    <div className="rounded-2xl border border-champagne bg-champagne/50 p-3 text-center">
+                                        <p className="text-[10px] font-bold uppercase tracking-wider text-champagnegold">Score</p>
+                                        <p className="mt-1 text-base font-black text-darkgold">
                                             {Number(selectedSupplier.featured_score).toFixed(1)}
                                         </p>
-                                        <span className="text-[9px] text-indigo-500">Rank #{selectedSupplier.rank}</span>
+                                        <span className="text-[9px] text-champagnegold">Rank #{selectedSupplier.rank}</span>
                                     </div>
                                 </div>
 
                                 {/* Qualification Checklist */}
-                                <div className="rounded-2xl border border-slate-200 bg-slate-50/50 p-4">
-                                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                                <div className="rounded-2xl border border-warmbeige bg-ivory/50 p-4">
+                                    <h4 className="text-xs font-bold uppercase tracking-wider text-softcharcoal mb-2">
                                         Qualification Requirements Audit
                                     </h4>
                                     <div className="space-y-2 text-xs">
                                         <div className="flex items-center justify-between">
-                                            <span className="text-slate-600">1. Approved Active Supplier Profile</span>
+                                            <span className="text-softcharcoal">1. Approved Active Supplier Profile</span>
                                             <span className={`font-bold ${selectedSupplier.status === 'approved' ? 'text-emerald-600' : 'text-rose-600'}`}>
                                                 {selectedSupplier.status === 'approved' ? '✓ Passed' : '✕ Pending/Rejected'}
                                             </span>
                                         </div>
                                         <div className="flex items-center justify-between">
-                                            <span className="text-slate-600">2. At least 5 Completed Bookings</span>
+                                            <span className="text-softcharcoal">2. At least 5 Completed Bookings</span>
                                             <span className={`font-bold ${selectedSupplier.completed_bookings_count >= 5 ? 'text-emerald-600' : 'text-amber-600'}`}>
                                                 {selectedSupplier.completed_bookings_count >= 5
                                                     ? `✓ Passed (${selectedSupplier.completed_bookings_count}/5)`
@@ -729,7 +729,7 @@ export default function Index({
                                             </span>
                                         </div>
                                         <div className="flex items-center justify-between">
-                                            <span className="text-slate-600">3. At least 5 Customer Reviews (Completed Bookings Only)</span>
+                                            <span className="text-softcharcoal">3. At least 5 Customer Reviews (Completed Bookings Only)</span>
                                             <span className={`font-bold ${selectedSupplier.reviews_count >= 5 ? 'text-emerald-600' : 'text-amber-600'}`}>
                                                 {selectedSupplier.reviews_count >= 5
                                                     ? `✓ Passed (${selectedSupplier.reviews_count}/5)`
@@ -737,7 +737,7 @@ export default function Index({
                                             </span>
                                         </div>
                                         <div className="flex items-center justify-between">
-                                            <span className="text-slate-600">4. Average Rating of at least 4.5 Stars</span>
+                                            <span className="text-softcharcoal">4. Average Rating of at least 4.5 Stars</span>
                                             <span className={`font-bold ${selectedSupplier.average_rating >= 4.5 ? 'text-emerald-600' : 'text-amber-600'}`}>
                                                 {selectedSupplier.average_rating >= 4.5
                                                     ? `✓ Passed (${Number(selectedSupplier.average_rating).toFixed(1)}/5.0)`
@@ -750,35 +750,35 @@ export default function Index({
                                 {/* Recent Reviews from completed bookings */}
                                 <div>
                                     <div className="flex items-center justify-between mb-3">
-                                        <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                                        <h4 className="text-xs font-bold uppercase tracking-wider text-softcharcoal">
                                             Verified Reviews ({selectedSupplier.recent_reviews?.length || 0})
                                         </h4>
-                                        <span className="text-[11px] text-slate-400">Strictly from completed bookings</span>
+                                        <span className="text-[11px] text-warmgray">Strictly from completed bookings</span>
                                     </div>
                                     {selectedSupplier.recent_reviews?.length > 0 ? (
                                         <div className="space-y-2.5 max-h-48 overflow-y-auto pr-1">
                                             {selectedSupplier.recent_reviews.map((rev) => (
                                                 <div
                                                     key={rev.id}
-                                                    className="rounded-xl border border-slate-100 bg-white p-3 shadow-2xs text-xs"
+                                                    className="rounded-xl border border-champagne bg-white p-3 shadow-2xs text-xs"
                                                 >
                                                     <div className="flex items-center justify-between">
                                                         <div className="flex items-center gap-1.5">
-                                                            <span className="font-bold text-slate-800">{rev.customer_name}</span>
-                                                            <span className="text-[10px] text-slate-400">• {rev.item_name}</span>
+                                                            <span className="font-bold text-softcharcoal">{rev.customer_name}</span>
+                                                            <span className="text-[10px] text-warmgray">• {rev.item_name}</span>
                                                         </div>
                                                         <div className="flex items-center gap-1 text-amber-500 font-bold text-xs">
                                                             <span>★</span>
                                                             <span>{rev.rating}</span>
                                                         </div>
                                                     </div>
-                                                    <p className="mt-1 text-slate-600 italic">"{rev.comment}"</p>
-                                                    <p className="mt-1 text-[10px] text-slate-400">{rev.created_at}</p>
+                                                    <p className="mt-1 text-softcharcoal italic">"{rev.comment}"</p>
+                                                    <p className="mt-1 text-[10px] text-warmgray">{rev.created_at}</p>
                                                 </div>
                                             ))}
                                         </div>
                                     ) : (
-                                        <p className="text-xs text-slate-400 italic py-2">
+                                        <p className="text-xs text-warmgray italic py-2">
                                             No verified reviews from completed bookings yet.
                                         </p>
                                     )}
@@ -786,7 +786,7 @@ export default function Index({
 
                                 {/* Recent Completed Bookings */}
                                 <div>
-                                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 mb-3">
+                                    <h4 className="text-xs font-bold uppercase tracking-wider text-softcharcoal mb-3">
                                         Recent Completed Bookings ({selectedSupplier.recent_bookings?.length || 0})
                                     </h4>
                                     {selectedSupplier.recent_bookings?.length > 0 ? (
@@ -794,11 +794,11 @@ export default function Index({
                                             {selectedSupplier.recent_bookings.map((booking) => (
                                                 <div
                                                     key={booking.id}
-                                                    className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-2.5 text-xs"
+                                                    className="flex items-center justify-between rounded-xl border border-champagne bg-ivory p-2.5 text-xs"
                                                 >
                                                     <div>
-                                                        <p className="font-bold text-slate-800">{booking.event_name}</p>
-                                                        <p className="text-[10px] text-slate-400">
+                                                        <p className="font-bold text-softcharcoal">{booking.event_name}</p>
+                                                        <p className="text-[10px] text-warmgray">
                                                             {booking.booking_reference} • {booking.item_name}
                                                         </p>
                                                     </div>
@@ -806,13 +806,13 @@ export default function Index({
                                                         <span className="rounded bg-emerald-100 px-1.5 py-0.5 text-[10px] font-bold text-emerald-800">
                                                             Completed
                                                         </span>
-                                                        <p className="text-[10px] text-slate-400 mt-0.5">{booking.event_date}</p>
+                                                        <p className="text-[10px] text-warmgray mt-0.5">{booking.event_date}</p>
                                                     </div>
                                                 </div>
                                             ))}
                                         </div>
                                     ) : (
-                                        <p className="text-xs text-slate-400 italic py-2">
+                                        <p className="text-xs text-warmgray italic py-2">
                                             No completed bookings recorded yet.
                                         </p>
                                     )}
@@ -820,11 +820,11 @@ export default function Index({
                             </div>
 
                             {/* Modal Footer Controls */}
-                            <div className="flex items-center justify-between border-t border-slate-100 bg-slate-50 px-6 py-4">
+                            <div className="flex items-center justify-between border-t border-champagne bg-ivory px-6 py-4">
                                 <button
                                     type="button"
                                     onClick={() => setSelectedSupplier(null)}
-                                    className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100"
+                                    className="rounded-xl border border-warmbeige bg-white px-4 py-2 text-xs font-bold text-softcharcoal hover:bg-champagne"
                                 >
                                     Close
                                 </button>
@@ -842,7 +842,7 @@ export default function Index({
                                         <button
                                             type="button"
                                             onClick={() => handleFeature(selectedSupplier)}
-                                            className="rounded-xl bg-indigo-600 px-4 py-2 text-xs font-bold text-white shadow-xs transition hover:bg-indigo-700"
+                                            className="rounded-xl bg-champagnegold px-4 py-2 text-xs font-bold text-white shadow-xs transition hover:bg-darkgold"
                                         >
                                             Feature This Supplier
                                         </button>

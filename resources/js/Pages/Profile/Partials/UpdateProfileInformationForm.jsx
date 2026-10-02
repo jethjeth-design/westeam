@@ -23,14 +23,14 @@ export default function UpdateProfileInformation({
     return (
         <section className={className}>
             <header className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 text-lg">
+                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-champagne text-champagnegold text-lg">
                     👤
                 </div>
                 <div>
-                    <h2 className="text-lg font-black text-slate-900">
+                    <h2 className="text-lg font-black text-softcharcoal">
                         Profile Information
                     </h2>
-                    <p className="mt-0.5 text-xs text-slate-500">
+                    <p className="mt-0.5 text-xs text-warmgray">
                         Update your account's display name and primary email address.
                     </p>
                 </div>
@@ -38,14 +38,14 @@ export default function UpdateProfileInformation({
 
             <form onSubmit={submit} className="mt-6 max-w-xl space-y-5">
                 <div>
-                    <label htmlFor="name" className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                    <label htmlFor="name" className="block text-xs font-bold uppercase tracking-wider text-softcharcoal">
                         Full Name <span className="text-red-500">*</span>
                     </label>
 
                     <input
                         id="name"
                         type="text"
-                        className="mt-1.5 w-full rounded-2xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-xs transition focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                        className="mt-1.5 w-full rounded-2xl border border-warmbeige bg-white px-4 py-2.5 text-sm text-softcharcoal shadow-xs transition focus:border-champagnegold focus:outline-none focus:ring-2 focus:ring-champagne"
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
                         required
@@ -56,14 +56,14 @@ export default function UpdateProfileInformation({
                 </div>
 
                 <div>
-                    <label htmlFor="email" className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                    <label htmlFor="email" className="block text-xs font-bold uppercase tracking-wider text-softcharcoal">
                         Email Address <span className="text-red-500">*</span>
                     </label>
 
                     <input
                         id="email"
                         type="email"
-                        className="mt-1.5 w-full rounded-2xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-xs transition focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                        className="mt-1.5 w-full rounded-2xl border border-warmbeige bg-white px-4 py-2.5 text-sm text-softcharcoal shadow-xs transition focus:border-champagnegold focus:outline-none focus:ring-2 focus:ring-champagne"
                         value={data.email}
                         onChange={(e) => setData('email', e.target.value)}
                         required
@@ -99,7 +99,7 @@ export default function UpdateProfileInformation({
                     <button
                         type="submit"
                         disabled={processing}
-                        className="inline-flex items-center gap-1.5 rounded-2xl bg-indigo-600 px-6 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-indigo-700 active:scale-95 disabled:opacity-50"
+                        className="inline-flex items-center gap-1.5 rounded-2xl bg-champagnegold px-6 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-darkgold active:scale-95 disabled:opacity-50"
                     >
                         {processing ? 'Saving...' : 'Save Profile'}
                     </button>

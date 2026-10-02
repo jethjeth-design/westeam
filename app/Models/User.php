@@ -6,6 +6,7 @@ namespace App\Models;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -102,6 +103,21 @@ class User extends Authenticatable
     public function reviewsGiven(): HasMany
     {
         return $this->hasMany(Review::class, 'customer_id');
+    }
+
+    public function paymentSetting(): HasOne
+    {
+        return $this->hasOne(SupplierPaymentSetting::class, 'supplier_id');
+    }
+
+    public function receivedPayments(): HasMany
+    {
+        return $this->hasMany(Payment::class, 'supplier_id');
+    }
+
+    public function sentPayments(): HasMany
+    {
+        return $this->hasMany(Payment::class, 'customer_id');
     }
 
     /**

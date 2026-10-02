@@ -7,12 +7,12 @@ export default function Index({ categories }) {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [editingCategory, setEditingCategory] = useState(null);
     const [deletingCategory, setDeletingCategory] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
 
     const {
         data,
         setData,
         post,
-        put,
         processing,
         errors,
         reset,
@@ -20,20 +20,24 @@ export default function Index({ categories }) {
     } = useForm({
         name: '',
         description: '',
+        image: null,
         is_active: true,
+        _method: 'POST',
     });
 
     // Open Add Modal
     const openAddModal = () => {
         setEditingCategory(null);
-
+        setImagePreview(null);
         reset();
         clearErrors();
 
         setData({
             name: '',
             description: '',
+            image: null,
             is_active: true,
+            _method: 'POST',
         });
 
         setShowFormModal(true);
@@ -42,13 +46,15 @@ export default function Index({ categories }) {
     // Open Edit Modal
     const openEditModal = (category) => {
         setEditingCategory(category);
-
+        setImagePreview(category.image_url || null);
         clearErrors();
 
         setData({
             name: category.name || '',
             description: category.description || '',
+            image: null,
             is_active: Boolean(category.is_active),
+            _method: 'PUT',
         });
 
         setShowFormModal(true);
@@ -60,6 +66,7 @@ export default function Index({ categories }) {
 
         setShowFormModal(false);
         setEditingCategory(null);
+        setImagePreview(null);
         reset();
         clearErrors();
     };
@@ -69,17 +76,21 @@ export default function Index({ categories }) {
         e.preventDefault();
 
         if (editingCategory) {
-            put(`/admin/event-categories/${editingCategory.id}`, {
+            post(`/admin/event-categories/${editingCategory.id}`, {
+                forceFormData: true,
                 onSuccess: () => {
                     setShowFormModal(false);
                     setEditingCategory(null);
+                    setImagePreview(null);
                     reset();
                 },
             });
         } else {
             post('/admin/event-categories', {
+                forceFormData: true,
                 onSuccess: () => {
                     setShowFormModal(false);
+                    setImagePreview(null);
                     reset();
                 },
             });
@@ -123,11 +134,11 @@ export default function Index({ categories }) {
                 <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-900">
+                        <h1 className="text-2xl font-bold text-softcharcoal">
                             Event Categories
                         </h1>
 
-                        <p className="mt-1 text-sm text-gray-500">
+                        <p className="mt-1 text-sm text-warmgray">
                             Manage the event categories available to suppliers.
                         </p>
                     </div>
@@ -135,7 +146,7 @@ export default function Index({ categories }) {
                     <button
                         type="button"
                         onClick={openAddModal}
-                        className="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700"
+                        className="inline-flex items-center justify-center rounded-lg bg-champagnegold px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-darkgold"
                     >
                         <span className="mr-2 text-lg">+</span>
                         Add Category
@@ -144,13 +155,13 @@ export default function Index({ categories }) {
                 </div>
 
                 {/* TABLE */}
-                <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+                <div className="overflow-hidden rounded-xl border border-warmbeige bg-white shadow-sm">
 
                     <div className="overflow-x-auto">
 
                         <table className="w-full text-left text-sm">
 
-                            <thead className="border-b bg-gray-50 text-xs uppercase text-gray-500">
+                            <thead className="border-b bg-ivory text-xs uppercase text-warmgray">
                                 <tr>
                                     <th className="px-6 py-4">
                                         Category
@@ -174,7 +185,7 @@ export default function Index({ categories }) {
                                 </tr>
                             </thead>
 
-                            <tbody className="divide-y divide-gray-100">
+                            <tbody className="divide-y divide-champagne">
 
                                 {categories.data.length > 0 ? (
 
@@ -182,24 +193,36 @@ export default function Index({ categories }) {
 
                                         <tr
                                             key={category.id}
-                                            className="transition hover:bg-gray-50"
+                                            className="transition hover:bg-ivory"
                                         >
 
                                             {/* CATEGORY */}
                                             <td className="px-6 py-4">
-
-                                                <div className="font-semibold text-gray-900">
-                                                    {category.name}
+                                                <div className="flex items-center gap-3">
+                                                    {category.image_url ? (
+                                                        <img
+                                                            src={category.image_url}
+                                                            alt={category.name}
+                                                            className="w-10 h-10 rounded-xl object-cover border border-warmbeige shrink-0"
+                                                        />
+                                                    ) : (
+                                                        <div className="w-10 h-10 rounded-xl bg-champagne border border-champagne flex items-center justify-center text-champagnegold font-bold text-sm shrink-0">
+                                                            {category.name.charAt(0)}
+                                                        </div>
+                                                    )}
+                                                    <div>
+                                                        <div className="font-semibold text-softcharcoal">
+                                                            {category.name}
+                                                        </div>
+                                                        <div className="text-xs text-gray-400">
+                                                            ID #{category.id}
+                                                        </div>
+                                                    </div>
                                                 </div>
-
-                                                <div className="text-xs text-gray-400">
-                                                    ID #{category.id}
-                                                </div>
-
                                             </td>
 
                                             {/* DESCRIPTION */}
-                                            <td className="max-w-md px-6 py-4 text-gray-500">
+                                            <td className="max-w-md px-6 py-4 text-warmgray">
                                                 {category.description ||
                                                     'No description'}
                                             </td>
@@ -207,7 +230,7 @@ export default function Index({ categories }) {
                                             {/* PACKAGES */}
                                             <td className="px-6 py-4">
 
-                                                <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700">
+                                                <span className="rounded-full bg-champagne px-3 py-1 text-xs font-medium text-darkgold">
                                                     {category.packages_count}{' '}
                                                     {category.packages_count === 1
                                                         ? 'package'
@@ -227,7 +250,7 @@ export default function Index({ categories }) {
 
                                                 ) : (
 
-                                                    <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-600">
+                                                    <span className="rounded-full bg-champagne px-3 py-1 text-xs font-semibold text-warmgray">
                                                         Inactive
                                                     </span>
 
@@ -245,7 +268,7 @@ export default function Index({ categories }) {
                                                         onClick={() =>
                                                             openEditModal(category)
                                                         }
-                                                        className="rounded-lg border border-gray-200 px-3 py-2 text-xs font-medium text-gray-700 transition hover:bg-gray-100"
+                                                        className="rounded-lg border border-warmbeige px-3 py-2 text-xs font-medium text-softcharcoal transition hover:bg-champagne"
                                                     >
                                                         Edit
                                                     </button>
@@ -280,17 +303,17 @@ export default function Index({ categories }) {
                                                 🎉
                                             </div>
 
-                                            <h3 className="mt-3 font-semibold text-gray-900">
+                                            <h3 className="mt-3 font-semibold text-softcharcoal">
                                                 No event categories
                                             </h3>
 
-                                            <p className="mt-1 text-sm text-gray-500">
+                                            <p className="mt-1 text-sm text-warmgray">
                                                 Create your first event category.
                                             </p>
 
                                             <button
                                                 onClick={openAddModal}
-                                                className="mt-4 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
+                                                className="mt-4 rounded-lg bg-champagnegold px-4 py-2 text-sm font-semibold text-white hover:bg-darkgold"
                                             >
                                                 Add Category
                                             </button>
@@ -324,8 +347,8 @@ export default function Index({ categories }) {
                                         }}
                                         className={`rounded-lg px-3 py-2 text-sm ${
                                             link.active
-                                                ? 'bg-indigo-600 text-white'
-                                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                                ? 'bg-champagnegold text-white'
+                                                : 'bg-champagne text-softcharcoal hover:bg-gray-200'
                                         } ${
                                             !link.url
                                                 ? 'cursor-not-allowed opacity-50'
@@ -367,13 +390,13 @@ export default function Index({ categories }) {
                         <div className="flex items-center justify-between border-b px-6 py-5">
 
                             <div>
-                                <h2 className="text-xl font-bold text-gray-900">
+                                <h2 className="text-xl font-bold text-softcharcoal">
                                     {editingCategory
                                         ? 'Edit Event Category'
                                         : 'Add Event Category'}
                                 </h2>
 
-                                <p className="mt-1 text-sm text-gray-500">
+                                <p className="mt-1 text-sm text-warmgray">
                                     {editingCategory
                                         ? 'Update the event category information.'
                                         : 'Create a new category for supplier packages.'}
@@ -383,7 +406,7 @@ export default function Index({ categories }) {
                             <button
                                 type="button"
                                 onClick={closeFormModal}
-                                className="rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
+                                className="rounded-lg p-2 text-gray-400 hover:bg-champagne hover:text-warmgray"
                             >
                                 ✕
                             </button>
@@ -398,7 +421,7 @@ export default function Index({ categories }) {
                                 {/* NAME */}
                                 <div>
 
-                                    <label className="block text-sm font-semibold text-gray-700">
+                                    <label className="block text-sm font-semibold text-softcharcoal">
                                         Category Name
                                     </label>
 
@@ -412,7 +435,7 @@ export default function Index({ categories }) {
                                             )
                                         }
                                         placeholder="e.g. Wedding"
-                                        className="mt-2 w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                        className="mt-2 w-full rounded-lg border-warmbeige shadow-sm focus:border-champagnegold focus:ring-champagnegold"
                                     />
 
                                     {errors.name && (
@@ -423,10 +446,79 @@ export default function Index({ categories }) {
 
                                 </div>
 
+                                {/* CATEGORY PHOTO UPLOAD */}
+                                <div>
+                                    <label className="block text-sm font-semibold text-softcharcoal">
+                                        Category Photo
+                                    </label>
+
+                                    <div className="mt-2 flex flex-col gap-2">
+                                        {imagePreview ? (
+                                            <div className="relative rounded-xl overflow-hidden border border-warmbeige h-40 bg-champagne group">
+                                                <img
+                                                    src={imagePreview}
+                                                    alt="Category preview"
+                                                    className="w-full h-full object-cover"
+                                                />
+                                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                                                    <label className="cursor-pointer px-3 py-1.5 bg-white text-softcharcoal rounded-lg text-xs font-semibold shadow hover:bg-champagnegold hover:text-white transition">
+                                                        Change Photo
+                                                        <input
+                                                            type="file"
+                                                            accept="image/*"
+                                                            className="hidden"
+                                                            onChange={(e) => {
+                                                                const file = e.target.files[0];
+                                                                if (file) {
+                                                                    setData('image', file);
+                                                                    setImagePreview(URL.createObjectURL(file));
+                                                                }
+                                                            }}
+                                                        />
+                                                    </label>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => {
+                                                            setData('image', null);
+                                                            setImagePreview(null);
+                                                        }}
+                                                        className="px-3 py-1.5 bg-red-600 text-white rounded-lg text-xs font-semibold shadow hover:bg-red-700 transition"
+                                                    >
+                                                        Remove
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <label className="flex flex-col items-center justify-center h-32 px-4 py-5 border-2 border-dashed border-warmbeige hover:border-champagnegold rounded-xl cursor-pointer bg-ivory hover:bg-champagne/40 transition">
+                                                <svg className="w-8 h-8 text-gray-400 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                </svg>
+                                                <span className="text-xs font-medium text-softcharcoal">Click to upload category photo</span>
+                                                <span className="text-[10px] text-gray-400 mt-0.5">PNG, JPG, WEBP up to 5MB</span>
+                                                <input
+                                                    type="file"
+                                                    accept="image/*"
+                                                    className="hidden"
+                                                    onChange={(e) => {
+                                                        const file = e.target.files[0];
+                                                        if (file) {
+                                                            setData('image', file);
+                                                            setImagePreview(URL.createObjectURL(file));
+                                                        }
+                                                    }}
+                                                />
+                                            </label>
+                                        )}
+                                        {errors.image && (
+                                            <p className="text-red-600 text-xs mt-1 font-medium">{errors.image}</p>
+                                        )}
+                                    </div>
+                                </div>
+
                                 {/* DESCRIPTION */}
                                 <div>
 
-                                    <label className="block text-sm font-semibold text-gray-700">
+                                    <label className="block text-sm font-semibold text-softcharcoal">
                                         Description
                                     </label>
 
@@ -440,7 +532,7 @@ export default function Index({ categories }) {
                                             )
                                         }
                                         placeholder="Describe this event category..."
-                                        className="mt-2 w-full resize-none rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                        className="mt-2 w-full resize-none rounded-lg border-warmbeige shadow-sm focus:border-champagnegold focus:ring-champagnegold"
                                     />
 
                                     {errors.description && (
@@ -452,7 +544,7 @@ export default function Index({ categories }) {
                                 </div>
 
                                 {/* ACTIVE */}
-                                <div className="rounded-lg bg-gray-50 p-4">
+                                <div className="rounded-lg bg-ivory p-4">
 
                                     <label className="flex cursor-pointer items-center gap-3">
 
@@ -465,15 +557,15 @@ export default function Index({ categories }) {
                                                     e.target.checked
                                                 )
                                             }
-                                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                            className="h-4 w-4 rounded border-warmbeige text-champagnegold focus:ring-champagnegold"
                                         />
 
                                         <div>
-                                            <div className="text-sm font-semibold text-gray-800">
+                                            <div className="text-sm font-semibold text-softcharcoal">
                                                 Active Category
                                             </div>
 
-                                            <div className="text-xs text-gray-500">
+                                            <div className="text-xs text-warmgray">
                                                 Suppliers can select active
                                                 categories when creating packages.
                                             </div>
@@ -486,13 +578,13 @@ export default function Index({ categories }) {
                             </div>
 
                             {/* FOOTER */}
-                            <div className="flex justify-end gap-3 border-t bg-gray-50 px-6 py-4">
+                            <div className="flex justify-end gap-3 border-t bg-ivory px-6 py-4">
 
                                 <button
                                     type="button"
                                     onClick={closeFormModal}
                                     disabled={processing}
-                                    className="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                                    className="rounded-lg border border-warmbeige bg-white px-4 py-2.5 text-sm font-semibold text-softcharcoal hover:bg-ivory disabled:opacity-50"
                                 >
                                     Cancel
                                 </button>
@@ -500,7 +592,7 @@ export default function Index({ categories }) {
                                 <button
                                     type="submit"
                                     disabled={processing}
-                                    className="rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
+                                    className="rounded-lg bg-champagnegold px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-darkgold disabled:cursor-not-allowed disabled:opacity-50"
                                 >
                                     {processing
                                         ? 'Saving...'
@@ -544,13 +636,13 @@ export default function Index({ categories }) {
                             </div>
 
                             {/* TEXT */}
-                            <h2 className="mt-4 text-xl font-bold text-gray-900">
+                            <h2 className="mt-4 text-xl font-bold text-softcharcoal">
                                 Delete Event Category?
                             </h2>
 
-                            <p className="mt-2 text-sm leading-6 text-gray-500">
+                            <p className="mt-2 text-sm leading-6 text-warmgray">
                                 Are you sure you want to delete{' '}
-                                <span className="font-semibold text-gray-800">
+                                <span className="font-semibold text-softcharcoal">
                                     "{deletingCategory.name}"
                                 </span>
                                 ?
@@ -583,12 +675,12 @@ export default function Index({ categories }) {
                         </div>
 
                         {/* FOOTER */}
-                        <div className="flex justify-end gap-3 border-t bg-gray-50 px-6 py-4">
+                        <div className="flex justify-end gap-3 border-t bg-ivory px-6 py-4">
 
                             <button
                                 type="button"
                                 onClick={closeDeleteModal}
-                                className="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+                                className="rounded-lg border border-warmbeige bg-white px-4 py-2.5 text-sm font-semibold text-softcharcoal hover:bg-ivory"
                             >
                                 Cancel
                             </button>

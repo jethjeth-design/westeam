@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Notifications\BookingStatusUpdatedNotification;
 use App\Notifications\BookingSubmittedNotification;
 use App\Notifications\TeamBookingNotification;
+use App\Services\NotificationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,17 +29,29 @@ class BookingController extends Controller
 
         $bookings = Booking::with([
             'items.supplier.supplierProfile',
+            'items.supplier.paymentSetting',
+            'items.payments',
             'team.coordinator.supplierProfile',
+            'team.coordinator.paymentSetting',
+            'payments.supplier.supplierProfile',
+            'payments.bookingItem',
         ])
             ->where('customer_id', $user->id)
             ->latest()
             ->paginate(10);
 
         // Upcoming Event metrics
-        $upcomingBooking = Booking::with(['items.supplier'])
+        $upcomingBooking = Booking::with([
+            'items.supplier.supplierProfile',
+            'items.supplier.paymentSetting',
+            'items.payments',
+            'team.coordinator.supplierProfile',
+            'team.coordinator.paymentSetting',
+            'payments.supplier.supplierProfile',
+        ])
             ->where('customer_id', $user->id)
             ->where('event_date', '>=', now()->toDateString())
-            ->whereIn('overall_status', ['pending', 'accepted'])
+            ->whereIn('overall_status', ['pending', 'accepted', 'confirmed'])
             ->orderBy('event_date', 'asc')
             ->first();
 
@@ -151,6 +164,12 @@ class BookingController extends Controller
                 logger()->error('Customer confirmation mail failed: '.$e->getMessage());
             }
 
+            // Notify Admin of important booking activity
+            NotificationService::notifyAdminBookingActivity(
+                $booking,
+                "New booking request submitted by {$request->user()->name}"
+            );
+
             return $booking;
         });
 
@@ -171,9 +190,17 @@ class BookingController extends Controller
         $booking->load([
             'customer',
             'team.coordinator.supplierProfile',
+            'team.coordinator.paymentSetting',
             'items.supplier.supplierProfile',
+            'items.supplier.paymentSetting',
             'items.review',
+            'items.payments',
+            'payments.supplier',
+            'payments.verifier',
+            'payments.bookingItem',
         ]);
+
+        $booking->append(['verified_amount', 'remaining_balance', 'payment_status']);
 
         return Inertia::render('Customer/Bookings/Show', [
             'booking' => $booking,
@@ -207,6 +234,10 @@ class BookingController extends Controller
                     }
                 }
             }
+
+            // Customer confirmation & Admin activity
+            NotificationService::notifyCustomerBookingCancelled($booking);
+            NotificationService::notifyAdminBookingActivity($booking, "Booking cancelled by {$request->user()->name}");
         });
 
         return back()->with('success', 'Booking has been cancelled.');

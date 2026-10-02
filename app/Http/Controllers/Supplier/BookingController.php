@@ -8,6 +8,7 @@ use App\Models\BookingItem;
 use App\Models\Package;
 use App\Notifications\BookingStatusUpdatedNotification;
 use App\Notifications\ReviewReminderNotification;
+use App\Services\NotificationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -96,6 +97,19 @@ class BookingController extends Controller
             } catch (\Throwable $e) {
                 logger()->error('Status update notification error: '.$e->getMessage());
             }
+
+            // Downpayment notification to customer
+            $price = (float) ($item->package?->price ?? $item->service?->price ?? 0);
+            $downpayment = $price * 0.2;
+            if ($downpayment > 0) {
+                NotificationService::notifyCustomerDownpaymentRequired($booking, $downpayment);
+            }
+
+            // Notify Admin
+            NotificationService::notifyAdminBookingActivity(
+                $booking,
+                "Supplier {$item->supplier->name} accepted '{$item->item_name}'"
+            );
         });
 
         return back()->with('success', "You have accepted the booking for '{$item->item_name}'.");

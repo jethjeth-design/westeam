@@ -122,13 +122,13 @@ class GalleryController extends Controller
             ];
         });
 
-        // Pill categories for filter bar (Photography, Videography, Decoration, Catering, Event Planner...)
+        // Pill categories for filter bar connected to Event Categories
+        $eventCategories = EventCategory::where('is_active', true)->pluck('name')->all();
         $supplierCategories = SupplierCategory::where('is_active', true)->pluck('name')->all();
-        $eventCategories = EventCategory::pluck('name')->all();
-        $pills = collect(['All', 'Photography', 'Videography', 'Decoration', 'Catering', 'Event Planner'])
+        $pills = collect(['All'])
+            ->merge($eventCategories)
             ->merge($supplierCategories)
             ->unique()
-            ->take(8)
             ->values();
 
         return Inertia::render('Public/Gallery/Index', [

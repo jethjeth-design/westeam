@@ -125,42 +125,42 @@ export default function Show({ team, isCoordinator, userMembership }) {
 
             <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
                 {/* Navigation Breadcrumb */}
-                <nav className="flex items-center gap-2 text-xs text-gray-500">
-                    <Link href={route('supplier.teams.index')} className="hover:text-indigo-600">
+                <nav className="flex items-center gap-2 text-xs text-warmgray">
+                    <Link href={route('supplier.teams.index')} className="hover:text-champagnegold">
                         My Teams
                     </Link>
                     <span>›</span>
-                    <span className="font-semibold text-gray-800">{team.name}</span>
+                    <span className="font-semibold text-softcharcoal">{team.name}</span>
                 </nav>
 
                 {/* Team Header Banner */}
-                <div className="mt-4 flex flex-col gap-4 rounded-3xl border border-gray-200 bg-white p-6 shadow-xs sm:flex-row sm:items-center sm:justify-between">
+                <div className="mt-4 flex flex-col gap-4 rounded-3xl border border-warmbeige bg-white p-6 shadow-xs sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex items-center gap-4">
-                        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-indigo-600 text-2xl font-black text-white shadow-sm">
+                        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-champagnegold text-2xl font-black text-white shadow-sm">
                             {team.name.charAt(0)}
                         </div>
                         <div>
                             <div className="flex items-center gap-3">
-                                <h1 className="text-2xl font-black text-gray-900">{team.name}</h1>
+                                <h1 className="text-2xl font-black text-softcharcoal">{team.name}</h1>
                                 <span
                                     className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${
                                         team.status === 'active'
                                             ? 'bg-emerald-50 text-emerald-700'
-                                            : 'bg-gray-100 text-gray-600'
+                                            : 'bg-champagne text-warmgray'
                                     }`}
                                 >
                                     {team.status === 'active' ? 'Active' : 'Inactive'}
                                 </span>
                             </div>
-                            <p className="mt-1 text-xs text-gray-500">
+                            <p className="mt-1 text-xs text-warmgray">
                                 Coordinator:{' '}
-                                <span className="font-bold text-gray-800">
+                                <span className="font-bold text-softcharcoal">
                                     {team.coordinator?.supplier_profile?.business_name || team.coordinator?.name}
                                 </span>{' '}
                                 • Created {new Date(team.created_at).toLocaleDateString()}
                             </p>
                             {team.description && (
-                                <p className="mt-2 text-xs text-gray-600">{team.description}</p>
+                                <p className="mt-2 text-xs text-warmgray">{team.description}</p>
                             )}
                         </div>
                     </div>
@@ -172,14 +172,14 @@ export default function Show({ team, isCoordinator, userMembership }) {
                                 <button
                                     type="button"
                                     onClick={() => setIsEditModalOpen(true)}
-                                    className="rounded-xl border border-gray-300 bg-white px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50"
+                                    className="rounded-xl border border-warmbeige bg-white px-4 py-2 text-xs font-semibold text-softcharcoal hover:bg-ivory"
                                 >
                                     ⚙️ Edit Details
                                 </button>
                                 <button
                                     type="button"
                                     onClick={() => setIsInviteModalOpen(true)}
-                                    className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2 text-xs font-semibold text-white shadow-xs hover:bg-indigo-700 active:scale-95"
+                                    className="inline-flex items-center gap-2 rounded-xl bg-champagnegold px-5 py-2 text-xs font-semibold text-white shadow-xs hover:bg-darkgold active:scale-95"
                                 >
                                     <span>➕</span> Invite Suppliers
                                 </button>
@@ -192,13 +192,13 @@ export default function Show({ team, isCoordinator, userMembership }) {
                 <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
                     {/* Left: Team Members Roster (7 Cols) */}
                     <div className="space-y-6 lg:col-span-7">
-                        <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 shadow-xs">
-                            <div className="flex items-center justify-between border-b border-gray-100 pb-4">
+                        <div className="overflow-hidden rounded-2xl border border-warmbeige bg-white p-6 shadow-xs">
+                            <div className="flex items-center justify-between border-b border-champagne pb-4">
                                 <div>
-                                    <h2 className="text-base font-bold text-gray-900">
+                                    <h2 className="text-base font-bold text-softcharcoal">
                                         Team Members ({team.members?.length || 0})
                                     </h2>
-                                    <p className="text-xs text-gray-500">
+                                    <p className="text-xs text-warmgray">
                                         Manage your team members, roles, and collaboration status.
                                     </p>
                                 </div>
@@ -207,7 +207,7 @@ export default function Show({ team, isCoordinator, userMembership }) {
                                     <button
                                         type="button"
                                         onClick={() => setIsInviteModalOpen(true)}
-                                        className="text-xs font-bold text-indigo-600 hover:underline"
+                                        className="text-xs font-bold text-champagnegold hover:underline"
                                     >
                                         + Invite More
                                     </button>
@@ -215,7 +215,7 @@ export default function Show({ team, isCoordinator, userMembership }) {
                             </div>
 
                             {/* Member Roster List */}
-                            <div className="mt-4 divide-y divide-gray-100">
+                            <div className="mt-4 divide-y divide-champagne">
                                 {team.members?.map((member) => {
                                     const supplier = member.supplier;
                                     const isLead = supplier.id === team.coordinator_id;
@@ -228,7 +228,7 @@ export default function Show({ team, isCoordinator, userMembership }) {
                                             className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between"
                                         >
                                             <div className="flex items-center gap-3.5">
-                                                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-indigo-50 font-bold text-indigo-700 shadow-2xs">
+                                                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-champagne font-bold text-darkgold shadow-2xs">
                                                     {profile?.profile_picture ? (
                                                         <img
                                                             src={profile.profile_picture}
@@ -242,7 +242,7 @@ export default function Show({ team, isCoordinator, userMembership }) {
 
                                                 <div>
                                                     <div className="flex items-center gap-2">
-                                                        <span className="text-sm font-bold text-gray-900">
+                                                        <span className="text-sm font-bold text-softcharcoal">
                                                             {profile?.business_name || supplier.name}
                                                         </span>
                                                         {isLead && (
@@ -251,7 +251,7 @@ export default function Show({ team, isCoordinator, userMembership }) {
                                                             </span>
                                                         )}
                                                     </div>
-                                                    <p className="text-xs text-gray-500">
+                                                    <p className="text-xs text-warmgray">
                                                         {primaryCategory} • {supplier.services?.length || 0} active services
                                                     </p>
                                                 </div>
@@ -260,7 +260,7 @@ export default function Show({ team, isCoordinator, userMembership }) {
                                             {/* Role & Status Badges + Coordinator Controls */}
                                             <div className="flex items-center gap-2.5">
                                                 {/* Role Pill */}
-                                                <span className="rounded-lg bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-700">
+                                                <span className="rounded-lg bg-champagne px-2.5 py-1 text-xs font-semibold text-softcharcoal">
                                                     {member.role_title}
                                                 </span>
 
@@ -290,7 +290,7 @@ export default function Show({ team, isCoordinator, userMembership }) {
                                                             onClick={() => {
                                                                 router.post(route('messages.direct', supplier.id));
                                                             }}
-                                                            className="rounded-lg p-1.5 text-gray-400 hover:bg-indigo-50 hover:text-indigo-600"
+                                                            className="rounded-lg p-1.5 text-gray-400 hover:bg-champagne hover:text-champagnegold"
                                                             title="Chat with Member"
                                                         >
                                                             💬
@@ -298,7 +298,7 @@ export default function Show({ team, isCoordinator, userMembership }) {
                                                         <button
                                                             type="button"
                                                             onClick={() => handleOpenRoleModal(member)}
-                                                            className="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700"
+                                                            className="rounded-lg p-1.5 text-gray-400 hover:bg-champagne hover:text-softcharcoal"
                                                             title="Change Role"
                                                         >
                                                             ✏️
@@ -320,7 +320,7 @@ export default function Show({ team, isCoordinator, userMembership }) {
                                                         onClick={() => {
                                                             router.post(route('messages.direct', supplier.id));
                                                         }}
-                                                        className="rounded-lg px-2.5 py-1 text-xs font-semibold text-indigo-600 hover:bg-indigo-50"
+                                                        className="rounded-lg px-2.5 py-1 text-xs font-semibold text-champagnegold hover:bg-champagne"
                                                         title="Chat with Coordinator"
                                                     >
                                                         💬 Chat
@@ -336,13 +336,13 @@ export default function Show({ team, isCoordinator, userMembership }) {
 
                     {/* Right: Team Packages (Step 6) (5 Cols) */}
                     <div className="space-y-6 lg:col-span-5">
-                        <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 shadow-xs">
-                            <div className="flex items-center justify-between border-b border-gray-100 pb-4">
+                        <div className="overflow-hidden rounded-2xl border border-warmbeige bg-white p-6 shadow-xs">
+                            <div className="flex items-center justify-between border-b border-champagne pb-4">
                                 <div className="flex items-center gap-2.5">
                                     <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-50 text-purple-600">
                                         📦
                                     </div>
-                                    <h2 className="text-base font-bold text-gray-900">
+                                    <h2 className="text-base font-bold text-softcharcoal">
                                         Team Packages
                                     </h2>
                                 </div>
@@ -350,14 +350,14 @@ export default function Show({ team, isCoordinator, userMembership }) {
                                 {isCoordinator && (
                                     <Link
                                         href={route('supplier.packages.create')}
-                                        className="rounded-xl bg-indigo-600 px-3.5 py-1.5 text-xs font-semibold text-white shadow-2xs hover:bg-indigo-700"
+                                        className="rounded-xl bg-champagnegold px-3.5 py-1.5 text-xs font-semibold text-white shadow-2xs hover:bg-darkgold"
                                     >
                                         + New Package
                                     </Link>
                                 )}
                             </div>
 
-                            <p className="mt-3 text-xs text-gray-500">
+                            <p className="mt-3 text-xs text-warmgray">
                                 Combine services from team members into one complete event package and present it to customers.
                             </p>
 
@@ -367,22 +367,22 @@ export default function Show({ team, isCoordinator, userMembership }) {
                                     team.packages.map((pkg) => (
                                         <div
                                             key={pkg.id}
-                                            className="flex items-center justify-between rounded-xl border border-gray-200 bg-gray-50/50 p-4 transition hover:bg-gray-50"
+                                            className="flex items-center justify-between rounded-xl border border-warmbeige bg-ivory/50 p-4 transition hover:bg-ivory"
                                         >
                                             <div>
-                                                <span className="rounded bg-indigo-100 px-1.5 py-0.5 text-[10px] font-bold text-indigo-700">
+                                                <span className="rounded bg-champagne px-1.5 py-0.5 text-[10px] font-bold text-darkgold">
                                                     {pkg.event_category?.name || 'Package'}
                                                 </span>
-                                                <h4 className="mt-1 text-sm font-bold text-gray-900">
+                                                <h4 className="mt-1 text-sm font-bold text-softcharcoal">
                                                     {pkg.name}
                                                 </h4>
-                                                <p className="text-xs text-gray-500">
+                                                <p className="text-xs text-warmgray">
                                                     {(pkg.services || []).length} services included
                                                 </p>
                                             </div>
 
                                             <div className="text-right">
-                                                <span className="block text-sm font-extrabold text-gray-900">
+                                                <span className="block text-sm font-extrabold text-softcharcoal">
                                                     ₱{Number(pkg.price || 0).toLocaleString('en-PH', {
                                                         minimumFractionDigits: 2,
                                                     })}
@@ -390,7 +390,7 @@ export default function Show({ team, isCoordinator, userMembership }) {
                                                 {isCoordinator && (
                                                     <Link
                                                         href={route('supplier.packages.edit', pkg.id)}
-                                                        className="mt-1 inline-block text-xs font-semibold text-indigo-600 hover:underline"
+                                                        className="mt-1 inline-block text-xs font-semibold text-champagnegold hover:underline"
                                                     >
                                                         Edit
                                                     </Link>
@@ -399,9 +399,9 @@ export default function Show({ team, isCoordinator, userMembership }) {
                                         </div>
                                     ))
                                 ) : (
-                                    <div className="rounded-xl border border-dashed border-gray-200 p-6 text-center">
+                                    <div className="rounded-xl border border-dashed border-warmbeige p-6 text-center">
                                         <span className="text-2xl">🎁</span>
-                                        <p className="mt-2 text-xs font-medium text-gray-600">
+                                        <p className="mt-2 text-xs font-medium text-warmgray">
                                             No team packages created yet.
                                         </p>
                                         <p className="mt-1 text-[11px] text-gray-400">
@@ -413,7 +413,7 @@ export default function Show({ team, isCoordinator, userMembership }) {
                         </div>
 
                         {/* Informational Callout matching step 6 */}
-                        <div className="rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50/80 to-purple-50/80 p-5">
+                        <div className="rounded-2xl border border-champagne bg-gradient-to-br from-indigo-50/80 to-purple-50/80 p-5">
                             <div className="flex items-start gap-3">
                                 <span className="text-xl">💡</span>
                                 <div>
@@ -440,19 +440,19 @@ export default function Show({ team, isCoordinator, userMembership }) {
                         className="w-full max-w-xl rounded-2xl bg-white p-6 shadow-2xl"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <div className="flex items-center justify-between border-b border-gray-100 pb-4">
+                        <div className="flex items-center justify-between border-b border-champagne pb-4">
                             <div>
-                                <h3 className="text-lg font-bold text-gray-900">
+                                <h3 className="text-lg font-bold text-softcharcoal">
                                     Add Team Members
                                 </h3>
-                                <p className="text-xs text-gray-500">
+                                <p className="text-xs text-warmgray">
                                     Search and invite registered suppliers to collaborate in {team.name}.
                                 </p>
                             </div>
                             <button
                                 type="button"
                                 onClick={() => setIsInviteModalOpen(false)}
-                                className="text-gray-400 hover:text-gray-600"
+                                className="text-gray-400 hover:text-warmgray"
                             >
                                 ✕
                             </button>
@@ -469,7 +469,7 @@ export default function Show({ team, isCoordinator, userMembership }) {
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     placeholder="Search suppliers by name, business, or category (e.g. Photography, Catering)..."
-                                    className="w-full rounded-xl border border-gray-300 py-2.5 pl-9 pr-3 text-sm shadow-xs outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100"
+                                    className="w-full rounded-xl border border-warmbeige py-2.5 pl-9 pr-3 text-sm shadow-xs outline-none focus:border-champagnegold focus:ring-2 focus:ring-champagne"
                                 />
                             </div>
                         </div>
@@ -489,17 +489,17 @@ export default function Show({ team, isCoordinator, userMembership }) {
                                     return (
                                         <div
                                             key={supplier.id}
-                                            className="flex items-center justify-between rounded-xl border border-gray-100 bg-gray-50/50 p-3 transition hover:bg-gray-100/70"
+                                            className="flex items-center justify-between rounded-xl border border-champagne bg-ivory/50 p-3 transition hover:bg-champagne/70"
                                         >
                                             <div className="flex items-center gap-3">
-                                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-100 font-bold text-indigo-700">
+                                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-champagne font-bold text-darkgold">
                                                     {supplier.name.charAt(0)}
                                                 </div>
                                                 <div>
-                                                    <h4 className="text-xs font-bold text-gray-900">
+                                                    <h4 className="text-xs font-bold text-softcharcoal">
                                                         {profile?.business_name || supplier.name}
                                                     </h4>
-                                                    <p className="text-[11px] text-gray-500">
+                                                    <p className="text-[11px] text-warmgray">
                                                         {categoryName} • {supplier.services?.length || 0} services
                                                     </p>
                                                 </div>
@@ -508,7 +508,7 @@ export default function Show({ team, isCoordinator, userMembership }) {
                                             <button
                                                 type="button"
                                                 onClick={() => handleSendInvite(supplier, categoryName)}
-                                                className="rounded-xl bg-indigo-600 px-4 py-1.5 text-xs font-semibold text-white shadow-2xs hover:bg-indigo-700 active:scale-95"
+                                                className="rounded-xl bg-champagnegold px-4 py-1.5 text-xs font-semibold text-white shadow-2xs hover:bg-darkgold active:scale-95"
                                             >
                                                 Invite
                                             </button>
@@ -525,11 +525,11 @@ export default function Show({ team, isCoordinator, userMembership }) {
                         </div>
 
                         {/* Close Footer */}
-                        <div className="mt-5 flex justify-end border-t border-gray-100 pt-4">
+                        <div className="mt-5 flex justify-end border-t border-champagne pt-4">
                             <button
                                 type="button"
                                 onClick={() => setIsInviteModalOpen(false)}
-                                className="rounded-xl border border-gray-300 px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50"
+                                className="rounded-xl border border-warmbeige px-4 py-2 text-xs font-semibold text-softcharcoal hover:bg-ivory"
                             >
                                 Done
                             </button>
@@ -548,14 +548,14 @@ export default function Show({ team, isCoordinator, userMembership }) {
                         className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <div className="flex items-center justify-between border-b border-gray-100 pb-4">
-                            <h3 className="text-lg font-bold text-gray-900">
+                        <div className="flex items-center justify-between border-b border-champagne pb-4">
+                            <h3 className="text-lg font-bold text-softcharcoal">
                                 Edit Team Details
                             </h3>
                             <button
                                 type="button"
                                 onClick={() => setIsEditModalOpen(false)}
-                                className="text-gray-400 hover:text-gray-600"
+                                className="text-gray-400 hover:text-warmgray"
                             >
                                 ✕
                             </button>
@@ -563,56 +563,56 @@ export default function Show({ team, isCoordinator, userMembership }) {
 
                         <form onSubmit={handleUpdateTeam} className="mt-4 space-y-4">
                             <div>
-                                <label className="block text-xs font-semibold text-gray-700">
+                                <label className="block text-xs font-semibold text-softcharcoal">
                                     Team Name
                                 </label>
                                 <input
                                     type="text"
                                     value={editForm.data.name}
                                     onChange={(e) => editForm.setData('name', e.target.value)}
-                                    className="mt-1 w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm shadow-xs outline-none focus:border-indigo-600"
+                                    className="mt-1 w-full rounded-xl border border-warmbeige px-3.5 py-2.5 text-sm shadow-xs outline-none focus:border-champagnegold"
                                     required
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-xs font-semibold text-gray-700">
+                                <label className="block text-xs font-semibold text-softcharcoal">
                                     Description
                                 </label>
                                 <textarea
                                     rows="3"
                                     value={editForm.data.description}
                                     onChange={(e) => editForm.setData('description', e.target.value)}
-                                    className="mt-1 w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm shadow-xs outline-none focus:border-indigo-600"
+                                    className="mt-1 w-full rounded-xl border border-warmbeige px-3.5 py-2.5 text-sm shadow-xs outline-none focus:border-champagnegold"
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-xs font-semibold text-gray-700">
+                                <label className="block text-xs font-semibold text-softcharcoal">
                                     Status
                                 </label>
                                 <select
                                     value={editForm.data.status}
                                     onChange={(e) => editForm.setData('status', e.target.value)}
-                                    className="mt-1 w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm shadow-xs outline-none focus:border-indigo-600"
+                                    className="mt-1 w-full rounded-xl border border-warmbeige px-3.5 py-2.5 text-sm shadow-xs outline-none focus:border-champagnegold"
                                 >
                                     <option value="active">Active</option>
                                     <option value="inactive">Inactive</option>
                                 </select>
                             </div>
 
-                            <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
+                            <div className="flex items-center justify-end gap-3 pt-4 border-t border-champagne">
                                 <button
                                     type="button"
                                     onClick={() => setIsEditModalOpen(false)}
-                                    className="rounded-xl border border-gray-300 px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50"
+                                    className="rounded-xl border border-warmbeige px-4 py-2 text-xs font-semibold text-softcharcoal hover:bg-ivory"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={editForm.processing}
-                                    className="rounded-xl bg-indigo-600 px-5 py-2 text-xs font-semibold text-white shadow-xs hover:bg-indigo-700"
+                                    className="rounded-xl bg-champagnegold px-5 py-2 text-xs font-semibold text-white shadow-xs hover:bg-darkgold"
                                 >
                                     Save Changes
                                 </button>
@@ -632,17 +632,17 @@ export default function Show({ team, isCoordinator, userMembership }) {
                         className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <h3 className="text-lg font-bold text-gray-900">
+                        <h3 className="text-lg font-bold text-softcharcoal">
                             Assign Member Role
                         </h3>
-                        <p className="mt-1 text-xs text-gray-500">
+                        <p className="mt-1 text-xs text-warmgray">
                             Assign a designated service or team role for{' '}
                             <strong>{selectedMember.supplier?.name}</strong>.
                         </p>
 
                         <form onSubmit={handleUpdateRole} className="mt-4 space-y-4">
                             <div>
-                                <label className="block text-xs font-semibold text-gray-700">
+                                <label className="block text-xs font-semibold text-softcharcoal">
                                     Role / Service Title
                                 </label>
                                 <input
@@ -650,23 +650,23 @@ export default function Show({ team, isCoordinator, userMembership }) {
                                     value={roleForm.data.role_title}
                                     onChange={(e) => roleForm.setData('role_title', e.target.value)}
                                     placeholder="e.g. Lead Photographer, Head Catering, Decorator"
-                                    className="mt-1 w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm shadow-xs outline-none focus:border-indigo-600"
+                                    className="mt-1 w-full rounded-xl border border-warmbeige px-3.5 py-2.5 text-sm shadow-xs outline-none focus:border-champagnegold"
                                     required
                                 />
                             </div>
 
-                            <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
+                            <div className="flex items-center justify-end gap-3 pt-4 border-t border-champagne">
                                 <button
                                     type="button"
                                     onClick={() => setIsRoleModalOpen(false)}
-                                    className="rounded-xl border border-gray-300 px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50"
+                                    className="rounded-xl border border-warmbeige px-4 py-2 text-xs font-semibold text-softcharcoal hover:bg-ivory"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={roleForm.processing}
-                                    className="rounded-xl bg-indigo-600 px-5 py-2 text-xs font-semibold text-white shadow-xs hover:bg-indigo-700"
+                                    className="rounded-xl bg-champagnegold px-5 py-2 text-xs font-semibold text-white shadow-xs hover:bg-darkgold"
                                 >
                                     Save Role
                                 </button>

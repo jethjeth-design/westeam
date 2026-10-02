@@ -36,7 +36,37 @@ class HandleInertiaRequests extends Middleware
         $unreadMessagesCount = 0;
         $pendingBookingsCount = 0;
 
+        $unreadNotificationsCount = 0;
+        $recentNotifications = [];
+
         if ($user) {
+            // Unread notifications and recent list for notification bell dropdown
+            $unreadNotificationsCount = $user->unreadNotifications()->count();
+            $recentNotifications = $user->notifications()
+                ->latest()
+                ->take(8)
+                ->get()
+                ->map(function ($n) {
+                    $data = $n->data ?? [];
+
+                    return [
+                        'id' => $n->id,
+                        'read' => ! is_null($n->read_at),
+                        'read_at' => $n->read_at?->toISOString(),
+                        'created_at' => $n->created_at?->toISOString(),
+                        'created_at_human' => $n->created_at?->diffForHumans(),
+                        'title' => $data['title'] ?? 'Notification',
+                        'message' => $data['message'] ?? '',
+                        'action_url' => $data['action_url'] ?? route('notifications.index'),
+                        'category' => $data['category'] ?? 'system',
+                        'type' => $data['type'] ?? 'general',
+                        'icon' => $data['icon'] ?? '🔔',
+                        'role' => $data['role'] ?? null,
+                    ];
+                })
+                ->values()
+                ->all();
+
             // Unread messages count for all authenticated users
             $unreadMessagesCount = Message::where('sender_id', '!=', $user->id)
                 ->whereIn('conversation_id', function ($query) use ($user) {
@@ -103,6 +133,8 @@ class HandleInertiaRequests extends Middleware
 
             'unread_messages_count' => $unreadMessagesCount,
             'pending_bookings_count' => $pendingBookingsCount,
+            'unread_notifications_count' => $unreadNotificationsCount,
+            'recent_notifications' => $recentNotifications,
         ];
     }
 }

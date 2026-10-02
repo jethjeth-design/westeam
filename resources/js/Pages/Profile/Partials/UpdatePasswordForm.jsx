@@ -48,14 +48,14 @@ export default function UpdatePasswordForm({ className = '' }) {
     return (
         <section className={className}>
             <header className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 text-lg">
+                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-champagne text-champagnegold text-lg">
                     🔒
                 </div>
                 <div>
-                    <h2 className="text-lg font-black text-slate-900">
+                    <h2 className="text-lg font-black text-softcharcoal">
                         Update Password
                     </h2>
-                    <p className="mt-0.5 text-xs text-slate-500">
+                    <p className="mt-0.5 text-xs text-warmgray">
                         Ensure your account is protected with a strong, secure password.
                     </p>
                 </div>
@@ -66,7 +66,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                 <div>
                     <label
                         htmlFor="current_password"
-                        className="block text-xs font-bold uppercase tracking-wider text-slate-700"
+                        className="block text-xs font-bold uppercase tracking-wider text-softcharcoal"
                     >
                         Current Password <span className="text-red-500">*</span>
                     </label>
@@ -80,13 +80,13 @@ export default function UpdatePasswordForm({ className = '' }) {
                                 setData('current_password', e.target.value)
                             }
                             type={showCurrent ? 'text' : 'password'}
-                            className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-2.5 pr-11 text-sm text-slate-900 shadow-xs transition focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                            className="w-full rounded-2xl border border-warmbeige bg-white px-4 py-2.5 pr-11 text-sm text-softcharcoal shadow-xs transition focus:border-champagnegold focus:outline-none focus:ring-2 focus:ring-champagne"
                             autoComplete="current-password"
                         />
                         <button
                             type="button"
                             onClick={() => setShowCurrent(!showCurrent)}
-                            className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-xs text-slate-400 hover:text-slate-600"
+                            className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-xs text-warmgray hover:text-softcharcoal"
                             title={showCurrent ? 'Hide password' : 'Show password'}
                         >
                             {showCurrent ? '🙈' : '👁️'}
@@ -103,7 +103,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                 <div>
                     <label
                         htmlFor="password"
-                        className="block text-xs font-bold uppercase tracking-wider text-slate-700"
+                        className="block text-xs font-bold uppercase tracking-wider text-softcharcoal"
                     >
                         New Password <span className="text-red-500">*</span>
                     </label>
@@ -115,13 +115,13 @@ export default function UpdatePasswordForm({ className = '' }) {
                             value={data.password}
                             onChange={(e) => setData('password', e.target.value)}
                             type={showNew ? 'text' : 'password'}
-                            className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-2.5 pr-11 text-sm text-slate-900 shadow-xs transition focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                            className="w-full rounded-2xl border border-warmbeige bg-white px-4 py-2.5 pr-11 text-sm text-softcharcoal shadow-xs transition focus:border-champagnegold focus:outline-none focus:ring-2 focus:ring-champagne"
                             autoComplete="new-password"
                         />
                         <button
                             type="button"
                             onClick={() => setShowNew(!showNew)}
-                            className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-xs text-slate-400 hover:text-slate-600"
+                            className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-xs text-warmgray hover:text-softcharcoal"
                             title={showNew ? 'Hide password' : 'Show password'}
                         >
                             {showNew ? '🙈' : '👁️'}
@@ -135,7 +135,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                 <div>
                     <label
                         htmlFor="password_confirmation"
-                        className="block text-xs font-bold uppercase tracking-wider text-slate-700"
+                        className="block text-xs font-bold uppercase tracking-wider text-softcharcoal"
                     >
                         Confirm New Password <span className="text-red-500">*</span>
                     </label>
@@ -148,13 +148,13 @@ export default function UpdatePasswordForm({ className = '' }) {
                                 setData('password_confirmation', e.target.value)
                             }
                             type={showConfirm ? 'text' : 'password'}
-                            className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-2.5 pr-11 text-sm text-slate-900 shadow-xs transition focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                            className="w-full rounded-2xl border border-warmbeige bg-white px-4 py-2.5 pr-11 text-sm text-softcharcoal shadow-xs transition focus:border-champagnegold focus:outline-none focus:ring-2 focus:ring-champagne"
                             autoComplete="new-password"
                         />
                         <button
                             type="button"
                             onClick={() => setShowConfirm(!showConfirm)}
-                            className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-xs text-slate-400 hover:text-slate-600"
+                            className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-xs text-warmgray hover:text-softcharcoal"
                             title={showConfirm ? 'Hide password' : 'Show password'}
                         >
                             {showConfirm ? '🙈' : '👁️'}
@@ -171,7 +171,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                     <button
                         type="submit"
                         disabled={processing}
-                        className="inline-flex items-center gap-1.5 rounded-2xl bg-indigo-600 px-6 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-indigo-700 active:scale-95 disabled:opacity-50"
+                        className="inline-flex items-center gap-1.5 rounded-2xl bg-champagnegold px-6 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-darkgold active:scale-95 disabled:opacity-50"
                     >
                         {processing ? 'Updating...' : 'Update Password'}
                     </button>

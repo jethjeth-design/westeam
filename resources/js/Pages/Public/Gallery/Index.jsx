@@ -53,44 +53,83 @@ export default function GalleryIndex({ portfolios, pills = [], filters = {} }) {
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                {/* Search & Category Pills Bar (Matches Design Mockup 6) */}
-                <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-10">
-                    {/* Category Filter Pills */}
-                    <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 scrollbar-none">
-                        {pills.map((pill, idx) => {
-                            const isSelected =
-                                selectedCategory.toLowerCase() === pill.toLowerCase() ||
-                                (pill === 'All' && (!selectedCategory || selectedCategory === 'all'));
-
-                            return (
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+                {/* Search & Categories Dropdown Filter Card */}
+                <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#EFE7D8] shadow-xs mb-6">
+                    <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
+                        {/* Search Gallery Input */}
+                        <div className="relative sm:col-span-6 lg:col-span-7">
+                            <input
+                                type="text"
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                placeholder="Search gallery by title, supplier, or location..."
+                                className="w-full pl-10 pr-9 py-2.5 rounded-xl bg-[#F8F5EF] border border-[#EFE7D8] text-xs sm:text-sm text-[#24221E] placeholder-[#77736C] focus:ring-2 focus:ring-[#C99632] outline-none transition-all"
+                            />
+                            <svg className="w-4 h-4 text-[#A87520] absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            {search && (
                                 <button
-                                    key={idx}
-                                    onClick={() => handlePillClick(pill === 'All' ? 'all' : pill)}
-                                    className={`px-5 py-2 rounded-full text-xs font-bold tracking-wider whitespace-nowrap transition-all duration-200 border ${
-                                        isSelected
-                                            ? 'bg-[#C99632] text-white border-[#C99632] shadow-xs'
-                                            : 'bg-white text-[#77736C] border-[#EFE7D8] hover:border-[#C99632] hover:text-[#24221E]'
-                                    }`}
+                                    type="button"
+                                    onClick={() => {
+                                        setSearch('');
+                                        router.get('/gallery', {
+                                            search: undefined,
+                                            category: selectedCategory !== 'all' ? selectedCategory : undefined,
+                                        }, { preserveState: true, replace: true });
+                                    }}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#77736C] hover:text-[#24221E]"
                                 >
-                                    {pill}
+                                    ✕
                                 </button>
-                            );
-                        })}
-                    </div>
+                            )}
+                        </div>
 
-                    {/* Search Gallery Input */}
-                    <form onSubmit={handleSearchSubmit} className="relative w-full md:w-72">
-                        <input
-                            type="text"
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                            placeholder="Search gallery..."
-                            className="w-full pl-10 pr-4 py-2 rounded-full bg-white border border-[#EFE7D8] text-xs text-[#24221E] placeholder-[#77736C] focus:ring-2 focus:ring-[#C99632] outline-none"
-                        />
-                        <svg className="w-4 h-4 text-[#A87520] absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
+                        {/* Categories Dropdown */}
+                        <div className="sm:col-span-4 lg:col-span-3 relative">
+                            <select
+                                value={selectedCategory}
+                                onChange={(e) => handlePillClick(e.target.value)}
+                                className="w-full appearance-none py-2.5 pl-3.5 pr-9 rounded-xl bg-[#F8F5EF] border border-[#EFE7D8] text-xs sm:text-sm text-[#24221E] font-medium focus:ring-2 focus:ring-[#C99632] focus:border-transparent outline-none cursor-pointer transition-all"
+                            >
+                                <option value="all">All Categories</option>
+                                {pills.filter((p) => p !== 'All').map((pill, idx) => (
+                                    <option key={idx} value={pill}>
+                                        {pill}
+                                    </option>
+                                ))}
+                            </select>
+                            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#77736C]">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        {/* Actions */}
+                        <div className="sm:col-span-2 lg:col-span-2 flex items-center gap-2">
+                            <button
+                                type="submit"
+                                className="w-full py-2.5 rounded-xl bg-[#C99632] hover:bg-[#A87520] text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-xs"
+                            >
+                                Search
+                            </button>
+                            {(search || (selectedCategory && selectedCategory !== 'all')) && (
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setSearch('');
+                                        setSelectedCategory('all');
+                                        router.get('/gallery', {}, { preserveState: true, replace: true });
+                                    }}
+                                    className="px-3 py-2.5 rounded-xl border border-[#DCC9A8] hover:border-[#C99632] bg-[#F8F5EF] text-[#24221E] text-xs font-bold uppercase tracking-wider transition-colors"
+                                    title="Reset filters"
+                                >
+                                    Reset
+                                </button>
+                            )}
+                        </div>
                     </form>
                 </div>
 
@@ -170,13 +209,12 @@ export default function GalleryIndex({ portfolios, pills = [], filters = {} }) {
                                     key={i}
                                     href={link.url || '#'}
                                     preserveScroll
-                                    className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-colors ${
-                                        link.active
-                                            ? 'bg-[#C99632] text-white'
-                                            : !link.url
+                                    className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-colors ${link.active
+                                        ? 'bg-[#C99632] text-white'
+                                        : !link.url
                                             ? 'text-gray-300 pointer-events-none'
                                             : 'bg-white text-[#24221E] border border-[#EFE7D8] hover:bg-[#EFE7D8]'
-                                    }`}
+                                        }`}
                                     dangerouslySetInnerHTML={{ __html: link.label }}
                                 />
                             ))}
@@ -229,9 +267,8 @@ export default function GalleryIndex({ portfolios, pills = [], filters = {} }) {
                                         <button
                                             key={i}
                                             onClick={() => setModalPhotoIndex(i)}
-                                            className={`w-16 h-16 rounded-xl overflow-hidden border-2 shrink-0 transition-all ${
-                                                i === modalPhotoIndex ? 'border-[#C99632] scale-105' : 'border-transparent opacity-70 hover:opacity-100'
-                                            }`}
+                                            className={`w-16 h-16 rounded-xl overflow-hidden border-2 shrink-0 transition-all ${i === modalPhotoIndex ? 'border-[#C99632] scale-105' : 'border-transparent opacity-70 hover:opacity-100'
+                                                }`}
                                         >
                                             <img src={img.image_url} alt="" className="w-full h-full object-cover" />
                                         </button>

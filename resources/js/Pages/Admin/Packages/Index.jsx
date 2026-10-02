@@ -16,53 +16,53 @@ export default function Index({ packages, filters = {} }) {
     return (
         <DashboardLayout>
             <Head title="Packages - Admin" />
-            <div className="min-h-screen bg-slate-50/60 p-6 lg:p-8">
+            <div className="min-h-screen bg-ivory/60 p-4 sm:p-6 lg:p-8">
                 <div>
-                    <span className="text-xs font-bold uppercase tracking-wider text-slate-500">📦 Admin</span>
-                    <h1 className="mt-1 text-2xl font-extrabold text-slate-900">All Packages</h1>
-                    <p className="mt-0.5 text-sm text-slate-500">Browse all supplier and team packages on the platform.</p>
+                    <span className="text-xs font-bold uppercase tracking-wider text-warmgray">📦 Admin</span>
+                    <h1 className="mt-1 text-2xl font-extrabold text-softcharcoal">All Packages</h1>
+                    <p className="mt-0.5 text-sm text-warmgray">Browse all supplier and team packages on the platform.</p>
                 </div>
 
-                <form onSubmit={handleSearch} className="mt-6 flex flex-wrap items-center gap-3">
+                <form onSubmit={handleSearch} className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                     <input
                         type="text"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         placeholder="Search package or supplier..."
-                        className="rounded-xl border border-slate-300 px-3 py-2 text-sm shadow-xs outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 w-64"
+                        className="w-full rounded-xl border border-warmbeige px-3 py-2 text-sm shadow-xs outline-none focus:border-champagnegold focus:ring-2 focus:ring-champagne sm:w-64"
                     />
                     <select
                         value={type}
                         onChange={(e) => setType(e.target.value)}
-                        className="rounded-xl border border-slate-300 px-3 py-2 text-sm shadow-xs outline-none focus:border-indigo-500 w-36"
+                        className="w-full rounded-xl border border-warmbeige px-3 py-2 text-sm shadow-xs outline-none focus:border-champagnegold sm:w-36"
                     >
                         <option value="">All Types</option>
                         <option value="solo">Solo / Individual</option>
                         <option value="team">Team Package</option>
                     </select>
-                    <button type="submit" className="rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700">
+                    <button type="submit" className="w-full rounded-xl bg-champagnegold px-4 py-2 text-sm font-semibold text-white hover:bg-darkgold sm:w-auto">
                         Filter
                     </button>
                 </form>
 
-                <div className="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xs">
+                <div className="mt-6 overflow-hidden rounded-2xl border border-warmbeige bg-white shadow-xs">
                     {packageList.length > 0 ? (
                         <div className="overflow-x-auto">
-                            <table className="w-full text-left text-sm">
-                                <thead className="border-b border-slate-100 bg-slate-50">
+                            <table className="w-full min-w-[600px] text-left text-sm">
+                                <thead className="border-b border-champagne bg-ivory">
                                     <tr>
                                         {['Package Name', 'Supplier', 'Category', 'Price', 'Type', 'Team', 'Status'].map((h) => (
-                                            <th key={h} className="px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500">{h}</th>
+                                            <th key={h} className="px-4 py-3 text-xs font-bold uppercase tracking-wider text-warmgray">{h}</th>
                                         ))}
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-slate-100">
+                                <tbody className="divide-y divide-champagne">
                                     {packageList.map((pkg) => (
-                                        <tr key={pkg.id} className="hover:bg-slate-50/60 transition">
-                                            <td className="px-4 py-3 font-semibold text-slate-800 text-sm">{pkg.name}</td>
-                                            <td className="px-4 py-3 text-xs text-slate-600">{pkg.supplier?.name ?? '—'}</td>
-                                            <td className="px-4 py-3 text-xs text-slate-600">{pkg.event_category?.name ?? '—'}</td>
-                                            <td className="px-4 py-3 text-xs font-semibold text-slate-800">₱{Number(pkg.price).toLocaleString()}</td>
+                                        <tr key={pkg.id} className="hover:bg-ivory/60 transition">
+                                            <td className="px-4 py-3 font-semibold text-softcharcoal text-sm">{pkg.name}</td>
+                                            <td className="px-4 py-3 text-xs text-softcharcoal">{pkg.supplier?.name ?? '—'}</td>
+                                            <td className="px-4 py-3 text-xs text-softcharcoal">{pkg.event_category?.name ?? '—'}</td>
+                                            <td className="px-4 py-3 text-xs font-semibold text-softcharcoal">₱{Number(pkg.price).toLocaleString()}</td>
                                             <td className="px-4 py-3">
                                                 {pkg.team_id ? (
                                                     <span className="inline-flex items-center rounded-full bg-purple-50 px-2.5 py-0.5 text-[10px] font-bold text-purple-700 ring-1 ring-inset ring-purple-600/20">
@@ -74,9 +74,9 @@ export default function Index({ packages, filters = {} }) {
                                                     </span>
                                                 )}
                                             </td>
-                                            <td className="px-4 py-3 text-xs text-slate-600">{pkg.team?.name ?? '—'}</td>
+                                            <td className="px-4 py-3 text-xs text-softcharcoal">{pkg.team?.name ?? '—'}</td>
                                             <td className="px-4 py-3">
-                                                <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold ring-1 ring-inset ${pkg.is_active ? 'bg-emerald-50 text-emerald-700 ring-emerald-600/20' : 'bg-slate-100 text-slate-500 ring-slate-500/20'}`}>
+                                                <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold ring-1 ring-inset ${pkg.is_active ? 'bg-emerald-50 text-emerald-700 ring-emerald-600/20' : 'bg-champagne text-warmgray ring-warmgray/20'}`}>
                                                     {pkg.is_active ? 'Active' : 'Inactive'}
                                                 </span>
                                             </td>
@@ -88,7 +88,7 @@ export default function Index({ packages, filters = {} }) {
                     ) : (
                         <div className="p-10 text-center">
                             <span className="text-3xl">📦</span>
-                            <p className="mt-2 text-sm text-slate-500">No packages found.</p>
+                            <p className="mt-2 text-sm text-warmgray">No packages found.</p>
                         </div>
                     )}
                 </div>
@@ -100,7 +100,7 @@ export default function Index({ packages, filters = {} }) {
                                 key={i}
                                 disabled={!link.url}
                                 onClick={() => link.url && router.get(link.url, {}, { preserveState: true })}
-                                className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${link.active ? 'bg-indigo-600 text-white' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 disabled:opacity-40'}`}
+                                className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${link.active ? 'bg-champagnegold text-white' : 'bg-white text-softcharcoal border border-warmbeige hover:bg-ivory disabled:opacity-40'}`}
                                 dangerouslySetInnerHTML={{ __html: link.label }}
                             />
                         ))}

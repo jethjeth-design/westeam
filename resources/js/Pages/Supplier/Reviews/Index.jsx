@@ -91,20 +91,20 @@ export default function Index({
         <DashboardLayout>
             <Head title="Reviews & Ratings - Supplier Portal" />
 
-            <div className="min-h-screen bg-slate-50/60 p-6 lg:p-10">
+            <div className="min-h-screen bg-ivory/60 p-4 sm:p-6 lg:p-10">
                 {/* Header */}
                 <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                     <div>
                         <div className="flex items-center gap-2">
-                            <span className="inline-flex items-center rounded-md bg-indigo-50 px-2.5 py-1 text-xs font-bold text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
+                            <span className="inline-flex items-center rounded-md bg-champagne px-2.5 py-1 text-xs font-bold text-darkgold ring-1 ring-inset ring-indigo-700/10">
                                 ⭐ Reputation & Feedback
                             </span>
-                            <span className="text-xs text-slate-400">• Supplier Portal</span>
+                            <span className="text-xs text-warmgray">• Supplier Portal</span>
                         </div>
-                        <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-900">
+                        <h1 className="mt-2 text-3xl font-black tracking-tight text-softcharcoal">
                             Client Reviews & Ratings
                         </h1>
-                        <p className="mt-1 text-sm text-slate-500">
+                        <p className="mt-1 text-sm text-warmgray">
                             Track client testimonials, verify performance metrics, and build trust with future event organizers.
                         </p>
                     </div>
@@ -112,62 +112,62 @@ export default function Index({
 
                 {/* Top Metrics Cards */}
                 <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
-                    <div className="rounded-3xl border border-slate-200/80 bg-white p-5 shadow-xs transition hover:shadow-md">
-                        <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                    <div className="rounded-3xl border border-warmbeige/80 bg-white p-5 shadow-xs transition hover:shadow-md">
+                        <span className="text-xs font-bold uppercase tracking-wider text-warmgray">
                             Average Rating
                         </span>
                         <div className="mt-2 flex items-baseline gap-2">
                             <span className="text-3xl font-black text-amber-500">{averageScore}</span>
                             <span className="text-sm font-bold text-amber-400">/ 5.0</span>
                         </div>
-                        <p className="mt-1 text-[11px] text-slate-400">Based on published ratings</p>
+                        <p className="mt-1 text-[11px] text-warmgray">Based on published ratings</p>
                     </div>
 
-                    <div className="rounded-3xl border border-slate-200/80 bg-white p-5 shadow-xs transition hover:shadow-md">
-                        <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                    <div className="rounded-3xl border border-warmbeige/80 bg-white p-5 shadow-xs transition hover:shadow-md">
+                        <span className="text-xs font-bold uppercase tracking-wider text-warmgray">
                             Published Reviews
                         </span>
                         <div className="mt-2 flex items-baseline gap-2">
                             <span className="text-3xl font-black text-emerald-600">{counts.approved}</span>
                         </div>
-                        <p className="mt-1 text-[11px] text-slate-400">Visible on public profile</p>
+                        <p className="mt-1 text-[11px] text-warmgray">Visible on public profile</p>
                     </div>
 
-                    <div className="rounded-3xl border border-slate-200/80 bg-white p-5 shadow-xs transition hover:shadow-md">
-                        <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                    <div className="rounded-3xl border border-warmbeige/80 bg-white p-5 shadow-xs transition hover:shadow-md">
+                        <span className="text-xs font-bold uppercase tracking-wider text-warmgray">
                             5-Star Reviews
                         </span>
                         <div className="mt-2 flex items-baseline gap-2">
-                            <span className="text-3xl font-black text-indigo-600">
+                            <span className="text-3xl font-black text-champagnegold">
                                 {distribution[5] || 0}
                             </span>
                         </div>
-                        <p className="mt-1 text-[11px] text-slate-400">Top quality feedback</p>
+                        <p className="mt-1 text-[11px] text-warmgray">Top quality feedback</p>
                     </div>
 
-                    <div className="rounded-3xl border border-slate-200/80 bg-white p-5 shadow-xs transition hover:shadow-md">
-                        <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                    <div className="rounded-3xl border border-warmbeige/80 bg-white p-5 shadow-xs transition hover:shadow-md">
+                        <span className="text-xs font-bold uppercase tracking-wider text-warmgray">
                             Total Received
                         </span>
                         <div className="mt-2 flex items-baseline gap-2">
-                            <span className="text-3xl font-black text-slate-900">{counts.total}</span>
+                            <span className="text-3xl font-black text-softcharcoal">{counts.total}</span>
                         </div>
-                        <p className="mt-1 text-[11px] text-slate-400">All submissions</p>
+                        <p className="mt-1 text-[11px] text-warmgray">All submissions</p>
                     </div>
                 </div>
 
                 {/* Rating Breakdown Card */}
-                <div className="mt-6 overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xs sm:p-8">
+                <div className="mt-6 overflow-hidden rounded-3xl border border-warmbeige/80 bg-white p-6 shadow-xs sm:p-8">
                     <div className="grid gap-8 md:grid-cols-12 md:items-center">
                         {/* Score Box */}
-                        <div className="flex flex-col items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-50/70 via-violet-50/40 to-slate-50 p-6 text-center border border-indigo-100/60 md:col-span-4">
-                            <span className="text-5xl font-black tracking-tight text-slate-900">
+                        <div className="flex flex-col items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-50/70 via-violet-50/40 to-ivory p-6 text-center border border-champagne/60 md:col-span-4">
+                            <span className="text-5xl font-black tracking-tight text-softcharcoal">
                                 {averageScore}
                             </span>
                             <div className="mt-2.5">
                                 <RatingStars rating={averageScore} size="lg" />
                             </div>
-                            <p className="mt-2 text-xs font-bold text-slate-700">
+                            <p className="mt-2 text-xs font-bold text-softcharcoal">
                                 {totalCount} {totalCount === 1 ? 'Published Review' : 'Published Reviews'}
                             </p>
                             <span className="mt-2.5 inline-flex items-center gap-1.5 rounded-full bg-emerald-100/80 px-3 py-1 text-[11px] font-bold text-emerald-800">
@@ -189,17 +189,17 @@ export default function Index({
                                         onClick={() => handleRating(isSelected ? 'all' : String(stars))}
                                         className={`w-full flex items-center gap-3 rounded-2xl px-4 py-2 transition text-left ${
                                             isSelected
-                                                ? 'bg-indigo-50 ring-2 ring-indigo-500/20'
-                                                : 'hover:bg-slate-50'
+                                                ? 'bg-champagne ring-2 ring-champagnegold/20'
+                                                : 'hover:bg-ivory'
                                         }`}
                                     >
-                                        <div className="flex items-center gap-1 w-16 shrink-0 text-xs font-extrabold text-slate-700">
+                                        <div className="flex items-center gap-1 w-16 shrink-0 text-xs font-extrabold text-softcharcoal">
                                             <span>{stars}</span>
                                             <span className="text-amber-400">★</span>
                                         </div>
 
                                         {/* Progress Bar */}
-                                        <div className="h-3 flex-1 overflow-hidden rounded-full bg-slate-100">
+                                        <div className="h-3 flex-1 overflow-hidden rounded-full bg-champagne">
                                             <div
                                                 className="h-full rounded-full bg-gradient-to-r from-amber-400 to-amber-500 transition-all duration-500"
                                                 style={{ width: `${percentage}%` }}
@@ -207,8 +207,8 @@ export default function Index({
                                         </div>
 
                                         <div className="flex items-center justify-end gap-2 w-24 shrink-0 text-right text-xs">
-                                            <span className="font-bold text-slate-800">{count}</span>
-                                            <span className="text-[11px] text-slate-400">({percentage}%)</span>
+                                            <span className="font-bold text-softcharcoal">{count}</span>
+                                            <span className="text-[11px] text-warmgray">({percentage}%)</span>
                                         </div>
                                     </button>
                                 );
@@ -218,11 +218,11 @@ export default function Index({
                 </div>
 
                 {/* Filters Bar */}
-                <div className="mt-8 flex flex-col gap-3 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-xs lg:flex-row lg:items-center lg:justify-between">
+                <div className="mt-8 flex flex-col gap-3 rounded-2xl border border-warmbeige/80 bg-white p-4 shadow-xs lg:flex-row lg:items-center lg:justify-between">
                     <div className="flex flex-1 flex-col gap-3 sm:flex-row sm:items-center">
                         {/* Search Input */}
                         <div className="relative flex-1">
-                            <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                            <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-warmgray">
                                 🔍
                             </span>
                             <input
@@ -230,7 +230,7 @@ export default function Index({
                                 value={search}
                                 onChange={(e) => handleSearch(e.target.value)}
                                 placeholder="Search by client name, booked service, or feedback text..."
-                                className="w-full rounded-xl border border-slate-200 bg-slate-50/50 py-2.5 pl-10 pr-4 text-xs text-slate-900 outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-100"
+                                className="w-full rounded-xl border border-warmbeige bg-ivory/50 py-2.5 pl-10 pr-4 text-xs text-softcharcoal outline-none transition focus:border-champagnegold focus:bg-white focus:ring-2 focus:ring-champagne"
                             />
                         </div>
 
@@ -238,7 +238,7 @@ export default function Index({
                         <select
                             value={rating}
                             onChange={(e) => handleRating(e.target.value)}
-                            className="rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs text-slate-900 outline-none transition focus:border-indigo-500 focus:bg-white"
+                            className="rounded-xl border border-warmbeige bg-ivory/50 px-3.5 py-2.5 text-xs text-softcharcoal outline-none transition focus:border-champagnegold focus:bg-white"
                         >
                             <option value="all">All Star Ratings</option>
                             <option value="5">5 Stars ★★★★★</option>
@@ -252,7 +252,7 @@ export default function Index({
                         <select
                             value={status}
                             onChange={(e) => handleStatus(e.target.value)}
-                            className="rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs text-slate-900 outline-none transition focus:border-indigo-500 focus:bg-white"
+                            className="rounded-xl border border-warmbeige bg-ivory/50 px-3.5 py-2.5 text-xs text-softcharcoal outline-none transition focus:border-champagnegold focus:bg-white"
                         >
                             <option value="all">All Statuses</option>
                             <option value="approved">Published (Approved)</option>
@@ -261,7 +261,7 @@ export default function Index({
                         </select>
                     </div>
 
-                    <span className="shrink-0 text-xs font-bold text-slate-500">
+                    <span className="shrink-0 text-xs font-bold text-warmgray">
                         {reviews?.total || 0} reviews found
                     </span>
                 </div>
@@ -283,12 +283,12 @@ export default function Index({
                             return (
                                 <div
                                     key={review.id}
-                                    className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xs transition hover:border-indigo-200 hover:shadow-md"
+                                    className="overflow-hidden rounded-3xl border border-warmbeige/80 bg-white p-6 shadow-xs transition hover:border-indigo-200 hover:shadow-md"
                                 >
                                     <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                                         <div className="flex items-start gap-4">
                                             {/* Avatar */}
-                                            <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-indigo-100 text-base font-black text-indigo-700 shadow-xs">
+                                            <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-champagne text-base font-black text-darkgold shadow-xs">
                                                 {avatar ? (
                                                     <img
                                                         src={avatar}
@@ -302,7 +302,7 @@ export default function Index({
 
                                             <div>
                                                 <div className="flex flex-wrap items-center gap-2">
-                                                    <h3 className="text-sm font-bold text-slate-900">
+                                                    <h3 className="text-sm font-bold text-softcharcoal">
                                                         {customerName}
                                                     </h3>
                                                     <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700 ring-1 ring-inset ring-emerald-700/10">
@@ -311,19 +311,19 @@ export default function Index({
                                                     {getStatusBadge(review.status)}
                                                 </div>
 
-                                                <p className="mt-0.5 text-xs text-slate-400">
+                                                <p className="mt-0.5 text-xs text-warmgray">
                                                     {review.customer?.email} {reviewDate && `• ${reviewDate}`}
                                                 </p>
 
                                                 {/* Booked Item Tag */}
                                                 {review.item_name && (
-                                                    <div className="mt-2.5 inline-flex items-center gap-1.5 rounded-xl bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700 border border-slate-100">
-                                                        <span className="text-slate-400">Booked:</span>
-                                                        <span className="font-bold text-slate-900">
+                                                    <div className="mt-2.5 inline-flex items-center gap-1.5 rounded-xl bg-ivory px-3 py-1 text-xs font-semibold text-softcharcoal border border-champagne">
+                                                        <span className="text-warmgray">Booked:</span>
+                                                        <span className="font-bold text-softcharcoal">
                                                             {review.item_name}
                                                         </span>
                                                         {review.item_type && (
-                                                            <span className="rounded-md bg-indigo-50 px-1.5 py-0.5 text-[9px] font-bold uppercase text-indigo-700">
+                                                            <span className="rounded-md bg-champagne px-1.5 py-0.5 text-[9px] font-bold uppercase text-darkgold">
                                                                 {review.item_type}
                                                             </span>
                                                         )}
@@ -339,8 +339,8 @@ export default function Index({
                                     </div>
 
                                     {/* Review Comment Content */}
-                                    <div className="mt-4 rounded-2xl bg-slate-50/50 p-4 border border-slate-100">
-                                        <p className="text-xs leading-relaxed text-slate-700 whitespace-pre-line">
+                                    <div className="mt-4 rounded-2xl bg-ivory/50 p-4 border border-champagne">
+                                        <p className="text-xs leading-relaxed text-softcharcoal whitespace-pre-line">
                                             "{review.comment}"
                                         </p>
                                     </div>
@@ -349,14 +349,14 @@ export default function Index({
                         })
                     ) : (
                         /* Empty state */
-                        <div className="flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-slate-200 bg-white p-12 text-center shadow-xs">
+                        <div className="flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-warmbeige bg-white p-12 text-center shadow-xs">
                             <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-50 text-3xl">
                                 ⭐
                             </div>
-                            <h3 className="mt-4 text-base font-bold text-slate-900">
+                            <h3 className="mt-4 text-base font-bold text-softcharcoal">
                                 {counts.total === 0 ? 'No Reviews Received Yet' : 'No Reviews Matching Filter'}
                             </h3>
-                            <p className="mt-1 max-w-sm text-xs text-slate-500">
+                            <p className="mt-1 max-w-sm text-xs text-warmgray">
                                 {counts.total === 0
                                     ? 'Customer ratings and feedback will appear here once clients complete bookings for your services or packages.'
                                     : 'Try resetting your filters or searching with different keywords.'}
@@ -370,7 +370,7 @@ export default function Index({
                                         setStatus('all');
                                         applyFilters('', 'all', 'all');
                                     }}
-                                    className="mt-4 rounded-xl bg-indigo-600 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-indigo-700 transition"
+                                    className="mt-4 rounded-xl bg-champagnegold px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-darkgold transition"
                                 >
                                     Reset Filters
                                 </button>
@@ -389,10 +389,10 @@ export default function Index({
                                 onClick={() => link.url && router.get(link.url, {}, { preserveState: true })}
                                 className={`rounded-xl px-3.5 py-2 text-xs font-bold transition ${
                                     link.active
-                                        ? 'bg-indigo-600 text-white shadow-xs'
+                                        ? 'bg-champagnegold text-white shadow-xs'
                                         : link.url
-                                        ? 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
-                                        : 'text-slate-300 cursor-not-allowed'
+                                        ? 'bg-white border border-warmbeige text-softcharcoal hover:bg-ivory'
+                                        : 'text-warmbeige cursor-not-allowed'
                                 }`}
                                 dangerouslySetInnerHTML={{ __html: link.label }}
                             />

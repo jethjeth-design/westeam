@@ -2,13 +2,17 @@ import PublicLayout from '@/Layouts/PublicLayout';
 import { Head, Link, router } from '@inertiajs/react';
 import { useState } from 'react';
 
-export default function SuppliersIndex({ suppliers, categories = [], locations = [], filters = {} }) {
+export default function SuppliersIndex({ suppliers, categories = [], eventCategories = [], locations = [], filters = {} }) {
     const [search, setSearch] = useState(filters.search || '');
     const [selectedCategory, setSelectedCategory] = useState(filters.category || 'all');
     const [selectedLocation, setSelectedLocation] = useState(filters.location || 'all');
 
-    // Filter pills
-    const pillCategories = ['all', ...categories.slice(0, 6).map((c) => c.name), 'Others'];
+    // Filter pills combining top event categories & services
+    const pillCategories = [
+        'all',
+        ...eventCategories.slice(0, 4).map((c) => c.name),
+        ...categories.slice(0, 4).map((c) => c.name),
+    ];
 
     const handleSearch = (e) => {
         if (e) e.preventDefault();
@@ -78,18 +82,29 @@ export default function SuppliersIndex({ suppliers, categories = [], locations =
                     </div>
 
                     {/* All Categories Dropdown */}
-                    <div className="w-full md:w-52">
+                    <div className="w-full md:w-56">
                         <select
                             value={selectedCategory}
                             onChange={(e) => setSelectedCategory(e.target.value)}
                             className="w-full py-2.5 px-3 rounded-xl bg-[#F8F5EF] border border-[#EFE7D8] text-sm text-[#24221E] focus:ring-2 focus:ring-[#C99632] focus:border-transparent outline-none"
                         >
-                            <option value="all">All Categories</option>
-                            {categories.map((cat) => (
-                                <option key={cat.id} value={cat.name}>
-                                    {cat.name}
-                                </option>
-                            ))}
+                            <option value="all">All Categories & Events</option>
+                            {eventCategories && eventCategories.length > 0 && (
+                                <optgroup label="Event Types">
+                                    {eventCategories.map((ec) => (
+                                        <option key={`ec-${ec.id}`} value={ec.name}>
+                                            {ec.name}
+                                        </option>
+                                    ))}
+                                </optgroup>
+                            )}
+                            <optgroup label="Supplier Services">
+                                {categories.map((cat) => (
+                                    <option key={cat.id} value={cat.name}>
+                                        {cat.name}
+                                    </option>
+                                ))}
+                            </optgroup>
                         </select>
                     </div>
 
@@ -119,27 +134,7 @@ export default function SuppliersIndex({ suppliers, categories = [], locations =
                 </form>
 
                 {/* Category Pill Filters */}
-                <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 scrollbar-none">
-                    {pillCategories.map((catName, idx) => {
-                        const isSelected =
-                            selectedCategory.toLowerCase() === catName.toLowerCase() ||
-                            (catName === 'all' && (!selectedCategory || selectedCategory === 'all'));
 
-                        return (
-                            <button
-                                key={idx}
-                                onClick={() => handlePillClick(catName)}
-                                className={`px-5 py-2 rounded-full text-xs font-bold tracking-wider capitalize whitespace-nowrap transition-all duration-200 border ${
-                                    isSelected
-                                        ? 'bg-[#C99632] text-white border-[#C99632] shadow-xs'
-                                        : 'bg-white text-[#77736C] border-[#EFE7D8] hover:border-[#C99632] hover:text-[#24221E]'
-                                }`}
-                            >
-                                {catName}
-                            </button>
-                        );
-                    })}
-                </div>
 
                 {/* Suppliers Cards Grid (4 Columns as in design) */}
                 {suppliers.data && suppliers.data.length > 0 ? (
@@ -237,13 +232,12 @@ export default function SuppliersIndex({ suppliers, categories = [], locations =
                                     key={i}
                                     href={link.url || '#'}
                                     preserveScroll
-                                    className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-colors ${
-                                        link.active
-                                            ? 'bg-[#C99632] text-white'
-                                            : !link.url
+                                    className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-colors ${link.active
+                                        ? 'bg-[#C99632] text-white'
+                                        : !link.url
                                             ? 'text-gray-300 pointer-events-none'
                                             : 'bg-white text-[#24221E] border border-[#EFE7D8] hover:bg-[#EFE7D8]'
-                                    }`}
+                                        }`}
                                     dangerouslySetInnerHTML={{ __html: link.label }}
                                 />
                             ))}

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use App\Models\BookingItem;
+use App\Models\Payment;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -162,6 +163,86 @@ class EmailPreviewController extends Controller
                 'subject' => '⭐ How was your event? Share your review for Hayes Visuals',
             ]),
 
+            'payment-submitted-customer' => response()->view('emails.payment-submitted', [
+                'payment' => (new Payment([
+                    'id' => 1,
+                    'booking_id' => $booking->id,
+                    'supplier_id' => $supplier->id,
+                    'customer_id' => $customer->id,
+                    'payment_method' => 'gcash',
+                    'payment_type' => 'downpayment',
+                    'amount' => 20000.00,
+                    'reference_number' => 'GCASH-987654321',
+                    'receipt_path' => 'mock_receipt.jpg',
+                    'status' => 'pending',
+                    'created_at' => now(),
+                ]))->setRelation('booking', $booking)->setRelation('customer', $customer)->setRelation('supplier', $supplier),
+                'recipientType' => 'customer',
+                'recipientName' => $customer->name,
+                'actionUrl' => url('/customer/bookings/88'),
+                'subject' => "Payment Submitted: {$booking->booking_reference} (₱20,000.00) - Pending Verification",
+            ]),
+
+            'payment-submitted-supplier' => response()->view('emails.payment-submitted', [
+                'payment' => (new Payment([
+                    'id' => 1,
+                    'booking_id' => $booking->id,
+                    'supplier_id' => $supplier->id,
+                    'customer_id' => $customer->id,
+                    'payment_method' => 'gcash',
+                    'payment_type' => 'downpayment',
+                    'amount' => 20000.00,
+                    'reference_number' => 'GCASH-987654321',
+                    'receipt_path' => 'mock_receipt.jpg',
+                    'status' => 'pending',
+                    'created_at' => now(),
+                ]))->setRelation('booking', $booking)->setRelation('customer', $customer)->setRelation('supplier', $supplier),
+                'recipientType' => 'supplier',
+                'recipientName' => $supplier->name,
+                'actionUrl' => url('/supplier/payments'),
+                'subject' => "New Payment Received for Verification: {$booking->booking_reference} from {$customer->name} (₱20,000.00)",
+            ]),
+
+            'payment-verified' => response()->view('emails.payment-verified', [
+                'payment' => (new Payment([
+                    'id' => 1,
+                    'booking_id' => $booking->id,
+                    'supplier_id' => $supplier->id,
+                    'customer_id' => $customer->id,
+                    'payment_method' => 'gcash',
+                    'payment_type' => 'downpayment',
+                    'amount' => 20000.00,
+                    'reference_number' => 'GCASH-987654321',
+                    'receipt_path' => 'mock_receipt.jpg',
+                    'status' => 'verified',
+                    'verified_at' => now(),
+                    'created_at' => now(),
+                ]))->setRelation('booking', $booking)->setRelation('customer', $customer)->setRelation('supplier', $supplier),
+                'recipientName' => $customer->name,
+                'actionUrl' => url('/customer/bookings/88'),
+                'subject' => "✓ Payment Verified: {$booking->booking_reference} (₱20,000.00)",
+            ]),
+
+            'payment-rejected' => response()->view('emails.payment-rejected', [
+                'payment' => (new Payment([
+                    'id' => 1,
+                    'booking_id' => $booking->id,
+                    'supplier_id' => $supplier->id,
+                    'customer_id' => $customer->id,
+                    'payment_method' => 'gcash',
+                    'payment_type' => 'downpayment',
+                    'amount' => 20000.00,
+                    'reference_number' => 'GCASH-987654321',
+                    'receipt_path' => 'mock_receipt.jpg',
+                    'status' => 'rejected',
+                    'rejection_reason' => 'GCash reference number is invalid or could not be found in our transaction log. Please re-check the reference number on your GCash receipt.',
+                    'created_at' => now(),
+                ]))->setRelation('booking', $booking)->setRelation('customer', $customer)->setRelation('supplier', $supplier),
+                'recipientName' => $customer->name,
+                'actionUrl' => url('/customer/bookings/88'),
+                'subject' => "Payment Verification Update (Declined): {$booking->booking_reference} (₱20,000.00)",
+            ]),
+
             default => response(
                 '<div style="min-height: 100vh; background-color: #F8F6F2; font-family: -apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, sans-serif; padding: 48px 20px;">'
                 .'<div style="max-width: 680px; margin: 0 auto; background: #FFFFFF; border-radius: 16px; border: 1px solid #EFEAE2; padding: 36px; box-shadow: 0 4px 24px rgba(0,0,0,0.04); text-align: center;">'
@@ -169,13 +250,14 @@ class EmailPreviewController extends Controller
                 .'<div style="font-size: 11px; font-weight: 600; color: #C09D62; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 4px;">Email Notification Template Previews</div>'
                 .'<div style="font-size: 13.5px; color: #6D7588; margin-top: 14px; margin-bottom: 28px;">Click below to preview live responsive Blade email notifications:</div>'
                 .'<div style="display: grid; gap: 12px; text-align: left;">'
-                .'<a href="/email-previews/new-booking-supplier" style="display: block; padding: 14px 18px; background: #FAF8F5; border: 1px solid #EFEAE2; border-radius: 10px; text-decoration: none; color: #2D3142; font-weight: 600; font-size: 14px;">📬 1. New Booking Request (Supplier with Accept / Decline actions)</a>'
+                .'<a href="/email-previews/new-booking-supplier" style="display: block; padding: 14px 18px; background: #FAF8F5; border: 1px solid #EFEAE2; border-radius: 10px; text-decoration: none; color: #2D3142; font-weight: 600; font-size: 14px;">📬 1. New Booking Request (Supplier)</a>'
                 .'<a href="/email-previews/new-booking-customer" style="display: block; padding: 14px 18px; background: #FAF8F5; border: 1px solid #EFEAE2; border-radius: 10px; text-decoration: none; color: #2D3142; font-weight: 600; font-size: 14px;">✉️ 2. New Booking Submitted (Customer Confirmation)</a>'
-                .'<a href="/email-previews/booking-accepted" style="display: block; padding: 14px 18px; background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 10px; text-decoration: none; color: #166534; font-weight: 600; font-size: 14px;">✓ 3. Booking Accepted & Confirmed (with Supplier notes)</a>'
-                .'<a href="/email-previews/booking-rejected" style="display: block; padding: 14px 18px; background: #FEF2F2; border: 1px solid #FECACA; border-radius: 10px; text-decoration: none; color: #991B1B; font-weight: 600; font-size: 14px;">✕ 4. Booking Declined / Rejected (with Rejection Reason)</a>'
-                .'<a href="/email-previews/booking-cancelled" style="display: block; padding: 14px 18px; background: #F3F4F6; border: 1px solid #E5E7EB; border-radius: 10px; text-decoration: none; color: #374151; font-weight: 600; font-size: 14px;">🚫 5. Booking Cancelled</a>'
-                .'<a href="/email-previews/team-booking" style="display: block; padding: 14px 18px; background: #FAF8F5; border: 1px solid #EFEAE2; border-radius: 10px; text-decoration: none; color: #2D3142; font-weight: 600; font-size: 14px;">👥 6. Team Package Multi-Supplier Reservation</a>'
-                .'<a href="/email-previews/review-reminder" style="display: block; padding: 14px 18px; background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 10px; text-decoration: none; color: #92400E; font-weight: 600; font-size: 14px;">⭐ 7. Post-Event Supplier Review & Rating Reminder</a>'
+                .'<a href="/email-previews/booking-accepted" style="display: block; padding: 14px 18px; background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 10px; text-decoration: none; color: #166534; font-weight: 600; font-size: 14px;">✓ 3. Booking Accepted & Confirmed</a>'
+                .'<a href="/email-previews/booking-rejected" style="display: block; padding: 14px 18px; background: #FEF2F2; border: 1px solid #FECACA; border-radius: 10px; text-decoration: none; color: #991B1B; font-weight: 600; font-size: 14px;">✕ 4. Booking Declined / Rejected</a>'
+                .'<a href="/email-previews/payment-submitted-customer" style="display: block; padding: 14px 18px; background: #FAF8F5; border: 1px solid #EFEAE2; border-radius: 10px; text-decoration: none; color: #2D3142; font-weight: 600; font-size: 14px;">💳 5. Payment Submitted (Customer Confirmation)</a>'
+                .'<a href="/email-previews/payment-submitted-supplier" style="display: block; padding: 14px 18px; background: #FAF8F5; border: 1px solid #EFEAE2; border-radius: 10px; text-decoration: none; color: #2D3142; font-weight: 600; font-size: 14px;">🔔 6. New Payment Received (Supplier Review)</a>'
+                .'<a href="/email-previews/payment-verified" style="display: block; padding: 14px 18px; background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 10px; text-decoration: none; color: #047857; font-weight: 600; font-size: 14px;">✅ 7. Payment Verified (Customer Confirmation)</a>'
+                .'<a href="/email-previews/payment-rejected" style="display: block; padding: 14px 18px; background: #FEF2F2; border: 1px solid #FECACA; border-radius: 10px; text-decoration: none; color: #DC2626; font-weight: 600; font-size: 14px;">⚠️ 8. Payment Declined / Rejected (with Rejection Reason)</a>'
                 .'</div>'
                 .'</div>'
                 .'</div>'

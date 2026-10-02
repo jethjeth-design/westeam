@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\TopPackageController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Customer\BookingController as CustomerBookingController;
 use App\Http\Controllers\Customer\EventController as CustomerEventController;
+use App\Http\Controllers\Customer\PaymentController as CustomerPaymentController;
 use App\Http\Controllers\Customer\PortfolioController as CustomerPortfolioController;
 use App\Http\Controllers\Customer\ReviewController as CustomerReviewController;
 use App\Http\Controllers\Customer\SupplierDirectoryController;
@@ -26,6 +27,8 @@ use App\Http\Controllers\Public\SupplierController as PublicSupplierController;
 use App\Http\Controllers\Supplier\BookingController as SupplierBookingController;
 use App\Http\Controllers\Supplier\DashboardController;
 use App\Http\Controllers\Supplier\PackageController;
+use App\Http\Controllers\Supplier\PaymentController as SupplierPaymentController;
+use App\Http\Controllers\Supplier\PaymentSettingsController as SupplierPaymentSettingsController;
 use App\Http\Controllers\Supplier\PortfolioController as SupplierPortfolioController;
 use App\Http\Controllers\Supplier\ReviewController as SupplierReviewController;
 use App\Http\Controllers\Supplier\ServiceController;
@@ -104,7 +107,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     // Admin Homepage Management
     Route::get('/admin/homepage', [AdminHomepageController::class, 'index'])->name('admin.homepage.index');
     Route::post('/admin/homepage/banners', [AdminHomepageController::class, 'storeBanner'])->name('admin.homepage.banners.store');
-    Route::put('/admin/homepage/banners/{banner}', [AdminHomepageController::class, 'updateBanner'])->name('admin.homepage.banners.update');
+    Route::match(['put', 'post'], '/admin/homepage/banners/{banner}', [AdminHomepageController::class, 'updateBanner'])->name('admin.homepage.banners.update');
     Route::delete('/admin/homepage/banners/{banner}', [AdminHomepageController::class, 'destroyBanner'])->name('admin.homepage.banners.destroy');
     Route::post('/admin/homepage/banners/{banner}/toggle', [AdminHomepageController::class, 'toggleBanner'])->name('admin.homepage.banners.toggle');
     Route::post('/admin/homepage/banners/reorder', [AdminHomepageController::class, 'reorderBanners'])->name('admin.homepage.banners.reorder');
@@ -164,6 +167,16 @@ Route::middleware(['auth', 'role:customer'])->group(function () {
     Route::get('/customer/portfolios/{portfolio}', [CustomerPortfolioController::class, 'show'])
         ->name('customer.portfolios.show');
 
+    // Customer Payment Routes
+    Route::get('/customer/payments', [CustomerPaymentController::class, 'index'])
+        ->name('customer.payments.index');
+    Route::get('/customer/payments/create', [CustomerPaymentController::class, 'create'])
+        ->name('customer.payments.create');
+    Route::get('/customer/bookings/{booking}/pay', [CustomerPaymentController::class, 'create'])
+        ->name('customer.bookings.pay');
+    Route::post('/customer/payments', [CustomerPaymentController::class, 'store'])
+        ->name('customer.payments.store');
+
 });
 
 // Public Supplier Portfolio Showcase
@@ -202,6 +215,7 @@ Route::middleware(['auth', 'role:admin'])
     ->name('admin.')
     ->group(function () {
 
+        Route::match(['put', 'post'], 'event-categories/{event_category}', [EventCategoryController::class, 'update'])->name('event-categories.update-post');
         Route::resource('event-categories', EventCategoryController::class)
             ->except(['show']);
 
@@ -322,6 +336,20 @@ Route::middleware(['auth'])
             Route::get('/reviews', [SupplierReviewController::class, 'index'])
                 ->name('reviews.index');
 
+            // Payments Management & Verification
+            Route::get('/payments', [SupplierPaymentController::class, 'index'])
+                ->name('payments.index');
+            Route::post('/payments/{payment}/verify', [SupplierPaymentController::class, 'verify'])
+                ->name('payments.verify');
+            Route::post('/payments/{payment}/reject', [SupplierPaymentController::class, 'reject'])
+                ->name('payments.reject');
+
+            // Supplier GCash Payment Settings
+            Route::get('/payment-settings', [SupplierPaymentSettingsController::class, 'index'])
+                ->name('payment-settings');
+            Route::post('/payment-settings', [SupplierPaymentSettingsController::class, 'update'])
+                ->name('payment-settings.update');
+
         });
     });
 
@@ -361,6 +389,22 @@ Route::middleware(['auth'])->group(function () {
 });
 
 use App\Http\Controllers\EmailPreviewController;
+use App\Http\Controllers\NotificationController;
+
+// Universal Notification Routes (Auth required)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
+    Route::post('/notifications/clear-read', [NotificationController::class, 'clearAllRead'])->name('notifications.clear-read');
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.mark-as-read');
+    Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
+    Route::get('/notifications/{id}/go', [NotificationController::class, 'readAndRedirect'])->name('notifications.go');
+
+    // Role-specific aliases redirecting to unified notifications center
+    Route::get('/supplier/notifications', fn () => redirect()->route('notifications.index'))->name('supplier.notifications');
+    Route::get('/admin/notifications', fn () => redirect()->route('notifications.index'))->name('admin.notifications');
+    Route::get('/customer/notifications', fn () => redirect()->route('notifications.index'))->name('customer.notifications');
+});
 
 // Email Notification Visual Previews
 Route::get('/email-previews/{template?}', [EmailPreviewController::class, 'show'])->name('email-previews.show');

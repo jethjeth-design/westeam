@@ -105,21 +105,21 @@ export default function Show({ portfolio }) {
         <DashboardLayout>
             <Head title={`${portfolio.title} — Portfolio Details`} />
 
-            <div className="min-h-screen bg-slate-50/60 p-6 lg:p-8">
+            <div className="min-h-screen bg-ivory/60 p-4 sm:p-6 lg:p-8">
                 <div className="mx-auto max-w-6xl space-y-6">
                     {/* Top Navigation & Actions Bar */}
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                         <div className="flex items-center gap-3">
                             <Link
                                 href={route('supplier.portfolio.index')}
-                                className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50 hover:text-indigo-600"
+                                className="inline-flex items-center gap-1.5 rounded-xl border border-warmbeige bg-white px-3.5 py-2 text-xs font-bold text-softcharcoal shadow-2xs transition hover:bg-ivory hover:text-champagnegold"
                             >
                                 <span>←</span>
                                 <span>Back to Portfolios</span>
                             </Link>
 
-                            <span className="text-xs text-slate-300">/</span>
-                            <span className="truncate text-xs font-semibold text-slate-500 max-w-[200px]">
+                            <span className="text-xs text-warmbeige">/</span>
+                            <span className="truncate text-xs font-semibold text-warmgray max-w-[200px]">
                                 {portfolio.title}
                             </span>
                         </div>
@@ -127,7 +127,7 @@ export default function Show({ portfolio }) {
                         <div className="flex items-center gap-2">
                             <Link
                                 href={route('supplier.portfolio.edit', portfolio.id)}
-                                className="inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 px-4 py-2 text-xs font-bold text-white shadow-xs transition hover:bg-indigo-700"
+                                className="inline-flex items-center gap-1.5 rounded-xl bg-champagnegold px-4 py-2 text-xs font-bold text-white shadow-xs transition hover:bg-darkgold"
                             >
                                 <span>✏️</span>
                                 <span>Edit Project</span>
@@ -146,10 +146,10 @@ export default function Show({ portfolio }) {
                     </div>
 
                     {/* Hero Header Card */}
-                    <div className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-8 shadow-xs">
+                    <div className="overflow-hidden rounded-3xl border border-warmbeige/80 bg-white p-6 sm:p-8 shadow-xs">
                         <div className="flex flex-wrap items-center gap-2.5">
                             {category && (
-                                <span className="rounded-lg bg-indigo-50 px-2.5 py-1 text-xs font-bold text-indigo-700">
+                                <span className="rounded-lg bg-champagne px-2.5 py-1 text-xs font-bold text-darkgold">
                                     {category.name}
                                 </span>
                             )}
@@ -164,7 +164,7 @@ export default function Show({ portfolio }) {
                                 className={`rounded-lg px-2.5 py-1 text-xs font-bold ${
                                     portfolio.is_published
                                         ? 'bg-emerald-50 text-emerald-700'
-                                        : 'bg-slate-100 text-slate-600'
+                                        : 'bg-champagne text-softcharcoal'
                                 }`}
                             >
                                 {portfolio.is_published ? '● Published' : '○ Draft (Hidden)'}
@@ -177,29 +177,29 @@ export default function Show({ portfolio }) {
                             )}
                         </div>
 
-                        <h1 className="mt-3 text-2xl sm:text-3xl font-black text-slate-900">
+                        <h1 className="mt-3 text-2xl sm:text-3xl font-black text-softcharcoal">
                             {portfolio.title}
                         </h1>
 
                         {portfolio.description && (
-                            <p className="mt-3 max-w-4xl text-sm leading-relaxed text-slate-600 whitespace-pre-line">
+                            <p className="mt-3 max-w-4xl text-sm leading-relaxed text-softcharcoal whitespace-pre-line">
                                 {portfolio.description}
                             </p>
                         )}
 
                         {/* Metadata Pills */}
-                        <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-slate-100 pt-5 text-xs text-slate-500">
+                        <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-champagne pt-5 text-xs text-warmgray">
                             {portfolio.client_name && (
                                 <div className="flex items-center gap-1.5">
-                                    <span className="text-slate-400">👤 Client:</span>
-                                    <strong className="text-slate-800">{portfolio.client_name}</strong>
+                                    <span className="text-warmgray">👤 Client:</span>
+                                    <strong className="text-softcharcoal">{portfolio.client_name}</strong>
                                 </div>
                             )}
 
                             {portfolio.event_date && (
                                 <div className="flex items-center gap-1.5">
-                                    <span className="text-slate-400">📅 Event Date:</span>
-                                    <strong className="text-slate-800">
+                                    <span className="text-warmgray">📅 Event Date:</span>
+                                    <strong className="text-softcharcoal">
                                         {new Date(portfolio.event_date).toLocaleDateString('en-US', {
                                             year: 'numeric',
                                             month: 'long',
@@ -211,31 +211,31 @@ export default function Show({ portfolio }) {
 
                             {portfolio.location && (
                                 <div className="flex items-center gap-1.5">
-                                    <span className="text-slate-400">📍 Location:</span>
-                                    <strong className="text-slate-800">{portfolio.location}</strong>
+                                    <span className="text-warmgray">📍 Location:</span>
+                                    <strong className="text-softcharcoal">{portfolio.location}</strong>
                                 </div>
                             )}
 
                             <div className="flex items-center gap-1.5">
-                                <span className="text-slate-400">🖼️ Photos:</span>
-                                <strong className="text-slate-800">{images.length} uploaded</strong>
+                                <span className="text-warmgray">🖼️ Photos:</span>
+                                <strong className="text-softcharcoal">{images.length} uploaded</strong>
                             </div>
                         </div>
                     </div>
 
                     {/* Video Portfolio Section (if present) */}
                     {portfolio.video_url && (
-                        <div className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-8 shadow-xs">
+                        <div className="overflow-hidden rounded-3xl border border-warmbeige/80 bg-white p-6 sm:p-8 shadow-xs">
                             <div className="mb-4 flex items-center justify-between">
                                 <div className="flex items-center gap-2">
                                     <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-purple-50 text-base">
                                         🎥
                                     </span>
                                     <div>
-                                        <h2 className="text-base font-extrabold text-slate-900">
+                                        <h2 className="text-base font-extrabold text-softcharcoal">
                                             Video Portfolio Reel
                                         </h2>
-                                        <p className="text-xs text-slate-400">
+                                        <p className="text-xs text-warmgray">
                                             Embedded highlight video or reel for this project
                                         </p>
                                     </div>
@@ -249,20 +249,20 @@ export default function Show({ portfolio }) {
                     )}
 
                     {/* Image Gallery Section */}
-                    <div className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-8 shadow-xs">
+                    <div className="overflow-hidden rounded-3xl border border-warmbeige/80 bg-white p-6 sm:p-8 shadow-xs">
                         <div className="mb-6 flex items-center justify-between">
                             <div>
-                                <h2 className="text-base font-extrabold text-slate-900">
+                                <h2 className="text-base font-extrabold text-softcharcoal">
                                     Project Photo Gallery ({images.length})
                                 </h2>
-                                <p className="mt-0.5 text-xs text-slate-400">
+                                <p className="mt-0.5 text-xs text-warmgray">
                                     Click any image to view full high-resolution lightbox
                                 </p>
                             </div>
 
                             <Link
                                 href={route('supplier.portfolio.edit', portfolio.id)}
-                                className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-100 transition"
+                                className="rounded-xl border border-warmbeige bg-ivory px-3 py-1.5 text-xs font-bold text-softcharcoal hover:bg-champagne transition"
                             >
                                 + Add / Manage Photos
                             </Link>
@@ -276,7 +276,7 @@ export default function Show({ portfolio }) {
                                         <div
                                             key={img.id || idx}
                                             onClick={() => setLightboxIndex(idx)}
-                                            className="group relative aspect-square cursor-pointer overflow-hidden rounded-2xl bg-slate-100 ring-1 ring-slate-200/70 transition hover:shadow-lg"
+                                            className="group relative aspect-square cursor-pointer overflow-hidden rounded-2xl bg-champagne ring-1 ring-warmbeige/70 transition hover:shadow-lg"
                                         >
                                             <img
                                                 src={imgUrl}
@@ -285,7 +285,7 @@ export default function Show({ portfolio }) {
                                             />
 
                                             {img.is_cover && (
-                                                <span className="absolute top-2 left-2 rounded-lg bg-indigo-600 px-2 py-0.5 text-[10px] font-bold text-white shadow-xs">
+                                                <span className="absolute top-2 left-2 rounded-lg bg-champagnegold px-2 py-0.5 text-[10px] font-bold text-white shadow-xs">
                                                     ★ Cover
                                                 </span>
                                             )}
@@ -306,7 +306,7 @@ export default function Show({ portfolio }) {
                                 })}
                             </div>
                         ) : (
-                            <div className="rounded-2xl border border-dashed border-slate-200 p-8 text-center text-xs text-slate-400">
+                            <div className="rounded-2xl border border-dashed border-warmbeige p-8 text-center text-xs text-warmgray">
                                 No photos attached to this portfolio yet.
                             </div>
                         )}

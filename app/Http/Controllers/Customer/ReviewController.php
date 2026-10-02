@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BookingItem;
 use App\Models\Package;
 use App\Models\Review;
+use App\Services\NotificationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -59,7 +60,7 @@ class ReviewController extends Controller
             ]);
         }
 
-        Review::create([
+        $review = Review::create([
             'booking_id' => $bookingItem->booking_id,
             'booking_item_id' => $bookingItem->id,
             'customer_id' => $request->user()->id,
@@ -71,6 +72,14 @@ class ReviewController extends Controller
             'comment' => $validated['comment'],
             'status' => 'approved',
         ]);
+
+        $review->load(['customer', 'supplier.supplierProfile']);
+
+        // Notify Supplier of new review
+        NotificationService::notifySupplierNewReview($review);
+
+        // Notify Admin of review for platform visibility/attention
+        NotificationService::notifyAdminNewReview($review);
 
         if ($bookingItem->item_type === 'package' && $bookingItem->item_id) {
             Package::find($bookingItem->item_id)?->syncPerformanceAndTopStatus();

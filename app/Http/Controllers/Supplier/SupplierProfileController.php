@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Supplier;
 use App\Http\Controllers\Controller;
 use App\Models\SupplierCategory;
 use App\Models\SupplierPortfolio;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -193,6 +194,9 @@ class SupplierProfileController extends Controller
         $profile->categories()->sync(
             $validated['supplier_category_ids'] ?? []
         );
+
+        // Notify admin that supplier updated profile and awaits review
+        NotificationService::notifyAdminSupplierProfileUpdated($user);
 
         return redirect()
             ->route('supplier.settings')
