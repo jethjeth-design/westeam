@@ -11,24 +11,24 @@ export default function Edit({ mustVerifyEmail, status }) {
 
     const roleBadge = {
         admin: { label: 'Administrator', bg: 'bg-purple-50 text-purple-700 border-purple-200', icon: '👑' },
-        supplier: { label: 'Verified Supplier', bg: 'bg-indigo-50 text-indigo-700 border-indigo-200', icon: '🏢' },
+        supplier: { label: 'Verified Supplier', bg: 'bg-champagne text-darkgold border-indigo-200', icon: '🏢' },
         customer: { label: 'Event Organizer', bg: 'bg-emerald-50 text-emerald-700 border-emerald-200', icon: '🎉' },
-    }[user?.role] || { label: 'Member', bg: 'bg-slate-100 text-slate-700 border-slate-200', icon: '👤' };
+    }[user?.role] || { label: 'Member', bg: 'bg-champagne text-softcharcoal border-warmbeige', icon: '👤' };
 
     return (
         <DashboardLayout>
             <Head title="Account Profile & Settings" />
 
-            <div className="min-h-screen bg-slate-50/60 p-6 lg:p-10">
+            <div className="min-h-screen bg-ivory/60 p-4 sm:p-6 lg:p-10">
                 <div className="mx-auto max-w-5xl space-y-8">
                     {/* User Profile Hero Header Banner */}
-                    <div className="relative overflow-hidden rounded-3xl border border-slate-200/80 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 p-6 sm:p-8 text-white shadow-md">
-                        <div className="absolute right-0 top-0 -mt-10 -mr-10 h-64 w-64 rounded-full bg-indigo-500/10 blur-3xl" />
+                    <div className="relative overflow-hidden rounded-3xl border border-warmbeige/80 bg-gradient-to-r from-softcharcoal via-indigo-950 to-softcharcoal p-6 sm:p-8 text-white shadow-md">
+                        <div className="absolute right-0 top-0 -mt-10 -mr-10 h-64 w-64 rounded-full bg-champagnegold/10 blur-3xl" />
                         <div className="absolute left-1/3 bottom-0 -mb-10 h-40 w-40 rounded-full bg-purple-500/10 blur-2xl" />
 
                         <div className="relative z-10 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
                             <div className="flex items-center gap-4">
-                                <div className="flex h-18 w-18 sm:h-20 sm:w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 font-black text-2xl sm:text-3xl text-white shadow-xl ring-4 ring-white/10">
+                                <div className="flex h-18 w-18 sm:h-20 sm:w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-champagnegold to-purple-600 font-black text-2xl sm:text-3xl text-white shadow-xl ring-4 ring-white/10">
                                     {user?.name?.charAt(0).toUpperCase() || 'U'}
                                 </div>
 
@@ -42,10 +42,10 @@ export default function Edit({ mustVerifyEmail, status }) {
                                             <span>{roleBadge.label}</span>
                                         </span>
                                     </div>
-                                    <p className="mt-1 text-xs sm:text-sm text-slate-300">
+                                    <p className="mt-1 text-xs sm:text-sm text-warmbeige">
                                         {user?.email}
                                     </p>
-                                    <p className="mt-1 text-[11px] text-slate-400">
+                                    <p className="mt-1 text-[11px] text-warmgray">
                                         Account member since {new Date(user?.created_at || Date.now()).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                                     </p>
                                 </div>
@@ -54,13 +54,13 @@ export default function Edit({ mustVerifyEmail, status }) {
                     </div>
 
                     {/* Navigation Filter Tabs */}
-                    <div className="flex rounded-2xl bg-slate-200/80 p-1 max-w-md">
+                    <div className="flex rounded-2xl bg-warmbeige/80 p-1 max-w-md">
                         <button
                             type="button"
                             onClick={() => setActiveTab('profile')}
                             className={`flex-1 rounded-xl py-2 text-xs font-bold transition ${activeTab === 'profile'
-                                ? 'bg-white text-indigo-600 shadow-sm'
-                                : 'text-slate-600 hover:text-slate-900'
+                                ? 'bg-white text-champagnegold shadow-sm'
+                                : 'text-softcharcoal hover:text-softcharcoal'
                                 }`}
                         >
                             👤 Profile Info
@@ -69,8 +69,8 @@ export default function Edit({ mustVerifyEmail, status }) {
                             type="button"
                             onClick={() => setActiveTab('security')}
                             className={`flex-1 rounded-xl py-2 text-xs font-bold transition ${activeTab === 'security'
-                                ? 'bg-white text-indigo-600 shadow-sm'
-                                : 'text-slate-600 hover:text-slate-900'
+                                ? 'bg-white text-champagnegold shadow-sm'
+                                : 'text-softcharcoal hover:text-softcharcoal'
                                 }`}
                         >
                             🔒 Security
@@ -80,7 +80,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                             onClick={() => setActiveTab('danger')}
                             className={`flex-1 rounded-xl py-2 text-xs font-bold transition ${activeTab === 'danger'
                                 ? 'bg-white text-red-600 shadow-sm'
-                                : 'text-slate-600 hover:text-slate-900'
+                                : 'text-softcharcoal hover:text-softcharcoal'
                                 }`}
                         >
                             ⚠️ Delete Account
@@ -89,7 +89,7 @@ export default function Edit({ mustVerifyEmail, status }) {
 
                     {/* Tab 1: Profile Information */}
                     {(activeTab === 'profile' || activeTab === 'all') && (
-                        <div className="rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-8 shadow-xs">
+                        <div className="rounded-3xl border border-warmbeige/80 bg-white p-6 sm:p-8 shadow-xs">
                             <UpdateProfileInformationForm
                                 mustVerifyEmail={mustVerifyEmail}
                                 status={status}
@@ -99,7 +99,7 @@ export default function Edit({ mustVerifyEmail, status }) {
 
                     {/* Tab 2: Security & Password */}
                     {(activeTab === 'security' || activeTab === 'all') && (
-                        <div className="rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-8 shadow-xs">
+                        <div className="rounded-3xl border border-warmbeige/80 bg-white p-6 sm:p-8 shadow-xs">
                             <UpdatePasswordForm />
                         </div>
                     )}

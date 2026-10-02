@@ -63,16 +63,51 @@ class BookingStatusUpdatedNotification extends Notification
 
     public function toArray(object $notifiable): array
     {
+        $statusLabel = ucfirst($this->status);
+        $icon = match ($this->status) {
+            'accepted' => '✅',
+            'rejected' => '❌',
+            'completed' => '🎉',
+            'cancelled' => '🚫',
+            default => '📅',
+        };
+
+        $supplierName = $this->bookingItem->supplier?->supplierProfile?->business_name ?? ($this->bookingItem->supplier?->name ?? 'Supplier');
+        $message = match ($this->status) {
+            'accepted' => "{$supplierName} accepted '{$this->bookingItem->item_name}' for '{$this->booking->event_name}'.",
+            'rejected' => "{$supplierName} declined '{$this->bookingItem->item_name}'".($this->rejectionReason ? ": {$this->rejectionReason}" : '.'),
+            'completed' => "{$supplierName} marked '{$this->bookingItem->item_name}' as completed.",
+            'cancelled' => "Booking '{$this->booking->event_name}' [{$this->booking->booking_reference}] has been cancelled.",
+            default => "Booking status for '{$this->bookingItem->item_name}' is now {$this->status}.",
+        };
+
+        $actionUrl = ($notifiable->role ?? null) === 'supplier'
+            ? route('supplier.bookings.index')
+            : route('customer.bookings.show', $this->booking->id);
+
         return [
+            'title' => "Booking {$statusLabel}: {$this->bookingItem->item_name}",
+            'message' => $message,
+            'action_url' => $actionUrl,
+            'category' => 'booking',
+            'type' => 'booking_'.$this->status,
+            'icon' => $icon,
+            'role' => $notifiable->role ?? null,
+            'meta' => [
+                'booking_id' => $this->booking->id,
+                'booking_reference' => $this->booking->booking_reference,
+                'booking_item_id' => $this->bookingItem->id,
+                'item_name' => $this->bookingItem->item_name,
+                'status' => $this->status,
+                'rejection_reason' => $this->rejectionReason,
+            ],
+            // Backward-compatibility keys
             'booking_id' => $this->booking->id,
             'booking_reference' => $this->booking->booking_reference,
             'booking_item_id' => $this->bookingItem->id,
             'item_name' => $this->bookingItem->item_name,
             'status' => $this->status,
             'rejection_reason' => $this->rejectionReason,
-            'title' => "Booking {$this->status}: {$this->bookingItem->item_name}",
-            'message' => "Supplier {$this->bookingItem->supplier->name} has marked '{$this->bookingItem->item_name}' as {$this->status}.",
-            'action_url' => route('customer.bookings.show', $this->booking->id),
         ];
     }
 }

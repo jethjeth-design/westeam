@@ -27,8 +27,8 @@ return new class extends Migration
             $table->text('special_requests')->nullable();
             $table->decimal('total_amount', 12, 2)->default(0);
 
-            // Overall Status: pending, accepted, rejected, cancelled, completed
-            $table->enum('overall_status', ['pending', 'accepted', 'rejected', 'cancelled', 'completed'])->default('pending');
+            // Overall Status: pending, accepted, confirmed, rejected, cancelled, completed
+            $table->enum('overall_status', ['pending', 'accepted', 'confirmed', 'rejected', 'cancelled', 'completed'])->default('pending');
             $table->timestamps();
         });
 
@@ -42,7 +42,7 @@ return new class extends Migration
             $table->decimal('unit_price', 10, 2);
 
             // Item status
-            $table->enum('status', ['pending', 'accepted', 'rejected', 'cancelled', 'completed'])->default('pending');
+            $table->enum('status', ['pending', 'accepted', 'confirmed', 'rejected', 'cancelled', 'completed'])->default('pending');
             $table->text('rejection_reason')->nullable();
             $table->text('response_notes')->nullable();
             $table->timestamp('responded_at')->nullable();

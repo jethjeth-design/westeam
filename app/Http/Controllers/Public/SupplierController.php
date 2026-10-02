@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Models\EventCategory;
 use App\Models\SupplierCategory;
 use App\Models\SupplierProfile;
 use App\Models\User;
@@ -42,12 +43,22 @@ class SupplierController extends Controller
             });
         }
 
-        // Category filter (support category name or id, or comma separated list)
+        // Category filter (support supplier categories and event categories)
         if ($category !== 'all' && ! empty($category)) {
             $categoriesList = is_array($category) ? $category : explode(',', $category);
-            $query->whereHas('categories', function ($cq) use ($categoriesList) {
-                $cq->whereIn('supplier_categories.id', $categoriesList)
-                    ->orWhereIn('supplier_categories.name', $categoriesList);
+            $query->where(function ($q) use ($categoriesList) {
+                $q->whereHas('categories', function ($cq) use ($categoriesList) {
+                    $cq->whereIn('supplier_categories.id', $categoriesList)
+                        ->orWhereIn('supplier_categories.name', $categoriesList);
+                })
+                    ->orWhereHas('user.packages.eventCategory', function ($ecq) use ($categoriesList) {
+                        $ecq->whereIn('event_categories.id', $categoriesList)
+                            ->orWhereIn('event_categories.name', $categoriesList);
+                    })
+                    ->orWhereHas('user.portfolios.eventCategory', function ($ecq) use ($categoriesList) {
+                        $ecq->whereIn('event_categories.id', $categoriesList)
+                            ->orWhereIn('event_categories.name', $categoriesList);
+                    });
             });
         }
 
@@ -93,6 +104,12 @@ class SupplierController extends Controller
             ->orderBy('name')
             ->get(['id', 'name']);
 
+        // Event categories list
+        $eventCategories = EventCategory::query()
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get(['id', 'name']);
+
         // Distinct locations list for dropdown
         $locations = SupplierProfile::query()
             ->where('status', 'approved')
@@ -115,6 +132,7 @@ class SupplierController extends Controller
         return Inertia::render('Public/Suppliers/Index', [
             'suppliers' => $suppliers,
             'categories' => $categories,
+            'eventCategories' => $eventCategories,
             'locations' => $locations,
             'filters' => [
                 'search' => $search,

@@ -43,7 +43,7 @@ export default function BookingModal({
 
     return (
         <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-softcharcoal/60 p-4 backdrop-blur-sm"
             onClick={onClose}
         >
             <div
@@ -51,10 +51,10 @@ export default function BookingModal({
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header */}
-                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                <div className="flex items-center justify-between border-b border-champagne pb-4">
                     <div>
                         <div className="flex items-center gap-2">
-                            <span className="rounded-md bg-indigo-50 px-2.5 py-0.5 text-xs font-bold text-indigo-700">
+                            <span className="rounded-md bg-champagne px-2.5 py-0.5 text-xs font-bold text-darkgold">
                                 {bookingType === 'team_package'
                                     ? '👥 Team Package Reservation'
                                     : bookingType === 'supplier_package'
@@ -64,7 +64,7 @@ export default function BookingModal({
                                     : '🛠️ Service Booking'}
                             </span>
                         </div>
-                        <h2 className="mt-1.5 text-xl font-black tracking-tight text-slate-900">
+                        <h2 className="mt-1.5 text-xl font-black tracking-tight text-softcharcoal">
                             {title}
                         </h2>
                     </div>
@@ -72,7 +72,7 @@ export default function BookingModal({
                     <button
                         type="button"
                         onClick={onClose}
-                        className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-500 hover:bg-slate-200 transition"
+                        className="flex h-9 w-9 items-center justify-center rounded-xl bg-champagne text-warmgray hover:bg-warmbeige transition"
                     >
                         ✕
                     </button>
@@ -80,21 +80,21 @@ export default function BookingModal({
 
                 <form onSubmit={handleSubmit} className="mt-6 space-y-6">
                     {/* Selected Items Summary Card */}
-                    <div className="rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50/60 via-purple-50/20 to-white p-4">
+                    <div className="rounded-2xl border border-champagne bg-gradient-to-br from-indigo-50/60 via-purple-50/20 to-white p-4">
                         <p className="text-xs font-bold uppercase tracking-wider text-indigo-900">
                             Included Items & Suppliers ({items.length})
                         </p>
 
-                        <div className="mt-3 divide-y divide-indigo-100/60">
+                        <div className="mt-3 divide-y divide-champagne/60">
                             {items.map((it, idx) => (
                                 <div key={idx} className="flex items-center justify-between py-2 text-xs">
                                     <div>
-                                        <p className="font-bold text-slate-900">{it.item_name}</p>
+                                        <p className="font-bold text-softcharcoal">{it.item_name}</p>
                                         {it.supplier_name && (
-                                            <p className="text-slate-500">By: {it.supplier_name}</p>
+                                            <p className="text-warmgray">By: {it.supplier_name}</p>
                                         )}
                                     </div>
-                                    <span className="font-extrabold text-slate-900">
+                                    <span className="font-extrabold text-softcharcoal">
                                         ₱{Number(it.unit_price).toLocaleString('en-PH', { minimumFractionDigits: 2 })}
                                     </span>
                                 </div>
@@ -103,7 +103,7 @@ export default function BookingModal({
 
                         <div className="mt-3 flex items-center justify-between border-t border-indigo-200 pt-3">
                             <span className="text-xs font-extrabold text-indigo-950">Total Estimated Price:</span>
-                            <span className="text-lg font-black text-indigo-600">
+                            <span className="text-lg font-black text-champagnegold">
                                 ₱{Number(totalPrice).toLocaleString('en-PH', { minimumFractionDigits: 2 })}
                             </span>
                         </div>
@@ -113,7 +113,7 @@ export default function BookingModal({
                     <div className="grid gap-4 sm:grid-cols-2">
                         {/* Event Name */}
                         <div className="sm:col-span-2">
-                            <label className="block text-xs font-bold text-slate-700">
+                            <label className="block text-xs font-bold text-softcharcoal">
                                 Event Name / Celebration Title <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -121,7 +121,7 @@ export default function BookingModal({
                                 value={data.event_name}
                                 onChange={(e) => setData('event_name', e.target.value)}
                                 placeholder="e.g., Sarah & John's Grand Wedding"
-                                className="mt-1.5 w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm text-slate-900 shadow-xs focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                                className="mt-1.5 w-full rounded-xl border border-warmbeige px-4 py-2.5 text-sm text-softcharcoal shadow-xs focus:border-champagnegold focus:outline-none focus:ring-2 focus:ring-champagne"
                             />
                             {errors.event_name && (
                                 <p className="mt-1 text-xs text-red-500">{errors.event_name}</p>
@@ -130,14 +130,14 @@ export default function BookingModal({
 
                         {/* Event Date */}
                         <div>
-                            <label className="block text-xs font-bold text-slate-700">
+                            <label className="block text-xs font-bold text-softcharcoal">
                                 Event Date <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="date"
                                 value={data.event_date}
                                 onChange={(e) => setData('event_date', e.target.value)}
-                                className="mt-1.5 w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 shadow-xs focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                                className="mt-1.5 w-full rounded-xl border border-warmbeige px-3.5 py-2.5 text-sm text-softcharcoal shadow-xs focus:border-champagnegold focus:outline-none focus:ring-2 focus:ring-champagne"
                             />
                             {errors.event_date && (
                                 <p className="mt-1 text-xs text-red-500">{errors.event_date}</p>
@@ -146,20 +146,20 @@ export default function BookingModal({
 
                         {/* Event Time */}
                         <div>
-                            <label className="block text-xs font-bold text-slate-700">
+                            <label className="block text-xs font-bold text-softcharcoal">
                                 Event Time (Optional)
                             </label>
                             <input
                                 type="time"
                                 value={data.event_time}
                                 onChange={(e) => setData('event_time', e.target.value)}
-                                className="mt-1.5 w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 shadow-xs focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                                className="mt-1.5 w-full rounded-xl border border-warmbeige px-3.5 py-2.5 text-sm text-softcharcoal shadow-xs focus:border-champagnegold focus:outline-none focus:ring-2 focus:ring-champagne"
                             />
                         </div>
 
                         {/* Location */}
                         <div>
-                            <label className="block text-xs font-bold text-slate-700">
+                            <label className="block text-xs font-bold text-softcharcoal">
                                 Venue / Location <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -167,7 +167,7 @@ export default function BookingModal({
                                 value={data.event_location}
                                 onChange={(e) => setData('event_location', e.target.value)}
                                 placeholder="e.g. Radisson Blu Hotel, Cebu"
-                                className="mt-1.5 w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 shadow-xs focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                                className="mt-1.5 w-full rounded-xl border border-warmbeige px-3.5 py-2.5 text-sm text-softcharcoal shadow-xs focus:border-champagnegold focus:outline-none focus:ring-2 focus:ring-champagne"
                             />
                             {errors.event_location && (
                                 <p className="mt-1 text-xs text-red-500">{errors.event_location}</p>
@@ -176,7 +176,7 @@ export default function BookingModal({
 
                         {/* Guest Count */}
                         <div>
-                            <label className="block text-xs font-bold text-slate-700">
+                            <label className="block text-xs font-bold text-softcharcoal">
                                 Estimated Guests (Optional)
                             </label>
                             <input
@@ -185,13 +185,13 @@ export default function BookingModal({
                                 value={data.guest_count}
                                 onChange={(e) => setData('guest_count', e.target.value)}
                                 placeholder="e.g., 150"
-                                className="mt-1.5 w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 shadow-xs focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                                className="mt-1.5 w-full rounded-xl border border-warmbeige px-3.5 py-2.5 text-sm text-softcharcoal shadow-xs focus:border-champagnegold focus:outline-none focus:ring-2 focus:ring-champagne"
                             />
                         </div>
 
                         {/* Special Requests */}
                         <div className="sm:col-span-2">
-                            <label className="block text-xs font-bold text-slate-700">
+                            <label className="block text-xs font-bold text-softcharcoal">
                                 Notes & Special Instructions (Optional)
                             </label>
                             <textarea
@@ -199,7 +199,7 @@ export default function BookingModal({
                                 value={data.special_requests}
                                 onChange={(e) => setData('special_requests', e.target.value)}
                                 placeholder="Include theme preferences, color palettes, special requirements, or questions..."
-                                className="mt-1.5 w-full rounded-xl border border-slate-300 p-3.5 text-sm text-slate-900 shadow-xs focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                                className="mt-1.5 w-full rounded-xl border border-warmbeige p-3.5 text-sm text-softcharcoal shadow-xs focus:border-champagnegold focus:outline-none focus:ring-2 focus:ring-champagne"
                             />
                         </div>
                     </div>
@@ -216,7 +216,7 @@ export default function BookingModal({
                         <button
                             type="button"
                             onClick={onClose}
-                            className="rounded-xl border border-slate-300 px-5 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50 transition"
+                            className="rounded-xl border border-warmbeige px-5 py-2.5 text-xs font-bold text-softcharcoal hover:bg-ivory transition"
                         >
                             Cancel
                         </button>
@@ -224,7 +224,7 @@ export default function BookingModal({
                         <button
                             type="submit"
                             disabled={processing}
-                            className="rounded-xl bg-indigo-600 px-6 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-indigo-700 active:scale-95 disabled:opacity-50"
+                            className="rounded-xl bg-champagnegold px-6 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-darkgold active:scale-95 disabled:opacity-50"
                         >
                             {processing ? 'Submitting Request...' : 'Confirm & Request Booking'}
                         </button>

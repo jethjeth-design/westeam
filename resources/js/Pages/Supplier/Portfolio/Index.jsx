@@ -81,7 +81,7 @@ export default function Index({
         <DashboardLayout>
             <Head title="My Portfolio - Supplier Dashboard" />
 
-            <div className="min-h-screen bg-slate-50/60 p-6 lg:p-8">
+            <div className="min-h-screen bg-ivory/60 p-4 sm:p-6 lg:p-8">
                 {/* Notification Flash */}
                 {flash?.success && (
                     <div className="mb-6 flex items-center justify-between rounded-2xl border border-emerald-200 bg-emerald-50/90 p-4 text-emerald-800 shadow-xs">
@@ -98,22 +98,22 @@ export default function Index({
                 <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                     <div>
                         <div className="flex items-center gap-2">
-                            <span className="inline-flex items-center rounded-md bg-indigo-50 px-2.5 py-1 text-xs font-bold text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
+                            <span className="inline-flex items-center rounded-md bg-champagne px-2.5 py-1 text-xs font-bold text-darkgold ring-1 ring-inset ring-indigo-700/10">
                                 📸 Showcase Works
                             </span>
-                            <span className="text-xs text-slate-400">• Portfolio Galleries</span>
+                            <span className="text-xs text-warmgray">• Portfolio Galleries</span>
                         </div>
-                        <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-900">
+                        <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-softcharcoal">
                             Portfolio Showcase
                         </h1>
-                        <p className="mt-1 text-sm text-slate-500">
+                        <p className="mt-1 text-sm text-warmgray">
                             Showcase your past events, upload photo galleries, and attract more clients.
                         </p>
                     </div>
 
                     <Link
                         href={route('supplier.portfolio.create')}
-                        className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 active:scale-95"
+                        className="inline-flex items-center gap-2 rounded-xl bg-champagnegold px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-darkgold active:scale-95"
                     >
                         <span className="text-lg font-bold leading-none">+</span>
                         <span>Add Portfolio Project</span>
@@ -122,22 +122,22 @@ export default function Index({
 
                 {/* Statistics Cards */}
                 <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:gap-5">
-                    <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs transition hover:shadow-md">
+                    <div className="overflow-hidden rounded-2xl border border-warmbeige/80 bg-white p-5 shadow-xs transition hover:shadow-md">
                         <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                            <span className="text-xs font-bold uppercase tracking-wider text-warmgray">
                                 Total Projects
                             </span>
-                            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 font-bold">
+                            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-champagne text-champagnegold font-bold">
                                 📁
                             </div>
                         </div>
-                        <p className="mt-3 text-2xl font-black text-slate-900">{stats.total}</p>
-                        <p className="mt-0.5 text-xs text-slate-400">{stats.totalPhotos} photos uploaded</p>
+                        <p className="mt-3 text-2xl font-black text-softcharcoal">{stats.total}</p>
+                        <p className="mt-0.5 text-xs text-warmgray">{stats.totalPhotos} photos uploaded</p>
                     </div>
 
-                    <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs transition hover:shadow-md">
+                    <div className="overflow-hidden rounded-2xl border border-warmbeige/80 bg-white p-5 shadow-xs transition hover:shadow-md">
                         <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                            <span className="text-xs font-bold uppercase tracking-wider text-warmgray">
                                 Published
                             </span>
                             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 font-bold">
@@ -145,12 +145,12 @@ export default function Index({
                             </div>
                         </div>
                         <p className="mt-3 text-2xl font-black text-emerald-600">{stats.published}</p>
-                        <p className="mt-0.5 text-xs text-slate-400">Visible to customers</p>
+                        <p className="mt-0.5 text-xs text-warmgray">Visible to customers</p>
                     </div>
 
-                    <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs transition hover:shadow-md">
+                    <div className="overflow-hidden rounded-2xl border border-warmbeige/80 bg-white p-5 shadow-xs transition hover:shadow-md">
                         <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                            <span className="text-xs font-bold uppercase tracking-wider text-warmgray">
                                 Drafts
                             </span>
                             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-50 text-amber-600 font-bold">
@@ -158,12 +158,12 @@ export default function Index({
                             </div>
                         </div>
                         <p className="mt-3 text-2xl font-black text-amber-600">{stats.drafts}</p>
-                        <p className="mt-0.5 text-xs text-slate-400">Hidden from public</p>
+                        <p className="mt-0.5 text-xs text-warmgray">Hidden from public</p>
                     </div>
 
-                    <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs transition hover:shadow-md">
+                    <div className="overflow-hidden rounded-2xl border border-warmbeige/80 bg-white p-5 shadow-xs transition hover:shadow-md">
                         <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                            <span className="text-xs font-bold uppercase tracking-wider text-warmgray">
                                 Featured
                             </span>
                             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-50 text-purple-600 font-bold">
@@ -171,16 +171,16 @@ export default function Index({
                             </div>
                         </div>
                         <p className="mt-3 text-2xl font-black text-purple-600">{stats.featured}</p>
-                        <p className="mt-0.5 text-xs text-slate-400">Highlighted on top</p>
+                        <p className="mt-0.5 text-xs text-warmgray">Highlighted on top</p>
                     </div>
                 </div>
 
                 {/* Filters & Search Controls */}
-                <div className="mt-6 flex flex-col gap-4 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-xs md:flex-row md:items-center md:justify-between">
+                <div className="mt-6 flex flex-col gap-4 rounded-2xl border border-warmbeige/80 bg-white p-4 shadow-xs md:flex-row md:items-center md:justify-between">
                     <div className="flex flex-1 flex-col gap-3 sm:flex-row sm:items-center">
                         {/* Search Input */}
                         <div className="relative flex-1">
-                            <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                            <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-warmgray">
                                 🔍
                             </span>
                             <input
@@ -188,12 +188,12 @@ export default function Index({
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 placeholder="Search by title, client, location..."
-                                className="w-full rounded-xl border border-slate-200 bg-slate-50/50 py-2 pl-9 pr-4 text-xs text-slate-900 outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-100"
+                                className="w-full rounded-xl border border-warmbeige bg-ivory/50 py-2 pl-9 pr-4 text-xs text-softcharcoal outline-none transition focus:border-champagnegold focus:bg-white focus:ring-2 focus:ring-champagne"
                             />
                             {search && (
                                 <button
                                     onClick={() => setSearch('')}
-                                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-xs text-slate-400 hover:text-slate-600"
+                                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-xs text-warmgray hover:text-softcharcoal"
                                 >
                                     ✕
                                 </button>
@@ -204,7 +204,7 @@ export default function Index({
                         <select
                             value={selectedCategory}
                             onChange={(e) => setSelectedCategory(e.target.value)}
-                            className="rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-900 outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-100"
+                            className="rounded-xl border border-warmbeige bg-ivory/50 px-3 py-2 text-xs text-softcharcoal outline-none transition focus:border-champagnegold focus:bg-white focus:ring-2 focus:ring-champagne"
                         >
                             <option value="all">All Event Categories</option>
                             {categories.map((cat) => (
@@ -216,7 +216,7 @@ export default function Index({
                     </div>
 
                     {/* Status Tabs */}
-                    <div className="flex items-center gap-1 rounded-xl bg-slate-100 p-1">
+                    <div className="flex items-center gap-1 rounded-xl bg-champagne p-1">
                         {[
                             { label: 'All', value: 'all' },
                             { label: 'Published', value: 'published' },
@@ -228,8 +228,8 @@ export default function Index({
                                 onClick={() => setSelectedStatus(tab.value)}
                                 className={`rounded-lg px-3 py-1.5 text-xs font-bold transition ${
                                     selectedStatus === tab.value
-                                        ? 'bg-white text-indigo-600 shadow-xs'
-                                        : 'text-slate-600 hover:text-slate-900'
+                                        ? 'bg-white text-champagnegold shadow-xs'
+                                        : 'text-softcharcoal hover:text-softcharcoal'
                                 }`}
                             >
                                 {tab.label}
@@ -252,10 +252,10 @@ export default function Index({
                             return (
                                 <div
                                     key={portfolio.id}
-                                    className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-xs transition duration-200 hover:-translate-y-1 hover:shadow-md"
+                                    className="group flex flex-col overflow-hidden rounded-2xl border border-warmbeige/80 bg-white shadow-xs transition duration-200 hover:-translate-y-1 hover:shadow-md"
                                 >
                                     {/* Cover Image */}
-                                    <div className="relative aspect-video w-full overflow-hidden bg-slate-100">
+                                    <div className="relative aspect-video w-full overflow-hidden bg-champagne">
                                         {coverUrl ? (
                                             <img
                                                 src={coverUrl}
@@ -267,9 +267,9 @@ export default function Index({
                                                 }}
                                             />
                                         ) : (
-                                            <div className="flex h-full w-full flex-col items-center justify-center text-slate-400 bg-gradient-to-br from-indigo-50 to-slate-100">
+                                            <div className="flex h-full w-full flex-col items-center justify-center text-warmgray bg-gradient-to-br from-indigo-50 to-champagne">
                                                 <span className="text-3xl">🖼️</span>
-                                                <span className="mt-1 text-xs font-semibold text-slate-500">No photos uploaded</span>
+                                                <span className="mt-1 text-xs font-semibold text-warmgray">No photos uploaded</span>
                                             </div>
                                         )}
 
@@ -305,7 +305,7 @@ export default function Index({
 
                                         {/* Category Badge */}
                                         {portfolio.event_category && (
-                                            <div className="absolute bottom-3 left-3 rounded-lg bg-indigo-600/90 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-xs">
+                                            <div className="absolute bottom-3 left-3 rounded-lg bg-champagnegold/90 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-xs">
                                                 {portfolio.event_category.name}
                                             </div>
                                         )}
@@ -314,12 +314,12 @@ export default function Index({
                                     {/* Card Content */}
                                     <div className="flex flex-1 flex-col justify-between p-5">
                                         <div>
-                                            <h3 className="line-clamp-1 text-base font-bold text-slate-900 group-hover:text-indigo-600">
+                                            <h3 className="line-clamp-1 text-base font-bold text-softcharcoal group-hover:text-champagnegold">
                                                 {portfolio.title}
                                             </h3>
 
                                             {/* Details Meta */}
-                                            <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500">
+                                            <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-warmgray">
                                                 {portfolio.event_date && (
                                                     <span className="flex items-center gap-1">
                                                         <span>📅</span>
@@ -347,18 +347,18 @@ export default function Index({
                                             </div>
 
                                             {portfolio.description && (
-                                                <p className="mt-2.5 line-clamp-2 text-xs leading-relaxed text-slate-600">
+                                                <p className="mt-2.5 line-clamp-2 text-xs leading-relaxed text-softcharcoal">
                                                     {portfolio.description}
                                                 </p>
                                             )}
                                         </div>
 
                                         {/* Actions Footer */}
-                                        <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-3.5">
+                                        <div className="mt-5 flex items-center justify-between border-t border-champagne pt-3.5">
                                             <div className="flex items-center gap-2">
                                                 <Link
                                                     href={route('supplier.portfolio.show', portfolio.id)}
-                                                    className="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-700 transition hover:border-indigo-200 hover:bg-indigo-50/50 hover:text-indigo-600 shadow-2xs"
+                                                    className="inline-flex items-center gap-1 rounded-xl border border-warmbeige bg-white px-3 py-1.5 text-xs font-bold text-softcharcoal transition hover:border-indigo-200 hover:bg-champagne/50 hover:text-champagnegold shadow-2xs"
                                                 >
                                                     <span>Show Portfolio</span>
                                                     <span>👁️</span>
@@ -366,7 +366,7 @@ export default function Index({
 
                                                 <Link
                                                     href={route('supplier.portfolio.edit', portfolio.id)}
-                                                    className="rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-indigo-50 hover:text-indigo-600"
+                                                    className="rounded-xl border border-warmbeige bg-white px-3 py-1.5 text-xs font-semibold text-softcharcoal transition hover:bg-champagne hover:text-champagnegold"
                                                 >
                                                     Edit
                                                 </Link>
@@ -387,14 +387,14 @@ export default function Index({
                     </div>
                 ) : (
                     /* Empty State */
-                    <div className="mt-8 flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-slate-300 bg-white p-12 text-center shadow-xs">
-                        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 text-3xl">
+                    <div className="mt-8 flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-warmbeige bg-white p-12 text-center shadow-xs">
+                        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-champagne text-3xl">
                             📸
                         </div>
-                        <h3 className="mt-4 text-lg font-bold text-slate-900">
+                        <h3 className="mt-4 text-lg font-bold text-softcharcoal">
                             No portfolio projects found
                         </h3>
-                        <p className="mt-1 max-w-sm text-xs text-slate-500">
+                        <p className="mt-1 max-w-sm text-xs text-warmgray">
                             {search || selectedCategory !== 'all' || selectedStatus !== 'all'
                                 ? 'No projects match your current filters. Try adjusting your search query.'
                                 : 'Start building your supplier portfolio! Upload photos of past events to impress prospective customers.'}
@@ -402,7 +402,7 @@ export default function Index({
                         <div className="mt-6 flex gap-3">
                             <Link
                                 href={route('supplier.portfolio.create')}
-                                className="rounded-xl bg-indigo-600 px-5 py-2.5 text-xs font-semibold text-white shadow-sm hover:bg-indigo-700"
+                                className="rounded-xl bg-champagnegold px-5 py-2.5 text-xs font-semibold text-white shadow-sm hover:bg-darkgold"
                             >
                                 + Create First Project
                             </Link>
@@ -418,13 +418,13 @@ export default function Index({
                                 <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-100 text-xl font-bold">
                                     🗑️
                                 </span>
-                                <h3 className="text-lg font-bold text-slate-900">
+                                <h3 className="text-lg font-bold text-softcharcoal">
                                     Delete Portfolio Project?
                                 </h3>
                             </div>
 
-                            <p className="mt-3 text-xs text-slate-600 leading-relaxed">
-                                Are you sure you want to delete <strong className="text-slate-900">"{deletingPortfolio.title}"</strong>? All associated photos will be permanently deleted.
+                            <p className="mt-3 text-xs text-softcharcoal leading-relaxed">
+                                Are you sure you want to delete <strong className="text-softcharcoal">"{deletingPortfolio.title}"</strong>? All associated photos will be permanently deleted.
                             </p>
 
                             <div className="mt-6 flex justify-end gap-3">
@@ -432,7 +432,7 @@ export default function Index({
                                     type="button"
                                     onClick={closeDeleteModal}
                                     disabled={isDeleting}
-                                    className="rounded-xl border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                                    className="rounded-xl border border-warmbeige px-4 py-2 text-xs font-semibold text-softcharcoal hover:bg-ivory"
                                 >
                                     Cancel
                                 </button>

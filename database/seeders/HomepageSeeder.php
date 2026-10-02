@@ -139,14 +139,47 @@ class HomepageSeeder extends Seeder
                 ],
             ],
             [
+                'section_key' => 'event_categories',
+                'title' => 'Browse by Event Type',
+                'subtitle' => 'Explore tailored services and experienced suppliers for every occasion.',
+                'is_active' => true,
+                'sort_order' => 3,
+                'content' => [
+                    'view_all_text' => 'View All Events',
+                    'view_all_url' => '/events',
+                ],
+            ],
+            [
                 'section_key' => 'featured_suppliers',
                 'title' => 'Featured Suppliers',
                 'subtitle' => 'Top-rated suppliers based on customer reviews and bookings.',
                 'is_active' => true,
-                'sort_order' => 3,
+                'sort_order' => 4,
                 'content' => [
                     'view_all_text' => 'View All',
                     'view_all_url' => '/suppliers',
+                ],
+            ],
+            [
+                'section_key' => 'top_packages',
+                'title' => 'Top Packages',
+                'subtitle' => 'Highly recommended and best-value packages curated for your events.',
+                'is_active' => true,
+                'sort_order' => 5,
+                'content' => [
+                    'view_all_text' => 'View All Packages',
+                    'view_all_url' => '/packages',
+                ],
+            ],
+            [
+                'section_key' => 'gallery_preview',
+                'title' => 'Moments from Real Celebrations',
+                'subtitle' => 'Browse recent photos and inspirations from our verified suppliers.',
+                'is_active' => true,
+                'sort_order' => 6,
+                'content' => [
+                    'view_all_text' => 'Explore Gallery',
+                    'view_all_url' => '/gallery',
                 ],
             ],
             [
@@ -154,7 +187,7 @@ class HomepageSeeder extends Seeder
                 'title' => 'Make Your Event More Special',
                 'subtitle' => 'From weddings to birthdays, debuts, corporate events, and intimate milestones, our verified partners bring the expertise and passion to make every detail unforgettable.',
                 'is_active' => true,
-                'sort_order' => 4,
+                'sort_order' => 7,
                 'content' => [
                     'button_text' => 'Browse Packages',
                     'button_url' => '/packages',

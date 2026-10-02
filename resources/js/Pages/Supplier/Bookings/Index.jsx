@@ -96,6 +96,12 @@ export default function Index({ bookingItems, teamBookings }) {
 
     const getStatusBadge = (status) => {
         switch (status) {
+            case 'confirmed':
+                return (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-black text-emerald-800 ring-1 ring-inset ring-emerald-600/30">
+                        ✓ Confirmed
+                    </span>
+                );
             case 'accepted':
                 return (
                     <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-bold text-emerald-700 ring-1 ring-inset ring-emerald-600/20">
@@ -116,13 +122,13 @@ export default function Index({ bookingItems, teamBookings }) {
                 );
             case 'completed':
                 return (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-bold text-indigo-700 ring-1 ring-inset ring-indigo-600/20">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-champagne px-2.5 py-0.5 text-xs font-bold text-darkgold ring-1 ring-inset ring-champagnegold/20">
                         🎉 Completed
                     </span>
                 );
             case 'cancelled':
                 return (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-bold text-slate-600 ring-1 ring-inset ring-slate-500/20">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-champagne px-2.5 py-0.5 text-xs font-bold text-softcharcoal ring-1 ring-inset ring-warmgray/20">
                         Cancelled
                     </span>
                 );
@@ -135,32 +141,32 @@ export default function Index({ bookingItems, teamBookings }) {
         <DashboardLayout>
             <Head title="Booking Requests - Supplier Dashboard" />
 
-            <div className="min-h-screen bg-slate-50/60 p-6 lg:p-10">
+            <div className="min-h-screen bg-ivory/60 p-4 sm:p-6 lg:p-10">
                 {/* Header */}
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <div className="flex items-center gap-2">
-                            <span className="rounded-md bg-indigo-50 px-2.5 py-0.5 text-xs font-bold text-indigo-700">
+                            <span className="rounded-md bg-champagne px-2.5 py-0.5 text-xs font-bold text-darkgold">
                                 💼 Supplier Orders
                             </span>
                         </div>
-                        <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-900">
+                        <h1 className="mt-2 text-3xl font-black tracking-tight text-softcharcoal">
                             Client Bookings & Requests
                         </h1>
-                        <p className="mt-1 text-sm text-slate-500">
+                        <p className="mt-1 text-sm text-warmgray">
                             Accept or decline incoming client booking requests and provide feedback.
                         </p>
                     </div>
 
                     {/* Tabs for Coordinator vs Individual */}
-                    <div className="flex rounded-2xl bg-slate-200/80 p-1">
+                    <div className="flex rounded-2xl bg-warmbeige/80 p-1">
                         <button
                             type="button"
                             onClick={() => setActiveTab('individual')}
                             className={`rounded-xl px-4 py-2 text-xs font-bold transition ${
                                 activeTab === 'individual'
-                                    ? 'bg-white text-indigo-600 shadow-sm'
-                                    : 'text-slate-600 hover:text-slate-900'
+                                    ? 'bg-white text-champagnegold shadow-sm'
+                                    : 'text-softcharcoal hover:text-softcharcoal'
                             }`}
                         >
                             My Services ({itemsList.length})
@@ -170,8 +176,8 @@ export default function Index({ bookingItems, teamBookings }) {
                             onClick={() => setActiveTab('teams')}
                             className={`rounded-xl px-4 py-2 text-xs font-bold transition ${
                                 activeTab === 'teams'
-                                    ? 'bg-white text-indigo-600 shadow-sm'
-                                    : 'text-slate-600 hover:text-slate-900'
+                                    ? 'bg-white text-champagnegold shadow-sm'
+                                    : 'text-softcharcoal hover:text-softcharcoal'
                             }`}
                         >
                             👥 Coordinated Teams ({teamBookings?.length || 0})
@@ -183,7 +189,7 @@ export default function Index({ bookingItems, teamBookings }) {
                 {activeTab === 'individual' && (
                     <div className="mt-8 space-y-6">
                         {/* Filter Tabs */}
-                        <div className="flex flex-wrap items-center gap-2 border-b border-slate-200/80 pb-4">
+                        <div className="flex flex-wrap items-center gap-2 border-b border-warmbeige/80 pb-4">
                             {['all', 'pending', 'accepted', 'completed', 'rejected', 'cancelled'].map((tab) => (
                                 <button
                                     key={tab}
@@ -191,8 +197,8 @@ export default function Index({ bookingItems, teamBookings }) {
                                     onClick={() => setStatusFilter(tab)}
                                     className={`rounded-xl px-3.5 py-1.5 text-xs font-bold capitalize transition ${
                                         statusFilter === tab
-                                            ? 'bg-indigo-600 text-white shadow-xs'
-                                            : 'bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                                            ? 'bg-champagnegold text-white shadow-xs'
+                                            : 'bg-white text-softcharcoal hover:bg-champagne hover:text-softcharcoal'
                                     }`}
                                 >
                                     {tab === 'all' ? 'All Requests' : tab}
@@ -202,14 +208,14 @@ export default function Index({ bookingItems, teamBookings }) {
 
                         {/* List */}
                         {filteredItems.length === 0 ? (
-                            <div className="rounded-3xl border border-dashed border-slate-300 bg-white p-12 text-center">
-                                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-50 text-2xl">
+                            <div className="rounded-3xl border border-dashed border-warmbeige bg-white p-12 text-center">
+                                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-champagne text-2xl">
                                     📬
                                 </div>
-                                <h3 className="mt-4 text-base font-bold text-slate-900">
+                                <h3 className="mt-4 text-base font-bold text-softcharcoal">
                                     No requests found
                                 </h3>
-                                <p className="mt-1 text-xs text-slate-500">
+                                <p className="mt-1 text-xs text-warmgray">
                                     You have no booking requests matching the filter criteria.
                                 </p>
                             </div>
@@ -220,32 +226,32 @@ export default function Index({ bookingItems, teamBookings }) {
                                     return (
                                         <div
                                             key={item.id}
-                                            className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-6 shadow-xs transition hover:border-indigo-200 hover:shadow-md"
+                                            className="overflow-hidden rounded-2xl border border-warmbeige/80 bg-white p-6 shadow-xs transition hover:border-indigo-200 hover:shadow-md"
                                         >
                                             <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                                                 {/* Left details */}
                                                 <div className="space-y-2">
                                                     <div className="flex flex-wrap items-center gap-2">
-                                                        <span className="font-mono text-xs font-bold text-indigo-600">
+                                                        <span className="font-mono text-xs font-bold text-champagnegold">
                                                             {booking?.booking_reference}
                                                         </span>
-                                                        <span className="text-slate-300">•</span>
-                                                        <span className="text-xs font-bold text-slate-900">
+                                                        <span className="text-warmbeige">•</span>
+                                                        <span className="text-xs font-bold text-softcharcoal">
                                                             {item.item_name}
                                                         </span>
-                                                        <span className="rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-600 uppercase">
+                                                        <span className="rounded-md bg-champagne px-2 py-0.5 text-[10px] font-bold text-softcharcoal uppercase">
                                                             {item.item_type}
                                                         </span>
                                                         {getStatusBadge(item.status)}
                                                     </div>
 
-                                                    <h3 className="text-lg font-black text-slate-900">
+                                                    <h3 className="text-lg font-black text-softcharcoal">
                                                         {booking?.event_name}
                                                     </h3>
 
-                                                    <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-xs text-slate-500">
+                                                    <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-xs text-warmgray">
                                                         <div>
-                                                            Client: <strong className="text-slate-800">{booking?.customer?.name}</strong>
+                                                            Client: <strong className="text-softcharcoal">{booking?.customer?.name}</strong>
                                                         </div>
                                                         <div>
                                                             📅{' '}
@@ -263,7 +269,7 @@ export default function Index({ bookingItems, teamBookings }) {
                                                     </div>
 
                                                     {booking?.special_requests && (
-                                                        <p className="mt-2 rounded-xl bg-slate-50 p-2.5 text-xs text-slate-600 border border-slate-100">
+                                                        <p className="mt-2 rounded-xl bg-ivory p-2.5 text-xs text-softcharcoal border border-champagne">
                                                             <strong>Client Note:</strong> {booking.special_requests}
                                                         </p>
                                                     )}
@@ -276,10 +282,10 @@ export default function Index({ bookingItems, teamBookings }) {
                                                 </div>
 
                                                 {/* Price & Action Buttons */}
-                                                <div className="flex flex-row lg:flex-col items-center lg:items-end justify-between gap-3 border-t border-slate-100 pt-4 lg:border-none lg:pt-0">
+                                                <div className="flex flex-row lg:flex-col items-center lg:items-end justify-between gap-3 border-t border-champagne pt-4 lg:border-none lg:pt-0">
                                                     <div className="text-left lg:text-right">
-                                                        <p className="text-[11px] text-slate-400">Offer Price</p>
-                                                        <p className="text-xl font-black text-slate-900">
+                                                        <p className="text-[11px] text-warmgray">Offer Price</p>
+                                                        <p className="text-xl font-black text-softcharcoal">
                                                             ₱{Number(item.unit_price).toLocaleString('en-PH', {
                                                                 minimumFractionDigits: 2,
                                                             })}
@@ -314,7 +320,7 @@ export default function Index({ bookingItems, teamBookings }) {
                                                                 type="button"
                                                                 disabled={processingAction}
                                                                 onClick={() => handleCompleteItem(item)}
-                                                                className="rounded-xl bg-indigo-600 px-4 py-2 text-xs font-bold text-white shadow-xs transition hover:bg-indigo-700 active:scale-95 disabled:opacity-50"
+                                                                className="rounded-xl bg-champagnegold px-4 py-2 text-xs font-bold text-white shadow-xs transition hover:bg-darkgold active:scale-95 disabled:opacity-50"
                                                             >
                                                                 Mark as Completed
                                                             </button>
@@ -333,19 +339,19 @@ export default function Index({ bookingItems, teamBookings }) {
                 {/* Coordinated Teams Tab */}
                 {activeTab === 'teams' && (
                     <div className="mt-8 space-y-6">
-                        <div className="rounded-2xl border border-indigo-100 bg-indigo-50/50 p-4 text-xs text-indigo-900">
+                        <div className="rounded-2xl border border-champagne bg-champagne/50 p-4 text-xs text-indigo-900">
                             💡 <strong>Team Coordinator Notice:</strong> You are the designated Coordinator for the team(s) below. Accepting or declining a team package updates the booking for all collaborating suppliers.
                         </div>
 
                         {teamBookings?.length === 0 ? (
-                            <div className="rounded-3xl border border-dashed border-slate-300 bg-white p-12 text-center">
-                                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-50 text-2xl">
+                            <div className="rounded-3xl border border-dashed border-warmbeige bg-white p-12 text-center">
+                                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-champagne text-2xl">
                                     👥
                                 </div>
-                                <h3 className="mt-4 text-base font-bold text-slate-900">
+                                <h3 className="mt-4 text-base font-bold text-softcharcoal">
                                     No Team Package Bookings Yet
                                 </h3>
-                                <p className="mt-1 text-xs text-slate-500">
+                                <p className="mt-1 text-xs text-warmgray">
                                     When clients book full team packages you coordinate, they will appear here.
                                 </p>
                             </div>
@@ -354,27 +360,27 @@ export default function Index({ bookingItems, teamBookings }) {
                                 {teamBookings.map((tBooking) => (
                                     <div
                                         key={tBooking.id}
-                                        className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-6 shadow-xs transition hover:border-indigo-200 hover:shadow-md"
+                                        className="overflow-hidden rounded-2xl border border-warmbeige/80 bg-white p-6 shadow-xs transition hover:border-indigo-200 hover:shadow-md"
                                     >
                                         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                                             <div className="space-y-2">
                                                 <div className="flex flex-wrap items-center gap-2">
-                                                    <span className="font-mono text-xs font-bold text-indigo-600">
+                                                    <span className="font-mono text-xs font-bold text-champagnegold">
                                                         {tBooking.booking_reference}
                                                     </span>
-                                                    <span className="text-slate-300">•</span>
+                                                    <span className="text-warmbeige">•</span>
                                                     <span className="rounded-md bg-purple-50 px-2 py-0.5 text-xs font-bold text-purple-700">
                                                         Team: {tBooking.team?.name}
                                                     </span>
                                                     {getStatusBadge(tBooking.overall_status)}
                                                 </div>
 
-                                                <h3 className="text-lg font-black text-slate-900">
+                                                <h3 className="text-lg font-black text-softcharcoal">
                                                     {tBooking.event_name}
                                                 </h3>
 
-                                                <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-xs text-slate-500">
-                                                    <div>Client: <strong className="text-slate-800">{tBooking.customer?.name}</strong></div>
+                                                <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-xs text-warmgray">
+                                                    <div>Client: <strong className="text-softcharcoal">{tBooking.customer?.name}</strong></div>
                                                     <div>
                                                         📅{' '}
                                                         {new Date(tBooking.event_date).toLocaleDateString('en-US', {
@@ -388,11 +394,11 @@ export default function Index({ bookingItems, teamBookings }) {
 
                                                 {/* Team Members in this booking */}
                                                 <div className="mt-3 flex flex-wrap items-center gap-2">
-                                                    <span className="text-[11px] font-bold text-slate-400 uppercase">Team Members:</span>
+                                                    <span className="text-[11px] font-bold text-warmgray uppercase">Team Members:</span>
                                                     {tBooking.items?.map((item) => (
                                                         <span
                                                             key={item.id}
-                                                            className="rounded-lg bg-slate-50 px-2.5 py-1 text-[11px] font-semibold text-slate-700 border border-slate-200/60"
+                                                            className="rounded-lg bg-ivory px-2.5 py-1 text-[11px] font-semibold text-softcharcoal border border-warmbeige/60"
                                                         >
                                                             {item.item_name} ({item.supplier?.name})
                                                         </span>
@@ -401,10 +407,10 @@ export default function Index({ bookingItems, teamBookings }) {
                                             </div>
 
                                             {/* Price & Actions */}
-                                            <div className="flex flex-row lg:flex-col items-center lg:items-end justify-between gap-3 border-t border-slate-100 pt-4 lg:border-none lg:pt-0">
+                                            <div className="flex flex-row lg:flex-col items-center lg:items-end justify-between gap-3 border-t border-champagne pt-4 lg:border-none lg:pt-0">
                                                 <div className="text-left lg:text-right">
-                                                    <p className="text-[11px] text-slate-400">Total Team Package</p>
-                                                    <p className="text-xl font-black text-slate-900">
+                                                    <p className="text-[11px] text-warmgray">Total Team Package</p>
+                                                    <p className="text-xl font-black text-softcharcoal">
                                                         ₱{Number(tBooking.total_amount).toLocaleString('en-PH', {
                                                             minimumFractionDigits: 2,
                                                         })}
@@ -433,7 +439,7 @@ export default function Index({ bookingItems, teamBookings }) {
                                                                 </button>
                                                             </>
                                                         ) : (
-                                                            <span className="rounded-xl bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-600 border border-slate-200/70">
+                                                            <span className="rounded-xl bg-champagne px-3 py-1.5 text-xs font-semibold text-softcharcoal border border-warmbeige/70">
                                                                 Coordinated by {tBooking.team?.coordinator?.name || 'Lead Coordinator'}
                                                             </span>
                                                         )}
@@ -452,24 +458,24 @@ export default function Index({ bookingItems, teamBookings }) {
             {/* Rejection Reason Modal (For individual item) */}
             {rejectingItem && (
                 <div
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-softcharcoal/60 p-4 backdrop-blur-sm"
                     onClick={() => setRejectingItem(null)}
                 >
                     <div
                         className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <h3 className="text-lg font-black text-slate-900">
+                        <h3 className="text-lg font-black text-softcharcoal">
                             Decline Booking Request
                         </h3>
-                        <p className="mt-1 text-xs text-slate-500">
+                        <p className="mt-1 text-xs text-warmgray">
                             Please provide a reason why you cannot accept{' '}
                             <strong>{rejectingItem.item_name}</strong> on this date.
                         </p>
 
                         <form onSubmit={handleRejectItemSubmit} className="mt-4 space-y-4">
                             <div>
-                                <label className="block text-xs font-bold text-slate-700">
+                                <label className="block text-xs font-bold text-softcharcoal">
                                     Reason for Declining <span className="text-red-500">*</span>
                                 </label>
                                 <textarea
@@ -478,7 +484,7 @@ export default function Index({ bookingItems, teamBookings }) {
                                     value={rejectionReason}
                                     onChange={(e) => setRejectionReason(e.target.value)}
                                     placeholder="e.g., Already fully booked on this date, outside service area, or schedule conflict..."
-                                    className="mt-1.5 w-full rounded-xl border border-slate-300 p-3 text-xs text-slate-900 shadow-xs focus:border-red-500 focus:ring-2 focus:ring-red-100"
+                                    className="mt-1.5 w-full rounded-xl border border-warmbeige p-3 text-xs text-softcharcoal shadow-xs focus:border-red-500 focus:ring-2 focus:ring-red-100"
                                 />
                             </div>
 
@@ -486,7 +492,7 @@ export default function Index({ bookingItems, teamBookings }) {
                                 <button
                                     type="button"
                                     onClick={() => setRejectingItem(null)}
-                                    className="rounded-xl border border-slate-300 px-4 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50"
+                                    className="rounded-xl border border-warmbeige px-4 py-2 text-xs font-bold text-softcharcoal hover:bg-ivory"
                                 >
                                     Cancel
                                 </button>
@@ -506,24 +512,24 @@ export default function Index({ bookingItems, teamBookings }) {
             {/* Rejection Reason Modal (For Team Booking) */}
             {rejectingTeamBooking && (
                 <div
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-softcharcoal/60 p-4 backdrop-blur-sm"
                     onClick={() => setRejectingTeamBooking(null)}
                 >
                     <div
                         className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <h3 className="text-lg font-black text-slate-900">
+                        <h3 className="text-lg font-black text-softcharcoal">
                             Decline Team Package Booking
                         </h3>
-                        <p className="mt-1 text-xs text-slate-500">
+                        <p className="mt-1 text-xs text-warmgray">
                             As Coordinator, provide a reason why Team{' '}
                             <strong>{rejectingTeamBooking.team?.name}</strong> cannot accept this reservation.
                         </p>
 
                         <form onSubmit={handleRejectTeamSubmit} className="mt-4 space-y-4">
                             <div>
-                                <label className="block text-xs font-bold text-slate-700">
+                                <label className="block text-xs font-bold text-softcharcoal">
                                     Reason for Declining <span className="text-red-500">*</span>
                                 </label>
                                 <textarea
@@ -532,7 +538,7 @@ export default function Index({ bookingItems, teamBookings }) {
                                     value={rejectionReason}
                                     onChange={(e) => setRejectionReason(e.target.value)}
                                     placeholder="e.g. One or more key team suppliers are unavailable on this date..."
-                                    className="mt-1.5 w-full rounded-xl border border-slate-300 p-3 text-xs text-slate-900 shadow-xs focus:border-red-500 focus:ring-2 focus:ring-red-100"
+                                    className="mt-1.5 w-full rounded-xl border border-warmbeige p-3 text-xs text-softcharcoal shadow-xs focus:border-red-500 focus:ring-2 focus:ring-red-100"
                                 />
                             </div>
 
@@ -540,7 +546,7 @@ export default function Index({ bookingItems, teamBookings }) {
                                 <button
                                     type="button"
                                     onClick={() => setRejectingTeamBooking(null)}
-                                    className="rounded-xl border border-slate-300 px-4 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50"
+                                    className="rounded-xl border border-warmbeige px-4 py-2 text-xs font-bold text-softcharcoal hover:bg-ivory"
                                 >
                                     Cancel
                                 </button>

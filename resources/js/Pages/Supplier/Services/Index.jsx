@@ -153,12 +153,12 @@ export default function Index({ services = [], categories = [] }) {
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <div className="flex items-center gap-2">
-                            <span className="rounded-md bg-indigo-50 px-2.5 py-0.5 text-xs font-bold text-indigo-700">
+                            <span className="rounded-md bg-champagne px-2.5 py-0.5 text-xs font-bold text-darkgold">
                                 🛠️ Supplier Offerings
                             </span>
                         </div>
-                        <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-900">Services</h1>
-                        <p className="mt-1 text-sm text-slate-500">
+                        <h1 className="mt-2 text-3xl font-black tracking-tight text-softcharcoal">Services</h1>
+                        <p className="mt-1 text-sm text-warmgray">
                             Manage the individual standalone services you offer to customers and event packages.
                         </p>
                     </div>
@@ -166,7 +166,7 @@ export default function Index({ services = [], categories = [] }) {
                     <button
                         type="button"
                         onClick={openCreateModal}
-                        className="inline-flex items-center gap-2 rounded-2xl bg-indigo-600 px-6 py-3 text-sm font-bold text-white shadow-md shadow-indigo-600/20 transition hover:bg-indigo-700 active:scale-95"
+                        className="inline-flex items-center gap-2 rounded-2xl bg-champagnegold px-6 py-3 text-sm font-bold text-white shadow-md shadow-champagnegold/20 transition hover:bg-darkgold active:scale-95"
                     >
                         <span className="text-lg leading-none">+</span>
                         Add New Service
@@ -174,15 +174,15 @@ export default function Index({ services = [], categories = [] }) {
                 </div>
 
                 {/* What are Services? Info Banner */}
-                <div className="mt-6 overflow-hidden rounded-3xl border border-indigo-100 bg-gradient-to-r from-indigo-50/90 via-blue-50/60 to-purple-50/50 p-6 shadow-xs">
+                <div className="mt-6 overflow-hidden rounded-3xl border border-champagne bg-gradient-to-r from-indigo-50/90 via-blue-50/60 to-purple-50/50 p-6 shadow-xs">
                     <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
                         <div className="flex items-start gap-3.5">
-                            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-indigo-600 text-2xl text-white shadow-md shadow-indigo-600/20">
+                            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-champagnegold text-2xl text-white shadow-md shadow-champagnegold/20">
                                 💡
                             </div>
                             <div>
-                                <h2 className="text-base font-bold text-slate-900">Standalone Services & Bundles</h2>
-                                <p className="mt-0.5 text-xs text-slate-600">
+                                <h2 className="text-base font-bold text-softcharcoal">Standalone Services & Bundles</h2>
+                                <p className="mt-0.5 text-xs text-softcharcoal">
                                     Services are individual offerings that customers can book individually, through AI bundles, or as part of solo and multi-vendor team packages.
                                 </p>
                             </div>
@@ -200,8 +200,8 @@ export default function Index({ services = [], categories = [] }) {
                 {/* Services Grid Roster */}
                 <div className="mt-8">
                     <div className="flex items-center justify-between">
-                        <h2 className="text-lg font-black text-slate-900">
-                            Your Services <span className="text-indigo-600">({services.length})</span>
+                        <h2 className="text-lg font-black text-softcharcoal">
+                            Your Services <span className="text-champagnegold">({services.length})</span>
                         </h2>
                         <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">
                             {services.filter((s) => s.is_active).length} Active Services
@@ -209,18 +209,18 @@ export default function Index({ services = [], categories = [] }) {
                     </div>
 
                     {services.length === 0 ? (
-                        <div className="mt-6 rounded-3xl border-2 border-dashed border-slate-300 bg-white p-16 text-center shadow-xs">
-                            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-indigo-50 text-3xl">
+                        <div className="mt-6 rounded-3xl border-2 border-dashed border-warmbeige bg-white p-16 text-center shadow-xs">
+                            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-champagne text-3xl">
                                 🛠️
                             </div>
-                            <h3 className="mt-4 text-lg font-bold text-slate-900">No services added yet</h3>
-                            <p className="mt-1 text-xs text-slate-500">
+                            <h3 className="mt-4 text-lg font-bold text-softcharcoal">No services added yet</h3>
+                            <p className="mt-1 text-xs text-warmgray">
                                 Start showcasing your work by clicking the button below to open the service creator modal.
                             </p>
                             <button
                                 type="button"
                                 onClick={openCreateModal}
-                                className="mt-6 inline-flex items-center gap-2 rounded-2xl bg-indigo-600 px-6 py-2.5 text-xs font-bold text-white transition hover:bg-indigo-700 active:scale-95"
+                                className="mt-6 inline-flex items-center gap-2 rounded-2xl bg-champagnegold px-6 py-2.5 text-xs font-bold text-white transition hover:bg-darkgold active:scale-95"
                             >
                                 + Add First Service
                             </button>
@@ -230,11 +230,11 @@ export default function Index({ services = [], categories = [] }) {
                             {services.map((service) => (
                                 <div
                                     key={service.id}
-                                    className="group flex flex-col justify-between overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-5 shadow-xs transition duration-200 hover:-translate-y-1 hover:border-indigo-200 hover:shadow-xl"
+                                    className="group flex flex-col justify-between overflow-hidden rounded-3xl border border-warmbeige/80 bg-white p-5 shadow-xs transition duration-200 hover:-translate-y-1 hover:border-indigo-200 hover:shadow-xl"
                                 >
                                     <div>
                                         {/* Image banner or fallback icon */}
-                                        <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-slate-100 shadow-inner">
+                                        <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-champagne shadow-inner">
                                             {service.image_path ? (
                                                 <img
                                                     src={service.image_path}
@@ -242,7 +242,7 @@ export default function Index({ services = [], categories = [] }) {
                                                     className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                                                 />
                                             ) : (
-                                                <div className="flex h-full w-full items-center justify-center bg-gradient-to-tr from-slate-100 to-indigo-50 text-4xl">
+                                                <div className="flex h-full w-full items-center justify-center bg-gradient-to-tr from-champagne to-indigo-50 text-4xl">
                                                     {getCategoryIcon(service.category)}
                                                 </div>
                                             )}
@@ -267,29 +267,29 @@ export default function Index({ services = [], categories = [] }) {
                                         {/* Content */}
                                         <div className="mt-4">
                                             <div className="flex items-center gap-2">
-                                                <h3 className="truncate text-base font-black text-slate-900">
+                                                <h3 className="truncate text-base font-black text-softcharcoal">
                                                     {service.name}
                                                 </h3>
                                             </div>
 
                                             {service.category && (
-                                                <span className="mt-1 inline-block rounded-md bg-indigo-50 px-2 py-0.5 text-[11px] font-bold text-indigo-700">
+                                                <span className="mt-1 inline-block rounded-md bg-champagne px-2 py-0.5 text-[11px] font-bold text-darkgold">
                                                     {service.category}
                                                 </span>
                                             )}
 
-                                            <p className="mt-2 line-clamp-2 text-xs text-slate-500">
+                                            <p className="mt-2 line-clamp-2 text-xs text-warmgray">
                                                 {service.description || 'No description provided.'}
                                             </p>
                                         </div>
                                     </div>
 
                                     {/* Footer / Price & Action */}
-                                    <div className="mt-5 border-t border-slate-100 pt-4">
+                                    <div className="mt-5 border-t border-champagne pt-4">
                                         <div className="flex items-center justify-between">
                                             <div>
-                                                <span className="text-[10px] uppercase font-bold text-slate-400">Price</span>
-                                                <p className="text-base font-black text-slate-900">
+                                                <span className="text-[10px] uppercase font-bold text-warmgray">Price</span>
+                                                <p className="text-base font-black text-softcharcoal">
                                                     ₱{Number(service.price || 0).toLocaleString('en-PH', {
                                                         minimumFractionDigits: 2,
                                                     })}
@@ -300,7 +300,7 @@ export default function Index({ services = [], categories = [] }) {
                                                 <button
                                                     type="button"
                                                     onClick={() => openEditModal(service)}
-                                                    className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-700 transition hover:bg-indigo-50 hover:text-indigo-600"
+                                                    className="rounded-xl border border-warmbeige bg-ivory px-3 py-1.5 text-xs font-bold text-softcharcoal transition hover:bg-champagne hover:text-champagnegold"
                                                 >
                                                     Edit
                                                 </button>
@@ -324,23 +324,23 @@ export default function Index({ services = [], categories = [] }) {
             {/* Add / Edit Service Modal */}
             {showServiceModal && (
                 <div
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-softcharcoal/60 p-4 backdrop-blur-sm"
                     onClick={closeServiceModal}
                 >
                     <div
                         className="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-3xl bg-white p-6 sm:p-8 shadow-2xl transition-all"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div className="flex items-center justify-between border-b border-champagne pb-4">
                             <div className="flex items-center gap-3">
-                                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 text-lg">
+                                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-champagne text-champagnegold text-lg">
                                     {editingService ? '✏️' : '➕'}
                                 </div>
                                 <div>
-                                    <h3 className="text-lg font-black text-slate-900">
+                                    <h3 className="text-lg font-black text-softcharcoal">
                                         {editingService ? 'Edit Service' : 'Add New Service'}
                                     </h3>
-                                    <p className="text-xs text-slate-500">
+                                    <p className="text-xs text-warmgray">
                                         {editingService
                                             ? 'Update pricing and service specifications.'
                                             : 'Add a new service offering to your profile.'}
@@ -351,7 +351,7 @@ export default function Index({ services = [], categories = [] }) {
                             <button
                                 type="button"
                                 onClick={closeServiceModal}
-                                className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100 text-slate-500 hover:bg-slate-200"
+                                className="flex h-8 w-8 items-center justify-center rounded-xl bg-champagne text-warmgray hover:bg-warmbeige"
                             >
                                 ✕
                             </button>
@@ -360,7 +360,7 @@ export default function Index({ services = [], categories = [] }) {
                         <form onSubmit={handleSubmit} className="mt-6 space-y-5">
                             {/* Name */}
                             <div>
-                                <label className="block text-xs font-bold text-slate-700">
+                                <label className="block text-xs font-bold text-softcharcoal">
                                     Service Title <span className="text-red-500">*</span>
                                 </label>
                                 <input
@@ -368,7 +368,7 @@ export default function Index({ services = [], categories = [] }) {
                                     value={data.name}
                                     onChange={(e) => setData('name', e.target.value)}
                                     placeholder="e.g., Cinematic Wedding Highlight Film"
-                                    className="mt-1.5 w-full rounded-xl border border-slate-300 px-4 py-2.5 text-xs text-slate-900 shadow-xs focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                                    className="mt-1.5 w-full rounded-xl border border-warmbeige px-4 py-2.5 text-xs text-softcharcoal shadow-xs focus:border-champagnegold focus:outline-none focus:ring-2 focus:ring-champagne"
                                 />
                                 {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name}</p>}
                             </div>
@@ -376,11 +376,11 @@ export default function Index({ services = [], categories = [] }) {
                             {/* Category & Price */}
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <div>
-                                    <label className="block text-xs font-bold text-slate-700">Category</label>
+                                    <label className="block text-xs font-bold text-softcharcoal">Category</label>
                                     <select
                                         value={data.category}
                                         onChange={(e) => setData('category', e.target.value)}
-                                        className="mt-1.5 w-full rounded-xl border border-slate-300 px-3 py-2.5 text-xs text-slate-900 shadow-xs focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                                        className="mt-1.5 w-full rounded-xl border border-warmbeige px-3 py-2.5 text-xs text-softcharcoal shadow-xs focus:border-champagnegold focus:outline-none focus:ring-2 focus:ring-champagne"
                                     >
                                         <option value="">Select Category</option>
                                         {categories.map((cat) => (
@@ -395,7 +395,7 @@ export default function Index({ services = [], categories = [] }) {
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-bold text-slate-700">
+                                    <label className="block text-xs font-bold text-softcharcoal">
                                         Price (₱) <span className="text-red-500">*</span>
                                     </label>
                                     <input
@@ -405,7 +405,7 @@ export default function Index({ services = [], categories = [] }) {
                                         value={data.price}
                                         onChange={(e) => setData('price', e.target.value)}
                                         placeholder="25,000.00"
-                                        className="mt-1.5 w-full rounded-xl border border-slate-300 px-4 py-2.5 text-xs font-bold text-slate-900 shadow-xs focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                                        className="mt-1.5 w-full rounded-xl border border-warmbeige px-4 py-2.5 text-xs font-bold text-softcharcoal shadow-xs focus:border-champagnegold focus:outline-none focus:ring-2 focus:ring-champagne"
                                     />
                                     {errors.price && <p className="mt-1 text-xs text-red-500">{errors.price}</p>}
                                 </div>
@@ -413,7 +413,7 @@ export default function Index({ services = [], categories = [] }) {
 
                             {/* Description */}
                             <div>
-                                <label className="block text-xs font-bold text-slate-700">
+                                <label className="block text-xs font-bold text-softcharcoal">
                                     Description <span className="text-red-500">*</span>
                                 </label>
                                 <textarea
@@ -421,7 +421,7 @@ export default function Index({ services = [], categories = [] }) {
                                     value={data.description}
                                     onChange={(e) => setData('description', e.target.value)}
                                     placeholder="Describe deliverables, hours of coverage, equipment included..."
-                                    className="mt-1.5 w-full rounded-xl border border-slate-300 p-3.5 text-xs text-slate-900 shadow-xs focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                                    className="mt-1.5 w-full rounded-xl border border-warmbeige p-3.5 text-xs text-softcharcoal shadow-xs focus:border-champagnegold focus:outline-none focus:ring-2 focus:ring-champagne"
                                 />
                                 {errors.description && (
                                     <p className="mt-1 text-xs text-red-500">{errors.description}</p>
@@ -430,34 +430,34 @@ export default function Index({ services = [], categories = [] }) {
 
                             {/* Upload Image */}
                             <div>
-                                <label className="block text-xs font-bold text-slate-700">Cover Photo</label>
+                                <label className="block text-xs font-bold text-softcharcoal">Cover Photo</label>
                                 <div
                                     onDragOver={(e) => e.preventDefault()}
                                     onDrop={handleDrop}
                                     onClick={() => fileInputRef.current?.click()}
-                                    className="mt-1.5 flex cursor-pointer items-center justify-between rounded-2xl border-2 border-dashed border-slate-300 p-3.5 transition hover:border-indigo-500 hover:bg-indigo-50/20"
+                                    className="mt-1.5 flex cursor-pointer items-center justify-between rounded-2xl border-2 border-dashed border-warmbeige p-3.5 transition hover:border-champagnegold hover:bg-champagne/20"
                                 >
                                     <div className="flex items-center gap-3">
                                         {imagePreview ? (
                                             <img
                                                 src={imagePreview}
                                                 alt="Preview"
-                                                className="h-12 w-12 rounded-xl object-cover ring-1 ring-slate-200"
+                                                className="h-12 w-12 rounded-xl object-cover ring-1 ring-warmbeige"
                                             />
                                         ) : (
-                                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50 text-xl text-indigo-600">
+                                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-champagne text-xl text-champagnegold">
                                                 📷
                                             </div>
                                         )}
                                         <div>
-                                            <p className="text-xs font-bold text-slate-800">
+                                            <p className="text-xs font-bold text-softcharcoal">
                                                 {imagePreview ? 'Click to change photo' : 'Upload service photo'}
                                             </p>
-                                            <p className="text-[10px] text-slate-400">JPG, PNG, WEBP (Max 5MB)</p>
+                                            <p className="text-[10px] text-warmgray">JPG, PNG, WEBP (Max 5MB)</p>
                                         </div>
                                     </div>
 
-                                    <span className="rounded-xl bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">
+                                    <span className="rounded-xl bg-champagne px-3 py-1 text-xs font-bold text-softcharcoal">
                                         Browse
                                     </span>
                                 </div>
@@ -472,10 +472,10 @@ export default function Index({ services = [], categories = [] }) {
                             </div>
 
                             {/* Active Switch */}
-                            <div className="flex items-center justify-between rounded-2xl bg-slate-50 p-4 border border-slate-100">
+                            <div className="flex items-center justify-between rounded-2xl bg-ivory p-4 border border-champagne">
                                 <div>
-                                    <p className="text-xs font-bold text-slate-800">Active Service Status</p>
-                                    <p className="text-[10px] text-slate-500">
+                                    <p className="text-xs font-bold text-softcharcoal">Active Service Status</p>
+                                    <p className="text-[10px] text-warmgray">
                                         Active services can be booked and added to packages.
                                     </p>
                                 </div>
@@ -486,7 +486,7 @@ export default function Index({ services = [], categories = [] }) {
                                     aria-checked={data.is_active}
                                     onClick={() => setData('is_active', !data.is_active)}
                                     className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ${
-                                        data.is_active ? 'bg-indigo-600' : 'bg-slate-300'
+                                        data.is_active ? 'bg-champagnegold' : 'bg-warmbeige'
                                     }`}
                                 >
                                     <span
@@ -502,14 +502,14 @@ export default function Index({ services = [], categories = [] }) {
                                 <button
                                     type="button"
                                     onClick={closeServiceModal}
-                                    className="rounded-xl border border-slate-300 px-5 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50 transition"
+                                    className="rounded-xl border border-warmbeige px-5 py-2.5 text-xs font-bold text-softcharcoal hover:bg-ivory transition"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={processing}
-                                    className="rounded-xl bg-indigo-600 px-6 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-indigo-700 active:scale-95 disabled:opacity-50"
+                                    className="rounded-xl bg-champagnegold px-6 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-darkgold active:scale-95 disabled:opacity-50"
                                 >
                                     {processing
                                         ? 'Saving...'
@@ -526,7 +526,7 @@ export default function Index({ services = [], categories = [] }) {
             {/* Delete Modal */}
             {showDeleteModal && serviceToDelete && (
                 <div
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-softcharcoal/60 p-4 backdrop-blur-sm"
                     onClick={() => setShowDeleteModal(false)}
                 >
                     <div
@@ -537,17 +537,17 @@ export default function Index({ services = [], categories = [] }) {
                             🗑️
                         </div>
 
-                        <h3 className="mt-4 text-lg font-black text-slate-900">Delete Service?</h3>
-                        <p className="mt-2 text-xs text-slate-500">
+                        <h3 className="mt-4 text-lg font-black text-softcharcoal">Delete Service?</h3>
+                        <p className="mt-2 text-xs text-warmgray">
                             Are you sure you want to delete{' '}
-                            <strong className="text-slate-800">{serviceToDelete.name}</strong>? Packages containing this service will be updated.
+                            <strong className="text-softcharcoal">{serviceToDelete.name}</strong>? Packages containing this service will be updated.
                         </p>
 
                         <div className="mt-6 flex justify-end gap-3">
                             <button
                                 type="button"
                                 onClick={() => setShowDeleteModal(false)}
-                                className="rounded-xl border border-slate-300 px-4 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50"
+                                className="rounded-xl border border-warmbeige px-4 py-2 text-xs font-bold text-softcharcoal hover:bg-ivory"
                             >
                                 Cancel
                             </button>

@@ -116,12 +116,12 @@ export default function Show({
         <DashboardLayout>
             <Head title={`${businessName} — Supplier Profile`} />
 
-            <div className="min-h-screen bg-slate-50/60 p-6 lg:p-8">
+            <div className="min-h-screen bg-ivory/60 p-4 sm:p-6 lg:p-8">
                 {/* Back Button */}
                 <div className="mb-6">
                     <Link
                         href={route('customer.suppliers.index')}
-                        className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50"
+                        className="inline-flex items-center gap-2 rounded-xl border border-warmbeige bg-white px-3.5 py-2 text-xs font-bold text-softcharcoal shadow-2xs transition hover:bg-ivory"
                     >
                         <span>←</span>
                         <span>Back to Suppliers</span>
@@ -129,9 +129,9 @@ export default function Show({
                 </div>
 
                 {/* Profile Hero Card */}
-                <div className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-xs">
+                <div className="overflow-hidden rounded-3xl border border-warmbeige/80 bg-white shadow-xs">
                     {/* Hero Cover Banner */}
-                    <div className="relative h-48 sm:h-64 w-full overflow-hidden bg-slate-800">
+                    <div className="relative h-48 sm:h-64 w-full overflow-hidden bg-softcharcoal">
                         {coverPhoto ? (
                             <img
                                 src={coverPhoto}
@@ -139,7 +139,7 @@ export default function Show({
                                 className="h-full w-full object-cover"
                             />
                         ) : (
-                            <div className="h-full w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600" />
+                            <div className="h-full w-full bg-gradient-to-r from-champagnegold via-purple-600 to-pink-600" />
                         )}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                     </div>
@@ -148,7 +148,7 @@ export default function Show({
                         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
                             {/* Avatar & Info */}
                             <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
-                                <div className="relative z-10 -mt-16 sm:-mt-20 h-28 w-28 sm:h-32 sm:w-32 overflow-hidden rounded-full border-4 border-white bg-indigo-600 font-bold text-white text-3xl flex items-center justify-center shadow-2xl shrink-0 ring-4 ring-indigo-500/20">
+                                <div className="relative z-10 -mt-16 sm:-mt-20 h-28 w-28 sm:h-32 sm:w-32 overflow-hidden rounded-full border-4 border-white bg-champagnegold font-bold text-white text-3xl flex items-center justify-center shadow-2xl shrink-0 ring-4 ring-champagnegold/20">
                                     {profilePicture ? (
                                         <img src={profilePicture} alt={businessName} className="h-full w-full object-cover rounded-full" />
                                     ) : (
@@ -158,7 +158,7 @@ export default function Show({
 
                                 <div>
                                     <div className="flex flex-wrap items-center gap-2">
-                                        <h1 className="text-2xl sm:text-3xl font-black text-slate-900">{businessName}</h1>
+                                        <h1 className="text-2xl sm:text-3xl font-black text-softcharcoal">{businessName}</h1>
                                         <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-[10px] font-bold text-emerald-700 ring-1 ring-inset ring-emerald-700/10">
                                             ✓ Verified
                                         </span>
@@ -176,7 +176,7 @@ export default function Show({
                                         </div>
 
                                         {profile?.years_of_experience ? (
-                                            <span className="rounded-xl bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-700">
+                                            <span className="rounded-xl bg-champagne px-2.5 py-1 text-xs font-bold text-softcharcoal">
                                                 ⏳ {profile.years_of_experience}+ Years Experience
                                             </span>
                                         ) : null}
@@ -188,7 +188,7 @@ export default function Show({
                                             {supplierCategories.map((cat) => (
                                                 <span
                                                     key={cat.id}
-                                                    className="rounded-lg bg-indigo-50 px-2.5 py-0.5 text-[11px] font-bold text-indigo-700"
+                                                    className="rounded-lg bg-champagne px-2.5 py-0.5 text-[11px] font-bold text-darkgold"
                                                 >
                                                     {cat.name}
                                                 </span>
@@ -205,7 +205,7 @@ export default function Show({
                                         href={fbUrl.startsWith('http') ? fbUrl : `https://${fbUrl}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-1.5 rounded-xl border border-blue-200 bg-blue-50 px-3.5 py-2.5 text-xs font-bold text-blue-700 transition hover:bg-blue-600 hover:text-white shadow-2xs"
+                                        className="inline-flex items-center gap-1.5 rounded-xl border border-blue-200 bg-blue-50 px-3.5 py-2.5 text-xs font-bold text-blue-700 transition hover:bg-champagnegold hover:text-white shadow-2xs"
                                         title="View Facebook Page"
                                     >
                                         <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
@@ -219,7 +219,7 @@ export default function Show({
                                     <button
                                         type="button"
                                         onClick={() => router.post(route('messages.direct', supplier.id))}
-                                        className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-indigo-700 active:scale-95"
+                                        className="inline-flex items-center gap-2 rounded-xl bg-champagnegold px-4 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-darkgold active:scale-95"
                                     >
                                         <span>💬</span>
                                         <span>Chat</span>
@@ -228,7 +228,7 @@ export default function Show({
 
                                 <Link
                                     href={route('customer.suppliers.portfolio', supplier.id)}
-                                    className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50"
+                                    className="inline-flex items-center gap-2 rounded-xl border border-warmbeige bg-white px-4 py-2.5 text-xs font-bold text-softcharcoal transition hover:bg-ivory"
                                 >
                                     <span>📸</span>
                                     <span>Portfolio Works</span>
@@ -237,7 +237,7 @@ export default function Show({
                         </div>
 
                         {/* Metadata & Description */}
-                        <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 border-t border-slate-100 pt-4 text-xs text-slate-500">
+                        <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 border-t border-champagne pt-4 text-xs text-warmgray">
                             {profile?.address && <span>📍 {profile.address}</span>}
                             {profile?.contact_number && <span>📞 {profile.contact_number}</span>}
                             {supplier?.email && <span>✉️ {supplier.email}</span>}
@@ -255,7 +255,7 @@ export default function Show({
                         </div>
 
                         {profile?.description && (
-                            <p className="mt-4 text-xs leading-relaxed text-slate-600 max-w-4xl">
+                            <p className="mt-4 text-xs leading-relaxed text-softcharcoal max-w-4xl">
                                 {profile.description}
                             </p>
                         )}
@@ -263,20 +263,20 @@ export default function Show({
                 </div>
 
                 {/* Tabs Header */}
-                <div className="mt-8 flex gap-2 border-b border-slate-200">
+                <div className="mt-8 flex gap-2 border-b border-warmbeige">
                     {tabs.map((tab) => (
                         <button
                             key={tab.id}
                             type="button"
                             onClick={() => setActiveTab(tab.id)}
                             className={`flex items-center gap-2 border-b-2 px-5 py-3 text-xs font-extrabold transition ${activeTab === tab.id
-                                    ? 'border-indigo-600 text-indigo-600'
-                                    : 'border-transparent text-slate-500 hover:text-slate-900'
+                                    ? 'border-champagnegold text-champagnegold'
+                                    : 'border-transparent text-warmgray hover:text-softcharcoal'
                                 }`}
                         >
                             <span>{tab.icon}</span>
                             <span>{tab.label}</span>
-                            <span className={`rounded-full px-2 py-0.5 text-[10px] ${activeTab === tab.id ? 'bg-indigo-100 text-indigo-700' : 'bg-slate-100 text-slate-500'}`}>
+                            <span className={`rounded-full px-2 py-0.5 text-[10px] ${activeTab === tab.id ? 'bg-champagne text-darkgold' : 'bg-champagne text-warmgray'}`}>
                                 {tab.count}
                             </span>
                         </button>
@@ -293,26 +293,26 @@ export default function Show({
                                     {services.map((service) => (
                                         <div
                                             key={service.id}
-                                            className="flex flex-col justify-between rounded-3xl border border-slate-200/80 bg-white p-5 shadow-xs transition hover:shadow-md"
+                                            className="flex flex-col justify-between rounded-3xl border border-warmbeige/80 bg-white p-5 shadow-xs transition hover:shadow-md"
                                         >
                                             <div>
                                                 <div className="flex items-center justify-between">
-                                                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 font-bold">
+                                                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-champagne text-champagnegold font-bold">
                                                         🛠️
                                                     </div>
-                                                    <span className="text-base font-black text-slate-900">
+                                                    <span className="text-base font-black text-softcharcoal">
                                                         {formatPrice(service.price)}
                                                     </span>
                                                 </div>
-                                                <h3 className="mt-3 text-sm font-extrabold text-slate-900">{service.name}</h3>
+                                                <h3 className="mt-3 text-sm font-extrabold text-softcharcoal">{service.name}</h3>
                                                 {service.description && (
-                                                    <p className="mt-2 line-clamp-3 text-xs text-slate-600 leading-relaxed">
+                                                    <p className="mt-2 line-clamp-3 text-xs text-softcharcoal leading-relaxed">
                                                         {service.description}
                                                     </p>
                                                 )}
                                             </div>
 
-                                            <div className="mt-5 border-t border-slate-100 pt-3">
+                                            <div className="mt-5 border-t border-champagne pt-3">
                                                 <button
                                                     type="button"
                                                     onClick={() => {
@@ -324,7 +324,7 @@ export default function Show({
                                                         });
                                                         setShowBookingModal(true);
                                                     }}
-                                                    className="w-full rounded-xl bg-indigo-600 py-2.5 text-xs font-bold text-white transition hover:bg-indigo-700 active:scale-95"
+                                                    className="w-full rounded-xl bg-champagnegold py-2.5 text-xs font-bold text-white transition hover:bg-darkgold active:scale-95"
                                                 >
                                                     Book This Service
                                                 </button>
@@ -333,7 +333,7 @@ export default function Show({
                                     ))}
                                 </div>
                             ) : (
-                                <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center text-xs text-slate-400">
+                                <div className="rounded-2xl border border-warmbeige bg-white p-8 text-center text-xs text-warmgray">
                                     No services listed yet.
                                 </div>
                             )}
@@ -348,9 +348,9 @@ export default function Show({
                                     {packages.map((pkg) => (
                                         <div
                                             key={pkg.id}
-                                            className="flex flex-col justify-between overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-xs transition hover:shadow-md"
+                                            className="flex flex-col justify-between overflow-hidden rounded-3xl border border-warmbeige/80 bg-white shadow-xs transition hover:shadow-md"
                                         >
-                                            <div className="bg-indigo-600 p-5 text-white">
+                                            <div className="bg-champagnegold p-5 text-white">
                                                 {pkg.event_category && (
                                                     <span className="rounded-full bg-white/20 px-2.5 py-0.5 text-[10px] font-bold uppercase">
                                                         {pkg.event_category.name}
@@ -362,12 +362,12 @@ export default function Show({
 
                                             <div className="p-5 flex flex-col justify-between flex-1">
                                                 {pkg.description && (
-                                                    <p className="text-xs text-slate-600 leading-relaxed mb-4">
+                                                    <p className="text-xs text-softcharcoal leading-relaxed mb-4">
                                                         {pkg.description}
                                                     </p>
                                                 )}
 
-                                                <div className="border-t border-slate-100 pt-3 flex gap-2">
+                                                <div className="border-t border-champagne pt-3 flex gap-2">
                                                     <button
                                                         type="button"
                                                         onClick={() => {
@@ -381,14 +381,14 @@ export default function Show({
                                                             });
                                                             setShowBookingModal(true);
                                                         }}
-                                                        className="flex-1 rounded-xl bg-indigo-600 py-2.5 text-center text-xs font-bold text-white transition hover:bg-indigo-700"
+                                                        className="flex-1 rounded-xl bg-champagnegold py-2.5 text-center text-xs font-bold text-white transition hover:bg-darkgold"
                                                     >
                                                         {pkg.team_id ? '👥 Book Team Package' : 'Book Package'}
                                                     </button>
                                                     <button
                                                         type="button"
                                                         onClick={() => router.post(route('messages.direct', supplier.id), { initial_message: `Hi, I am interested in your package: ${pkg.name}` })}
-                                                        className="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-100"
+                                                        className="rounded-xl border border-warmbeige bg-ivory px-3 py-2.5 text-xs font-bold text-softcharcoal hover:bg-champagne"
                                                     >
                                                         💬
                                                     </button>
@@ -398,7 +398,7 @@ export default function Show({
                                     ))}
                                 </div>
                             ) : (
-                                <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center text-xs text-slate-400">
+                                <div className="rounded-2xl border border-warmbeige bg-white p-8 text-center text-xs text-warmgray">
                                     No packages listed yet.
                                 </div>
                             )}
@@ -416,9 +416,9 @@ export default function Show({
                                             <div
                                                 key={portfolio.id}
                                                 onClick={() => openLightbox(portfolio)}
-                                                className="group cursor-pointer overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-xs transition hover:shadow-md"
+                                                className="group cursor-pointer overflow-hidden rounded-2xl border border-warmbeige/80 bg-white shadow-xs transition hover:shadow-md"
                                             >
-                                                <div className="relative aspect-video w-full overflow-hidden bg-slate-100">
+                                                <div className="relative aspect-video w-full overflow-hidden bg-champagne">
                                                     {coverUrl ? (
                                                         <img
                                                             src={coverUrl}
@@ -426,7 +426,7 @@ export default function Show({
                                                             className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
                                                         />
                                                     ) : (
-                                                        <div className="flex h-full w-full items-center justify-center text-slate-400 bg-indigo-50">
+                                                        <div className="flex h-full w-full items-center justify-center text-warmgray bg-champagne">
                                                             📸
                                                         </div>
                                                     )}
@@ -436,10 +436,10 @@ export default function Show({
                                                 </div>
 
                                                 <div className="p-4">
-                                                    <h4 className="text-sm font-bold text-slate-900 group-hover:text-indigo-600">
+                                                    <h4 className="text-sm font-bold text-softcharcoal group-hover:text-champagnegold">
                                                         {portfolio.title}
                                                     </h4>
-                                                    <p className="mt-1 text-xs text-slate-500">
+                                                    <p className="mt-1 text-xs text-warmgray">
                                                         {portfolio.location || 'Event Showcase'}
                                                     </p>
                                                 </div>
@@ -448,7 +448,7 @@ export default function Show({
                                     })}
                                 </div>
                             ) : (
-                                <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center text-xs text-slate-400">
+                                <div className="rounded-2xl border border-warmbeige bg-white p-8 text-center text-xs text-warmgray">
                                     No portfolio projects uploaded yet.
                                 </div>
                             )}
@@ -476,7 +476,7 @@ export default function Show({
                     >
                         <button
                             onClick={closeLightbox}
-                            className="absolute top-5 right-5 text-2xl font-bold text-white hover:text-slate-300"
+                            className="absolute top-5 right-5 text-2xl font-bold text-white hover:text-warmbeige"
                         >
                             ✕
                         </button>

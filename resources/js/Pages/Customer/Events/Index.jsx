@@ -5,14 +5,14 @@ import { useState } from 'react';
 const statusColors = {
     pending: { bg: 'bg-amber-50', text: 'text-amber-700', ring: 'ring-amber-600/20', dot: 'bg-amber-500', label: '⏳ Pending' },
     accepted: { bg: 'bg-emerald-50', text: 'text-emerald-700', ring: 'ring-emerald-600/20', dot: 'bg-emerald-500', label: '✓ Confirmed' },
-    completed: { bg: 'bg-indigo-50', text: 'text-indigo-700', ring: 'ring-indigo-600/20', dot: 'bg-indigo-500', label: '🎉 Completed' },
+    completed: { bg: 'bg-champagne', text: 'text-darkgold', ring: 'ring-champagnegold/20', dot: 'bg-champagnegold', label: '🎉 Completed' },
 };
 
 const itemStatusColors = {
     pending: 'bg-amber-50 text-amber-700 ring-amber-600/20',
     accepted: 'bg-emerald-50 text-emerald-700 ring-emerald-600/20',
     rejected: 'bg-red-50 text-red-700 ring-red-600/20',
-    completed: 'bg-indigo-50 text-indigo-700 ring-indigo-600/20',
+    completed: 'bg-champagne text-darkgold ring-champagnegold/20',
 };
 
 const bookingTypeIcons = {
@@ -24,7 +24,7 @@ const bookingTypeIcons = {
 
 function CountdownBadge({ days }) {
     if (days === null || days === undefined) return null;
-    if (days < 0) return <span className="text-xs font-bold text-slate-400">Passed</span>;
+    if (days < 0) return <span className="text-xs font-bold text-warmgray">Passed</span>;
     if (days === 0) return <span className="inline-flex items-center rounded-full bg-red-500 px-3 py-1 text-xs font-black text-white animate-pulse">🎉 Today!</span>;
     if (days <= 7) return (
         <span className="inline-flex items-center rounded-full bg-red-50 px-3 py-1 text-xs font-black text-red-700 ring-1 ring-inset ring-red-600/20">
@@ -37,7 +37,7 @@ function CountdownBadge({ days }) {
         </span>
     );
     return (
-        <span className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+        <span className="inline-flex items-center rounded-full bg-champagne px-3 py-1 text-xs font-semibold text-softcharcoal">
             📅 {days} days away
         </span>
     );
@@ -57,25 +57,25 @@ export default function Index({ events = [], stats = {} }) {
         <DashboardLayout>
             <Head title="My Events - Westeam" />
 
-            <div className="min-h-screen bg-slate-50/60 p-6 lg:p-10">
+            <div className="min-h-screen bg-ivory/60 p-4 sm:p-6 lg:p-10">
                 {/* Header */}
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <div className="flex items-center gap-2">
-                            <span className="rounded-md bg-indigo-50 px-2.5 py-0.5 text-xs font-bold text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
+                            <span className="rounded-md bg-champagne px-2.5 py-0.5 text-xs font-bold text-darkgold ring-1 ring-inset ring-indigo-700/10">
                                 🎉 My Events
                             </span>
                         </div>
-                        <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-900">
+                        <h1 className="mt-2 text-3xl font-black tracking-tight text-softcharcoal">
                             Event Dashboard
                         </h1>
-                        <p className="mt-1 text-sm text-slate-500">
+                        <p className="mt-1 text-sm text-warmgray">
                             Track your booked events, vendor statuses, and upcoming milestones.
                         </p>
                     </div>
                     <Link
                         href={route('customer.suppliers.index')}
-                        className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-indigo-700 active:scale-95"
+                        className="inline-flex items-center gap-2 rounded-xl bg-champagnegold px-5 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-darkgold active:scale-95"
                     >
                         + Book New Event
                     </Link>
@@ -84,13 +84,13 @@ export default function Index({ events = [], stats = {} }) {
                 {/* Stats */}
                 <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
                     {[
-                        { label: 'Upcoming Events', value: stats.upcoming ?? 0, icon: '🗓️', color: 'text-indigo-600', bg: 'bg-indigo-50' },
-                        { label: 'Total Events', value: stats.total ?? 0, icon: '📋', color: 'text-slate-700', bg: 'bg-slate-100' },
-                        { label: 'Total Vendors Booked', value: stats.vendors ?? 0, icon: '🏢', color: 'text-violet-600', bg: 'bg-violet-50' },
+                        { label: 'Upcoming Events', value: stats.upcoming ?? 0, icon: '🗓️', color: 'text-champagnegold', bg: 'bg-champagne' },
+                        { label: 'Total Events', value: stats.total ?? 0, icon: '📋', color: 'text-softcharcoal', bg: 'bg-champagne' },
+                        { label: 'Total Vendors Booked', value: stats.vendors ?? 0, icon: '🏢', color: 'text-darkgold', bg: 'bg-violet-50' },
                     ].map((s) => (
-                        <div key={s.label} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs">
+                        <div key={s.label} className="rounded-2xl border border-warmbeige bg-white p-5 shadow-xs">
                             <div className="flex items-center justify-between">
-                                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">{s.label}</span>
+                                <span className="text-xs font-bold uppercase tracking-wider text-warmgray">{s.label}</span>
                                 <div className={`flex h-9 w-9 items-center justify-center rounded-xl text-lg ${s.bg}`}>
                                     {s.icon}
                                 </div>
@@ -111,8 +111,8 @@ export default function Index({ events = [], stats = {} }) {
                             key={tab.key}
                             onClick={() => setFilter(tab.key)}
                             className={`rounded-xl px-4 py-2 text-xs font-bold transition ${filter === tab.key
-                                ? 'bg-indigo-600 text-white shadow-sm'
-                                : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+                                ? 'bg-champagnegold text-white shadow-sm'
+                                : 'bg-white text-softcharcoal border border-warmbeige hover:bg-ivory'
                                 }`}
                         >
                             {tab.label}
@@ -130,7 +130,7 @@ export default function Index({ events = [], stats = {} }) {
                             return (
                                 <div
                                     key={event.id}
-                                    className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xs transition hover:shadow-md"
+                                    className="overflow-hidden rounded-2xl border border-warmbeige bg-white shadow-xs transition hover:shadow-md"
                                 >
                                     {/* Card Header */}
                                     <div
@@ -139,12 +139,12 @@ export default function Index({ events = [], stats = {} }) {
                                     >
                                         <div className="flex items-start gap-4 min-w-0">
                                             {/* Type Icon */}
-                                            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-indigo-50 text-2xl">
+                                            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-champagne text-2xl">
                                                 {bookingTypeIcons[event.booking_type] ?? '📋'}
                                             </div>
                                             <div className="min-w-0">
                                                 <div className="flex flex-wrap items-center gap-2">
-                                                    <h3 className="truncate text-base font-black text-slate-900">
+                                                    <h3 className="truncate text-base font-black text-softcharcoal">
                                                         {event.event_name}
                                                     </h3>
                                                     <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-bold ring-1 ring-inset ${st.bg} ${st.text} ${st.ring}`}>
@@ -152,8 +152,8 @@ export default function Index({ events = [], stats = {} }) {
                                                         {st.label}
                                                     </span>
                                                 </div>
-                                                <p className="mt-0.5 text-xs text-slate-500 font-mono">{event.booking_reference}</p>
-                                                <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-slate-500">
+                                                <p className="mt-0.5 text-xs text-warmgray font-mono">{event.booking_reference}</p>
+                                                <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-warmgray">
                                                     {event.event_date && (
                                                         <span>📅 {new Date(event.event_date).toLocaleDateString('en-PH', { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' })}</span>
                                                     )}
@@ -165,32 +165,32 @@ export default function Index({ events = [], stats = {} }) {
                                         </div>
                                         <div className="flex shrink-0 flex-col items-end gap-2">
                                             <CountdownBadge days={event.days_until} />
-                                            <p className="text-sm font-black text-slate-900">
+                                            <p className="text-sm font-black text-softcharcoal">
                                                 ₱{Number(event.total_amount).toLocaleString()}
                                             </p>
-                                            <span className="text-xs text-slate-400">{event.items?.length ?? 0} vendor{event.items?.length !== 1 ? 's' : ''}</span>
-                                            <span className="text-[10px] text-slate-400">{isExpanded ? '▲ Collapse' : '▼ Details'}</span>
+                                            <span className="text-xs text-warmgray">{event.items?.length ?? 0} vendor{event.items?.length !== 1 ? 's' : ''}</span>
+                                            <span className="text-[10px] text-warmgray">{isExpanded ? '▲ Collapse' : '▼ Details'}</span>
                                         </div>
                                     </div>
 
                                     {/* Expanded Vendor Roster */}
                                     {isExpanded && (
-                                        <div className="border-t border-slate-100 bg-slate-50/60 p-5">
-                                            <p className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-500">
+                                        <div className="border-t border-champagne bg-ivory/60 p-5">
+                                            <p className="mb-3 text-xs font-bold uppercase tracking-wider text-warmgray">
                                                 Vendor Lineup
                                             </p>
                                             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                                                 {(event.items ?? []).map((item) => (
-                                                    <div key={item.id} className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-xs">
-                                                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-indigo-100 text-sm font-black text-indigo-700">
+                                                    <div key={item.id} className="flex items-center gap-3 rounded-xl border border-warmbeige bg-white p-3 shadow-xs">
+                                                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-champagne text-sm font-black text-darkgold">
                                                             {item.supplier?.business_name?.charAt(0) ?? item.supplier?.name?.charAt(0) ?? '?'}
                                                         </div>
                                                         <div className="min-w-0 flex-1">
-                                                            <p className="truncate text-xs font-bold text-slate-800">
+                                                            <p className="truncate text-xs font-bold text-softcharcoal">
                                                                 {item.supplier?.business_name ?? item.supplier?.name ?? 'Supplier'}
                                                             </p>
-                                                            <p className="truncate text-[10px] text-slate-500">{item.item_name}</p>
-                                                            <p className="text-[10px] font-semibold text-indigo-600">₱{Number(item.unit_price).toLocaleString()}</p>
+                                                            <p className="truncate text-[10px] text-warmgray">{item.item_name}</p>
+                                                            <p className="text-[10px] font-semibold text-champagnegold">₱{Number(item.unit_price).toLocaleString()}</p>
                                                         </div>
                                                         <span className={`shrink-0 inline-flex items-center rounded-full px-2 py-0.5 text-[9px] font-bold ring-1 ring-inset capitalize ${itemStatusColors[item.status] ?? ''}`}>
                                                             {item.status}
@@ -213,13 +213,13 @@ export default function Index({ events = [], stats = {} }) {
                                             <div className="mt-4 flex gap-2">
                                                 <Link
                                                     href={route('customer.bookings.show', event.id)}
-                                                    className="rounded-xl border border-indigo-200 bg-white px-3 py-1.5 text-xs font-bold text-indigo-700 transition hover:bg-indigo-50"
+                                                    className="rounded-xl border border-indigo-200 bg-white px-3 py-1.5 text-xs font-bold text-darkgold transition hover:bg-champagne"
                                                 >
                                                     View Full Booking →
                                                 </Link>
                                                 <Link
                                                     href={route('messages.index')}
-                                                    className="rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
+                                                    className="rounded-xl border border-warmbeige bg-white px-3 py-1.5 text-xs font-semibold text-softcharcoal transition hover:bg-ivory"
                                                 >
                                                     💬 Message Supplier
                                                 </Link>
@@ -230,15 +230,15 @@ export default function Index({ events = [], stats = {} }) {
                             );
                         })
                     ) : (
-                        <div className="mt-6 rounded-2xl border border-dashed border-slate-300 bg-white p-16 text-center">
+                        <div className="mt-6 rounded-2xl border border-dashed border-warmbeige bg-white p-16 text-center">
                             <span className="text-4xl">🎊</span>
-                            <h3 className="mt-3 text-base font-bold text-slate-900">No events yet</h3>
-                            <p className="mt-1 text-sm text-slate-500">
+                            <h3 className="mt-3 text-base font-bold text-softcharcoal">No events yet</h3>
+                            <p className="mt-1 text-sm text-warmgray">
                                 Start planning your dream event by booking suppliers.
                             </p>
                             <Link
                                 href={route('customer.suppliers.index')}
-                                className="mt-4 inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-indigo-700"
+                                className="mt-4 inline-flex items-center gap-2 rounded-xl bg-champagnegold px-5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-darkgold"
                             >
                                 🔍 Find Suppliers
                             </Link>

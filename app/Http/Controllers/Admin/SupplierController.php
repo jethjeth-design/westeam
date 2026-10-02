@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\SupplierProfile;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -76,6 +77,10 @@ class SupplierController extends Controller
             'status' => 'approved',
         ]);
 
+        if ($supplier->user) {
+            NotificationService::notifySupplierAdminDecision($supplier->user, true);
+        }
+
         return back()->with(
             'success',
             'Supplier approved successfully.'
@@ -95,6 +100,14 @@ class SupplierController extends Controller
             'status' => 'rejected',
             'rejection_reason' => $validated['rejection_reason'] ?? null,
         ]);
+
+        if ($supplier->user) {
+            NotificationService::notifySupplierAdminDecision(
+                $supplier->user,
+                false,
+                $validated['rejection_reason'] ?? null
+            );
+        }
 
         return back()->with(
             'success',

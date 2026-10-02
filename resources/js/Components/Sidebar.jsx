@@ -1,7 +1,7 @@
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen = false, onClose = () => { } }) {
     const page = usePage();
     const auth = page.props?.auth;
     const url = page.url || window.location.pathname;
@@ -19,6 +19,7 @@ export default function Sidebar() {
 
     const unreadMessagesCount = page.props?.unread_messages_count || 0;
     const pendingBookingsCount = page.props?.pending_bookings_count || 0;
+    const unreadNotificationsCount = page.props?.unread_notifications_count || 0;
 
     const [settingsOpen, setSettingsOpen] = useState(false);
 
@@ -54,17 +55,18 @@ export default function Sidebar() {
     */
     const adminMenu = [
         { name: 'Dashboard', href: '/admin/dashboard', icon: '📊' },
-        { name: 'Homepage Management', href: route('admin.homepage.index'), icon: '🎨' },
+        //{ name: 'Homepage Management', href: route('admin.homepage.index'), icon: '🎨' },
         { name: 'Users', href: '/admin/users', icon: '👥' },
         { name: 'Suppliers', href: route('admin.suppliers.index'), icon: '🏢' },
         { name: 'Customers', href: '/admin/customers', icon: '👤' },
         { name: 'Packages', href: '/admin/packages', icon: '📦' },
         { name: 'Bookings', href: '/admin/bookings', icon: '📅' },
         { name: 'Schedules', href: '/admin/schedules', icon: '📆' },
-        { name: 'Messages', href: route('messages.index'), icon: '💬', badge: unreadMessagesCount },
-        { name: 'Reviews & Ratings', href: '/admin/reviews', icon: '⭐' },
+        //{ name: 'Messages', href: route('messages.index'), icon: '💬', badge: unreadMessagesCount },
         { name: 'Featured Suppliers', href: route('admin.featured-suppliers.index'), icon: '🌟' },
         { name: 'Top Packages', href: route('admin.top-packages.index'), icon: '🏆' },
+        { name: 'Reviews & Ratings', href: '/admin/reviews', icon: '⭐' },
+        { name: 'Notifications', href: route('notifications.index'), icon: '🔔', badge: unreadNotificationsCount },
         { name: 'Reports', href: '/admin/reports', icon: '📈' },
     ];
 
@@ -86,10 +88,13 @@ export default function Sidebar() {
                 { name: 'Portfolio', href: route('supplier.portfolio.index'), icon: '📸' },
                 { name: 'Messages', href: route('messages.index'), icon: '💬', badge: unreadMessagesCount },
                 { name: 'Payments', href: '/supplier/payments', icon: '💰' },
-                { name: 'Notifications', href: '/supplier/notifications', icon: '🔔' },
+                //{ name: 'Payment Settings', href: route('supplier.payment-settings'), icon: '💳' },
                 { name: 'Reviews', href: route('supplier.reviews.index'), icon: '⭐' },
+                { name: 'Notifications', href: route('notifications.index'), icon: '🔔', badge: unreadNotificationsCount },
             ]
-            : []),
+            : [
+                { name: 'Notifications', href: route('notifications.index'), icon: '🔔', badge: unreadNotificationsCount },
+            ]),
 
         { name: 'Settings', href: route('supplier.settings'), icon: '⚙️' },
     ];
@@ -107,6 +112,7 @@ export default function Sidebar() {
         { name: 'Messages', href: route('messages.index'), icon: '💬', badge: unreadMessagesCount },
         { name: 'Payments', href: '/customer/payments', icon: '💳' },
         { name: 'Profile', href: route('profile.edit'), icon: '👤' },
+        { name: 'Notifications', href: route('notifications.index'), icon: '🔔', badge: unreadNotificationsCount },
         { name: 'Settings', href: '/customer/settings', icon: '⚙️' },
     ];
 
@@ -119,34 +125,52 @@ export default function Sidebar() {
         menu = customerMenu;
     }
 
-    return (
-        <aside className="flex h-screen w-64 shrink-0 flex-col border-r border-slate-200 bg-white shadow-xs z-30 select-none">
-            {/* Logo */}
-            <div className="flex h-16 shrink-0 items-center border-b border-slate-100 px-6">
-                <Link href="/" className="flex items-center gap-2.5">
-                    <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-600 text-white font-black text-base shadow-sm shadow-indigo-500/20">
+    const handleLinkClick = () => {
+        // Close sidebar on mobile when a nav link is clicked
+        if (window.innerWidth < 1024) {
+            onClose();
+        }
+    };
+
+    const sidebarContent = (
+        <aside className="flex h-full w-64 shrink-0 flex-col border-r border-warmbeige bg-white shadow-xs select-none">
+            {/* Logo + Mobile Close Button */}
+            <div className="flex h-16 shrink-0 items-center justify-between border-b border-champagne px-4 lg:px-6">
+                <Link href="/" className="flex items-center gap-2.5" onClick={handleLinkClick}>
+                    <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-champagnegold to-darkgold text-white font-black text-base shadow-sm shadow-champagnegold/20">
                         W
                     </span>
                     <div>
-                        <h1 className="text-base font-extrabold tracking-tight text-slate-900 leading-none">
+                        <h1 className="text-base font-extrabold tracking-tight text-softcharcoal leading-none">
                             WESTEAM
                         </h1>
-                        <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
-                            Events & Weddings
+                        <span className="text-[10px] font-semibold text-warmgray uppercase tracking-wider">
+                            Events &amp; Weddings
                         </span>
                     </div>
                 </Link>
+                {/* Close button — only visible on mobile */}
+                <button
+                    type="button"
+                    onClick={onClose}
+                    className="lg:hidden flex h-8 w-8 items-center justify-center rounded-lg text-warmgray hover:bg-champagne hover:text-softcharcoal transition"
+                    aria-label="Close sidebar"
+                >
+                    <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
             </div>
 
             {/* User Details */}
-            <div className="shrink-0 border-b border-slate-100 p-4 bg-slate-50/50">
+            <div className="shrink-0 border-b border-champagne p-4 bg-ivory/50">
                 <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-100 text-indigo-700 font-bold text-sm shrink-0">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-champagne text-darkgold font-bold text-sm shrink-0">
                         {user?.name?.charAt(0)?.toUpperCase() || 'U'}
                     </div>
                     <div className="min-w-0 flex-1">
-                        <p className="truncate text-xs font-bold text-slate-900">{user?.name}</p>
-                        <p className="text-[11px] capitalize font-medium text-slate-500">{user?.role} Portal</p>
+                        <p className="truncate text-xs font-bold text-softcharcoal">{user?.name}</p>
+                        <p className="text-[11px] capitalize font-medium text-warmgray">{user?.role} Portal</p>
                     </div>
                 </div>
 
@@ -171,9 +195,9 @@ export default function Sidebar() {
                 )}
             </div>
 
-            {/* Standalone Scrollable Nav List */}
-            <div className="flex-1 overflow-y-auto px-3 py-4 space-y-1.5 scrollbar-thin scrollbar-thumb-slate-200">
-                <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">
+            {/* Scrollable Nav List */}
+            <div className="flex-1 overflow-y-auto px-3 py-4 space-y-1.5 scrollbar-thin scrollbar-thumb-warmbeige">
+                <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-warmgray mb-1">
                     Navigation
                 </p>
 
@@ -184,9 +208,10 @@ export default function Sidebar() {
                         <Link
                             key={item.name}
                             href={item.href}
+                            onClick={handleLinkClick}
                             className={`group flex items-center justify-between rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-all duration-150 active:scale-[0.98] ${active
-                                ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/25 font-bold ring-1 ring-indigo-500'
-                                : 'text-slate-600 hover:bg-indigo-50/60 hover:text-indigo-700'
+                                ? 'bg-champagnegold text-white shadow-md shadow-champagnegold/25 font-bold ring-1 ring-champagnegold'
+                                : 'text-softcharcoal hover:bg-champagne/60 hover:text-darkgold'
                                 }`}
                         >
                             <div className="flex items-center gap-3">
@@ -199,7 +224,7 @@ export default function Sidebar() {
                             {Boolean(item.badge && item.badge > 0) && (
                                 <span
                                     className={`flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-[10px] font-extrabold shadow-xs transition-all ${active
-                                        ? 'bg-white text-indigo-700'
+                                        ? 'bg-white text-darkgold'
                                         : 'bg-rose-500 text-white animate-pulse'
                                         }`}
                                 >
@@ -216,24 +241,25 @@ export default function Sidebar() {
                         <button
                             type="button"
                             onClick={() => setSettingsOpen(!settingsOpen)}
-                            className="flex w-full items-center justify-between rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 active:scale-[0.98]"
+                            className="flex w-full items-center justify-between rounded-xl px-3.5 py-2.5 text-xs font-semibold text-softcharcoal transition hover:bg-champagne hover:text-softcharcoal active:scale-[0.98]"
                         >
                             <div className="flex items-center gap-3">
                                 <span className="text-base leading-none">⚙️</span>
                                 <span>Settings</span>
                             </div>
-                            <span className={`text-[10px] text-slate-400 transition-transform ${settingsOpen ? 'rotate-180' : ''}`}>
+                            <span className={`text-[10px] text-warmgray transition-transform ${settingsOpen ? 'rotate-180' : ''}`}>
                                 ▼
                             </span>
                         </button>
 
                         {settingsOpen && (
-                            <div className="mt-1 ml-4 space-y-1 border-l-2 border-slate-200 pl-2">
+                            <div className="mt-1 ml-4 space-y-1 border-l-2 border-warmbeige pl-2">
                                 <Link
                                     href={route('admin.event-categories.index')}
+                                    onClick={handleLinkClick}
                                     className={`flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition ${isItemActive(route('admin.event-categories.index'))
-                                        ? 'bg-indigo-600 text-white font-bold shadow-xs'
-                                        : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-600'
+                                        ? 'bg-champagnegold text-white font-bold shadow-xs'
+                                        : 'text-softcharcoal hover:bg-champagne hover:text-champagnegold'
                                         }`}
                                 >
                                     <span>🎉</span>
@@ -241,9 +267,10 @@ export default function Sidebar() {
                                 </Link>
                                 <Link
                                     href={route('admin.supplier-categories.index')}
+                                    onClick={handleLinkClick}
                                     className={`flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition ${isItemActive(route('admin.supplier-categories.index'))
-                                        ? 'bg-indigo-600 text-white font-bold shadow-xs'
-                                        : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-600'
+                                        ? 'bg-champagnegold text-white font-bold shadow-xs'
+                                        : 'text-softcharcoal hover:bg-champagne hover:text-champagnegold'
                                         }`}
                                 >
                                     <span>🏷️</span>
@@ -251,19 +278,32 @@ export default function Sidebar() {
                                 </Link>
                                 <Link
                                     href={route('profile.edit')}
-                                    className={`flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition ${isItemActive(route('admin.supplier-categories.index'))
-                                        ? 'bg-indigo-600 text-white font-bold shadow-xs'
-                                        : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-600'
+                                    onClick={handleLinkClick}
+                                    className={`flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition ${isItemActive(route('profile.edit'))
+                                        ? 'bg-champagnegold text-white font-bold shadow-xs'
+                                        : 'text-softcharcoal hover:bg-champagne hover:text-champagnegold'
                                         }`}
                                 >
                                     <span>👥</span>
                                     <span>Account Profile</span>
                                 </Link>
                                 <Link
+                                    href={route('admin.homepage.index')}
+                                    onClick={handleLinkClick}
+                                    className={`flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition ${isItemActive(route('profile.edit'))
+                                        ? 'bg-champagnegold text-white font-bold shadow-xs'
+                                        : 'text-softcharcoal hover:bg-champagne hover:text-champagnegold'
+                                        }`}
+                                >
+                                    <span>🎨</span>
+                                    <span>Homepage Content</span>
+                                </Link>
+                                <Link
                                     href="/admin/settings"
+                                    onClick={handleLinkClick}
                                     className={`flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition ${isItemActive('/admin/settings')
-                                        ? 'bg-indigo-600 text-white font-bold shadow-xs'
-                                        : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-600'
+                                        ? 'bg-champagnegold text-white font-bold shadow-xs'
+                                        : 'text-softcharcoal hover:bg-champagne hover:text-champagnegold'
                                         }`}
                                 >
                                     <span>⚙️</span>
@@ -276,7 +316,7 @@ export default function Sidebar() {
             </div>
 
             {/* Logout Footer */}
-            <div className="shrink-0 border-t border-slate-100 p-3 bg-white">
+            <div className="shrink-0 border-t border-champagne p-3 bg-white">
                 <Link
                     href="/logout"
                     method="post"
@@ -288,5 +328,30 @@ export default function Sidebar() {
                 </Link>
             </div>
         </aside>
+    );
+
+    return (
+        <>
+            {/* ── Desktop Sidebar (lg+) ── */}
+            <div className="hidden lg:flex h-screen w-64 shrink-0 z-30">
+                {sidebarContent}
+            </div>
+
+            {/* ── Mobile Overlay Drawer (< lg) ── */}
+            {isOpen && (
+                <div className="fixed inset-0 z-50 lg:hidden">
+                    {/* Backdrop */}
+                    <div
+                        className="absolute inset-0 bg-softcharcoal/50 backdrop-blur-sm"
+                        onClick={onClose}
+                        aria-hidden="true"
+                    />
+                    {/* Drawer panel — slides in from left */}
+                    <div className="absolute left-0 top-0 h-full w-64 shadow-2xl">
+                        {sidebarContent}
+                    </div>
+                </div>
+            )}
+        </>
     );
 }

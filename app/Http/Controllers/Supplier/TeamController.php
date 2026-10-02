@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Team;
 use App\Models\TeamMember;
 use App\Models\User;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -220,6 +221,17 @@ class TeamController extends Controller
             'invited_at' => now(),
         ]);
 
+        $invitedUser = User::find($validated['supplier_id']);
+        if ($invitedUser) {
+            $coordinatorName = Auth::user()->name;
+            NotificationService::notifySupplierTeamActivity(
+                $team,
+                $invitedUser,
+                "Coordinator {$coordinatorName} invited you to join team '{$team->name}' as ".($validated['role_title'] ?? 'Member').'.',
+                route('supplier.teams.index')
+            );
+        }
+
         return back()->with('success', 'Supplier invited successfully!');
     }
 
@@ -275,6 +287,16 @@ class TeamController extends Controller
             'responded_at' => now(),
         ]);
 
+        $team = $member->team;
+        if ($team && $team->coordinator) {
+            NotificationService::notifySupplierTeamActivity(
+                $team,
+                $team->coordinator,
+                Auth::user()->name." accepted the invitation to join '{$team->name}'.",
+                route('supplier.teams.show', $team->id)
+            );
+        }
+
         return back()->with('success', 'You have joined the team!');
     }
 
@@ -289,6 +311,16 @@ class TeamController extends Controller
             'status' => 'declined',
             'responded_at' => now(),
         ]);
+
+        $team = $member->team;
+        if ($team && $team->coordinator) {
+            NotificationService::notifySupplierTeamActivity(
+                $team,
+                $team->coordinator,
+                Auth::user()->name." declined the invitation to join '{$team->name}'.",
+                route('supplier.teams.show', $team->id)
+            );
+        }
 
         return back()->with('success', 'Invitation declined.');
     }

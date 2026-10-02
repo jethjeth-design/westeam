@@ -167,7 +167,7 @@ export default function Index({
             <span
                 className={`rounded-full px-3 py-1 text-xs font-semibold ${
                     styles[supplierStatus] ||
-                    'bg-gray-100 text-gray-600'
+                    'bg-champagne text-warmgray'
                 }`}
             >
                 {supplierStatus
@@ -182,18 +182,18 @@ export default function Index({
         <DashboardLayout>
             <Head title="Suppliers" />
 
-            <div className="space-y-6">
+            <div className="space-y-6 p-4 sm:p-6 lg:p-8">
 
                 {/* =====================================================
                     HEADER
                 ====================================================== */}
 
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">
+                    <h1 className="text-2xl font-bold text-softcharcoal">
                         Suppliers
                     </h1>
 
-                    <p className="mt-1 text-sm text-gray-500">
+                    <p className="mt-1 text-sm text-warmgray">
                         Review and manage supplier applications.
                     </p>
                 </div>
@@ -219,9 +219,9 @@ export default function Index({
                                     setSearch(e.target.value)
                                 }
                                 placeholder="Search suppliers..."
-                                className="w-full rounded-xl border-gray-300
-                                           focus:border-indigo-500
-                                           focus:ring-indigo-500"
+                                className="w-full rounded-xl border-warmbeige
+                                           focus:border-champagnegold
+                                           focus:ring-champagnegold"
                             />
 
                         </div>
@@ -248,9 +248,9 @@ export default function Index({
                                     }
                                 );
                             }}
-                            className="rounded-xl border-gray-300
-                                       focus:border-indigo-500
-                                       focus:ring-indigo-500"
+                            className="rounded-xl border-warmbeige
+                                       focus:border-champagnegold
+                                       focus:ring-champagnegold"
                         >
                             <option value="all">
                                 All Suppliers
@@ -272,10 +272,10 @@ export default function Index({
 
                         <button
                             type="submit"
-                            className="rounded-xl bg-indigo-600
+                            className="rounded-xl bg-champagnegold
                                        px-5 py-2.5 font-semibold
                                        text-white transition
-                                       hover:bg-indigo-700"
+                                       hover:bg-darkgold"
                         >
                             Search
                         </button>
@@ -296,31 +296,31 @@ export default function Index({
 
                         <table className="min-w-full">
 
-                            <thead className="border-b bg-gray-50">
+                            <thead className="border-b bg-ivory">
 
                                 <tr>
 
                                     <th className="px-6 py-4 text-left
                                                    text-xs font-semibold
-                                                   uppercase text-gray-500">
+                                                   uppercase text-warmgray">
                                         Supplier
                                     </th>
 
                                     <th className="px-6 py-4 text-left
                                                    text-xs font-semibold
-                                                   uppercase text-gray-500">
+                                                   uppercase text-warmgray">
                                         Category
                                     </th>
 
                                     <th className="px-6 py-4 text-left
                                                    text-xs font-semibold
-                                                   uppercase text-gray-500">
+                                                   uppercase text-warmgray">
                                         Status
                                     </th>
 
                                     <th className="px-6 py-4 text-right
                                                    text-xs font-semibold
-                                                   uppercase text-gray-500">
+                                                   uppercase text-warmgray">
                                         Actions
                                     </th>
 
@@ -329,7 +329,7 @@ export default function Index({
                             </thead>
 
 
-                            <tbody className="divide-y divide-gray-100">
+                            <tbody className="divide-y divide-champagne">
 
                                 {suppliers?.data?.length > 0 ? (
 
@@ -338,7 +338,7 @@ export default function Index({
 
                                             <tr
                                                 key={supplier.id}
-                                                className="transition hover:bg-gray-50"
+                                                className="transition hover:bg-ivory"
                                             >
 
                                                 {/* Supplier */}
@@ -350,7 +350,7 @@ export default function Index({
                                                         <div className="h-11 w-11
                                                                         overflow-hidden
                                                                         rounded-full
-                                                                        bg-gray-100">
+                                                                        bg-champagne">
 
                                                             {supplier.profile_picture ? (
 
@@ -379,12 +379,12 @@ export default function Index({
 
                                                         <div>
 
-                                                            <p className="font-semibold text-gray-900">
+                                                            <p className="font-semibold text-softcharcoal">
                                                                 {supplier.business_name ||
                                                                     supplier.user?.name}
                                                             </p>
 
-                                                            <p className="text-sm text-gray-500">
+                                                            <p className="text-sm text-warmgray">
                                                                 {supplier.user?.email}
                                                             </p>
 
@@ -409,11 +409,11 @@ export default function Index({
                                                                     <span
                                                                         key={category.id}
                                                                         className="rounded-lg
-                                                                                   bg-indigo-50
+                                                                                   bg-champagne
                                                                                    px-2 py-1
                                                                                    text-xs
                                                                                    font-medium
-                                                                                   text-indigo-700"
+                                                                                   text-darkgold"
                                                                     >
                                                                         {category.name}
                                                                     </span>
@@ -462,13 +462,13 @@ export default function Index({
                                                             }
                                                             className="rounded-lg
                                                                        border
-                                                                       border-gray-200
+                                                                       border-warmbeige
                                                                        px-3 py-2
                                                                        text-sm
                                                                        font-medium
-                                                                       text-gray-700
+                                                                       text-softcharcoal
                                                                        transition
-                                                                       hover:bg-gray-50"
+                                                                       hover:bg-ivory"
                                                         >
                                                             View
                                                         </button>
@@ -541,7 +541,7 @@ export default function Index({
                                         <td
                                             colSpan="4"
                                             className="px-6 py-12 text-center
-                                                       text-gray-500"
+                                                       text-warmgray"
                                         >
                                             No suppliers found.
                                         </td>
@@ -588,12 +588,12 @@ export default function Index({
                                     }}
                                     className={`rounded-lg px-3 py-2 text-sm ${
                                         link.active
-                                            ? 'bg-indigo-600 text-white'
-                                            : 'bg-white text-gray-700 ring-1 ring-gray-200'
+                                            ? 'bg-champagnegold text-white'
+                                            : 'bg-white text-softcharcoal ring-1 ring-gray-200'
                                     } ${
                                         !link.url
                                             ? 'cursor-not-allowed opacity-50'
-                                            : 'hover:bg-gray-50'
+                                            : 'hover:bg-ivory'
                                     }`}
                                 />
 
@@ -621,7 +621,7 @@ export default function Index({
                             onClick={(e) => e.stopPropagation()}
                         >
                             {/* Cover + Avatar Hero */}
-                            <div className="relative h-40 w-full shrink-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600">
+                            <div className="relative h-40 w-full shrink-0 bg-gradient-to-r from-champagnegold via-purple-600 to-pink-600">
                                 {selectedSupplier.cover_photo && (
                                     <img
                                         src={`/storage/${selectedSupplier.cover_photo}`}
@@ -646,7 +646,7 @@ export default function Index({
                                 </div>
 
                                 {/* Avatar overlapping cover */}
-                                <div className="absolute -bottom-12 left-6 h-24 w-24 overflow-hidden rounded-2xl border-4 border-white bg-indigo-100 shadow-xl">
+                                <div className="absolute -bottom-12 left-6 h-24 w-24 overflow-hidden rounded-2xl border-4 border-white bg-champagne shadow-xl">
                                     {selectedSupplier.profile_picture ? (
                                         <img
                                             src={`/storage/${selectedSupplier.profile_picture}`}
@@ -664,53 +664,53 @@ export default function Index({
 
                                 {/* Name + email */}
                                 <div>
-                                    <h2 className="text-xl font-black text-slate-900">
+                                    <h2 className="text-xl font-black text-softcharcoal">
                                         {selectedSupplier.business_name || selectedSupplier.user?.name}
                                     </h2>
-                                    <p className="mt-0.5 text-sm text-slate-500">{selectedSupplier.user?.email}</p>
+                                    <p className="mt-0.5 text-sm text-warmgray">{selectedSupplier.user?.email}</p>
                                     {selectedSupplier.user?.name && selectedSupplier.business_name && (
-                                        <p className="mt-0.5 text-xs text-slate-400">Account: {selectedSupplier.user.name}</p>
+                                        <p className="mt-0.5 text-xs text-warmgray">Account: {selectedSupplier.user.name}</p>
                                     )}
                                 </div>
 
                                 {/* Info grid */}
                                 <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                                    <div className="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4">
+                                    <div className="flex items-start gap-3 rounded-2xl border border-champagne bg-ivory p-4">
                                         <span className="mt-0.5 text-lg">📞</span>
                                         <div>
-                                            <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">Contact Number</p>
-                                            <p className="mt-0.5 text-sm font-semibold text-slate-800">
-                                                {selectedSupplier.contact_number || <span className="font-normal text-slate-400">Not provided</span>}
+                                            <p className="text-[10px] font-bold uppercase tracking-wide text-warmgray">Contact Number</p>
+                                            <p className="mt-0.5 text-sm font-semibold text-softcharcoal">
+                                                {selectedSupplier.contact_number || <span className="font-normal text-warmgray">Not provided</span>}
                                             </p>
                                         </div>
                                     </div>
 
-                                    <div className="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4">
+                                    <div className="flex items-start gap-3 rounded-2xl border border-champagne bg-ivory p-4">
                                         <span className="mt-0.5 text-lg">📍</span>
                                         <div>
-                                            <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">Address</p>
-                                            <p className="mt-0.5 text-sm font-semibold text-slate-800">
-                                                {selectedSupplier.address || <span className="font-normal text-slate-400">Not provided</span>}
+                                            <p className="text-[10px] font-bold uppercase tracking-wide text-warmgray">Address</p>
+                                            <p className="mt-0.5 text-sm font-semibold text-softcharcoal">
+                                                {selectedSupplier.address || <span className="font-normal text-warmgray">Not provided</span>}
                                             </p>
                                         </div>
                                     </div>
 
-                                    <div className="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4">
+                                    <div className="flex items-start gap-3 rounded-2xl border border-champagne bg-ivory p-4">
                                         <span className="mt-0.5 text-lg">⏳</span>
                                         <div>
-                                            <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">Experience</p>
-                                            <p className="mt-0.5 text-sm font-semibold text-slate-800">
+                                            <p className="text-[10px] font-bold uppercase tracking-wide text-warmgray">Experience</p>
+                                            <p className="mt-0.5 text-sm font-semibold text-softcharcoal">
                                                 {selectedSupplier.years_of_experience
                                                     ? `${selectedSupplier.years_of_experience} Years`
-                                                    : <span className="font-normal text-slate-400">Not specified</span>}
+                                                    : <span className="font-normal text-warmgray">Not specified</span>}
                                             </p>
                                         </div>
                                     </div>
 
-                                    <div className="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4">
+                                    <div className="flex items-start gap-3 rounded-2xl border border-champagne bg-ivory p-4">
                                         <span className="mt-0.5 text-lg">🔗</span>
                                         <div className="min-w-0">
-                                            <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">Facebook Page</p>
+                                            <p className="text-[10px] font-bold uppercase tracking-wide text-warmgray">Facebook Page</p>
                                             {selectedSupplier.facebook_page || selectedSupplier.facebook_url ? (
                                                 <a
                                                     href={(selectedSupplier.facebook_page || selectedSupplier.facebook_url).startsWith('http')
@@ -723,7 +723,7 @@ export default function Index({
                                                     {selectedSupplier.facebook_page || selectedSupplier.facebook_url}
                                                 </a>
                                             ) : (
-                                                <p className="mt-0.5 text-sm text-slate-400">Not provided</p>
+                                                <p className="mt-0.5 text-sm text-warmgray">Not provided</p>
                                             )}
                                         </div>
                                     </div>
@@ -732,12 +732,12 @@ export default function Index({
                                 {/* Categories */}
                                 {selectedSupplier.categories?.length > 0 && (
                                     <div className="mt-5">
-                                        <p className="mb-2 text-xs font-bold uppercase tracking-wide text-slate-500">Supplier Categories</p>
+                                        <p className="mb-2 text-xs font-bold uppercase tracking-wide text-warmgray">Supplier Categories</p>
                                         <div className="flex flex-wrap gap-2">
                                             {selectedSupplier.categories.map((cat) => (
                                                 <span
                                                     key={cat.id}
-                                                    className="rounded-xl bg-indigo-50 px-3 py-1.5 text-xs font-bold text-indigo-700 ring-1 ring-inset ring-indigo-200"
+                                                    className="rounded-xl bg-champagne px-3 py-1.5 text-xs font-bold text-darkgold ring-1 ring-inset ring-indigo-200"
                                                 >
                                                     {cat.name}
                                                 </span>
@@ -751,9 +751,9 @@ export default function Index({
                                 {/* Description */}
                                 {selectedSupplier.description && (
                                     <div className="mt-5">
-                                        <p className="mb-2 text-xs font-bold uppercase tracking-wide text-slate-500">About</p>
-                                        <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
-                                            <p className="whitespace-pre-line text-sm leading-relaxed text-slate-600">
+                                        <p className="mb-2 text-xs font-bold uppercase tracking-wide text-warmgray">About</p>
+                                        <div className="rounded-2xl border border-champagne bg-ivory p-4">
+                                            <p className="whitespace-pre-line text-sm leading-relaxed text-softcharcoal">
                                                 {selectedSupplier.description}
                                             </p>
                                         </div>
@@ -762,11 +762,11 @@ export default function Index({
                             </div>
 
                             {/* Footer */}
-                            <div className="flex shrink-0 items-center justify-between border-t border-slate-100 bg-slate-50 px-6 py-4">
+                            <div className="flex shrink-0 items-center justify-between border-t border-champagne bg-ivory px-6 py-4">
                                 <button
                                     type="button"
                                     onClick={closeViewModal}
-                                    className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-bold text-slate-700 shadow-xs transition hover:bg-slate-50"
+                                    className="rounded-xl border border-warmbeige bg-white px-4 py-2.5 text-xs font-bold text-softcharcoal shadow-xs transition hover:bg-ivory"
                                 >
                                     Close
                                 </button>
@@ -822,9 +822,9 @@ export default function Index({
 
                             <div className="p-6">
                                 <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-4 text-center">
-                                    <p className="text-sm text-slate-600">
+                                    <p className="text-sm text-softcharcoal">
                                         You are approving{' '}
-                                        <span className="font-black text-slate-900">
+                                        <span className="font-black text-softcharcoal">
                                             {selectedSupplier.business_name || selectedSupplier.user?.name}
                                         </span>
                                         . They will be able to receive bookings from customers immediately.
@@ -832,12 +832,12 @@ export default function Index({
                                 </div>
                             </div>
 
-                            <div className="flex gap-3 border-t border-slate-100 bg-slate-50 px-6 py-4">
+                            <div className="flex gap-3 border-t border-champagne bg-ivory px-6 py-4">
                                 <button
                                     type="button"
                                     onClick={closeApproveModal}
                                     disabled={processing}
-                                    className="flex-1 rounded-xl border border-slate-200 bg-white py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50 disabled:opacity-50"
+                                    className="flex-1 rounded-xl border border-warmbeige bg-white py-2.5 text-xs font-bold text-softcharcoal transition hover:bg-ivory disabled:opacity-50"
                                 >
                                     Cancel
                                 </button>
@@ -905,10 +905,10 @@ export default function Index({
                                         </div>
                                         <div>
                                             <p className="text-xs font-bold uppercase tracking-wide text-red-500">Rejecting</p>
-                                            <p className="text-sm font-black text-slate-900">
+                                            <p className="text-sm font-black text-softcharcoal">
                                                 {selectedSupplier.business_name || selectedSupplier.user?.name}
                                             </p>
-                                            <p className="text-xs text-slate-400">{selectedSupplier.user?.email}</p>
+                                            <p className="text-xs text-warmgray">{selectedSupplier.user?.email}</p>
                                         </div>
                                     </div>
 
@@ -916,10 +916,10 @@ export default function Index({
                                     <div>
                                         <label
                                             htmlFor="rejection_reason"
-                                            className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-600"
+                                            className="mb-2 block text-xs font-bold uppercase tracking-wide text-softcharcoal"
                                         >
                                             Rejection Reason
-                                            <span className="ml-1 font-normal normal-case text-slate-400">(optional)</span>
+                                            <span className="ml-1 font-normal normal-case text-warmgray">(optional)</span>
                                         </label>
                                         <textarea
                                             id="rejection_reason"
@@ -927,20 +927,20 @@ export default function Index({
                                             onChange={(e) => setRejectionReason(e.target.value)}
                                             rows="4"
                                             placeholder="Explain why this supplier application is being rejected so they can correct it..."
-                                            className="w-full rounded-xl border-slate-200 text-sm focus:border-red-400 focus:ring-red-400"
+                                            className="w-full rounded-xl border-warmbeige text-sm focus:border-red-400 focus:ring-red-400"
                                         />
-                                        <p className="mt-1.5 text-xs text-slate-400">
+                                        <p className="mt-1.5 text-xs text-warmgray">
                                             💡 This reason may be shown to the supplier so they know what to correct.
                                         </p>
                                     </div>
                                 </div>
 
-                                <div className="flex gap-3 border-t border-slate-100 bg-slate-50 px-6 py-4">
+                                <div className="flex gap-3 border-t border-champagne bg-ivory px-6 py-4">
                                     <button
                                         type="button"
                                         onClick={closeRejectModal}
                                         disabled={processing}
-                                        className="flex-1 rounded-xl border border-slate-200 bg-white py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50 disabled:opacity-50"
+                                        className="flex-1 rounded-xl border border-warmbeige bg-white py-2.5 text-xs font-bold text-softcharcoal transition hover:bg-ivory disabled:opacity-50"
                                     >
                                         Cancel
                                     </button>

@@ -52,17 +52,31 @@ class BookingSubmittedNotification extends Notification
 
     public function toArray(object $notifiable): array
     {
+        $actionUrl = $this->recipientType === 'customer'
+            ? route('customer.bookings.show', $this->booking->id)
+            : route('supplier.bookings.index');
+
         return [
+            'title' => 'New Booking Request',
+            'message' => "Booking request {$this->booking->booking_reference} for '{$this->booking->event_name}' received.",
+            'action_url' => $actionUrl,
+            'category' => 'booking',
+            'type' => 'booking_request',
+            'icon' => '📅',
+            'role' => $notifiable->role ?? $this->recipientType,
+            'meta' => [
+                'booking_id' => $this->booking->id,
+                'booking_reference' => $this->booking->booking_reference,
+                'event_name' => $this->booking->event_name,
+                'booking_type' => $this->booking->booking_type,
+                'total_amount' => $this->booking->total_amount,
+            ],
+            // Backward-compatibility keys
             'booking_id' => $this->booking->id,
             'booking_reference' => $this->booking->booking_reference,
             'event_name' => $this->booking->event_name,
             'booking_type' => $this->booking->booking_type,
             'total_amount' => $this->booking->total_amount,
-            'title' => 'New Booking Request',
-            'message' => "Booking request {$this->booking->booking_reference} for '{$this->booking->event_name}' received.",
-            'action_url' => $this->recipientType === 'customer'
-                ? route('customer.bookings.show', $this->booking->id)
-                : route('supplier.bookings.index'),
         ];
     }
 }

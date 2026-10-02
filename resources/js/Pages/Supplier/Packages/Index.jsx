@@ -97,17 +97,17 @@ export default function Index({
                 {/* Header */}
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+                        <h1 className="text-3xl font-bold tracking-tight text-softcharcoal">
                             My Packages
                         </h1>
-                        <p className="mt-1 text-sm text-gray-500">
+                        <p className="mt-1 text-sm text-warmgray">
                             Create and manage bundled event packages to offer attractive deals to customers.
                         </p>
                     </div>
 
                     <Link
                         href={route('supplier.packages.create')}
-                        className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 active:scale-95"
+                        className="inline-flex items-center gap-2 rounded-xl bg-champagnegold px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-darkgold active:scale-95"
                     >
                         <span className="text-lg leading-none">+</span>
                         Add New Package
@@ -120,13 +120,13 @@ export default function Index({
                         onClick={() => { setPackageTab('solo'); }}
                         className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition ${
                             packageTab === 'solo'
-                                ? 'bg-indigo-600 text-white shadow-sm'
-                                : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+                                ? 'bg-champagnegold text-white shadow-sm'
+                                : 'bg-white text-warmgray border border-warmbeige hover:bg-ivory'
                         }`}
                     >
                         🧑 Solo Packages
                         <span className={`rounded-full px-2 py-0.5 text-[10px] font-black ${
-                            packageTab === 'solo' ? 'bg-white/20 text-white' : 'bg-indigo-50 text-indigo-700'
+                            packageTab === 'solo' ? 'bg-white/20 text-white' : 'bg-champagne text-darkgold'
                         }`}>
                             {soloPackages.length}
                         </span>
@@ -136,7 +136,7 @@ export default function Index({
                         className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition ${
                             packageTab === 'team'
                                 ? 'bg-purple-600 text-white shadow-sm'
-                                : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+                                : 'bg-white text-warmgray border border-warmbeige hover:bg-ivory'
                         }`}
                     >
                         👥 Team Packages
@@ -149,7 +149,7 @@ export default function Index({
                 </div>
 
                 {/* Live Search & Filter Bar */}
-                <div className="mt-6 flex flex-col gap-3 rounded-2xl border border-gray-200/80 bg-white p-4 shadow-xs lg:flex-row lg:items-center lg:justify-between">
+                <div className="mt-6 flex flex-col gap-3 rounded-2xl border border-warmbeige/80 bg-white p-4 shadow-xs lg:flex-row lg:items-center lg:justify-between">
                     {/* Live Search Input */}
                     <div className="relative flex-1">
                         <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-xs text-gray-400">
@@ -160,13 +160,13 @@ export default function Index({
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder="Live search by name, description, inclusions, or services..."
-                            className="w-full rounded-xl border border-gray-300 py-2 pl-9 pr-8 text-xs text-gray-900 shadow-xs outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100"
+                            className="w-full rounded-xl border border-warmbeige py-2 pl-9 pr-8 text-xs text-softcharcoal shadow-xs outline-none focus:border-champagnegold focus:ring-2 focus:ring-champagne"
                         />
                         {searchQuery && (
                             <button
                                 type="button"
                                 onClick={() => setSearchQuery('')}
-                                className="absolute inset-y-0 right-0 flex items-center pr-3 text-xs text-gray-400 hover:text-gray-600"
+                                className="absolute inset-y-0 right-0 flex items-center pr-3 text-xs text-gray-400 hover:text-warmgray"
                             >
                                 ✕
                             </button>
@@ -176,14 +176,14 @@ export default function Index({
                     {/* Filter Controls */}
                     <div className="flex flex-wrap items-center gap-2">
                         {/* Status Filter Buttons */}
-                        <div className="flex rounded-xl bg-gray-100 p-1">
+                        <div className="flex rounded-xl bg-champagne p-1">
                             <button
                                 type="button"
                                 onClick={() => setStatusFilter('all')}
                                 className={`rounded-lg px-3 py-1 text-xs font-bold transition ${
                                     statusFilter === 'all'
-                                        ? 'bg-white text-indigo-600 shadow-xs'
-                                        : 'text-gray-600 hover:text-gray-900'
+                                        ? 'bg-white text-champagnegold shadow-xs'
+                                        : 'text-warmgray hover:text-softcharcoal'
                                 }`}
                             >
                                 All
@@ -194,7 +194,7 @@ export default function Index({
                                 className={`rounded-lg px-3 py-1 text-xs font-bold transition ${
                                     statusFilter === 'active'
                                         ? 'bg-white text-emerald-600 shadow-xs'
-                                        : 'text-gray-600 hover:text-gray-900'
+                                        : 'text-warmgray hover:text-softcharcoal'
                                 }`}
                             >
                                 Active
@@ -204,8 +204,8 @@ export default function Index({
                                 onClick={() => setStatusFilter('inactive')}
                                 className={`rounded-lg px-3 py-1 text-xs font-bold transition ${
                                     statusFilter === 'inactive'
-                                        ? 'bg-white text-gray-800 shadow-xs'
-                                        : 'text-gray-600 hover:text-gray-900'
+                                        ? 'bg-white text-softcharcoal shadow-xs'
+                                        : 'text-warmgray hover:text-softcharcoal'
                                 }`}
                             >
                                 Inactive
@@ -216,7 +216,7 @@ export default function Index({
                         <select
                             value={sortBy}
                             onChange={(e) => setSortBy(e.target.value)}
-                            className="rounded-xl border border-gray-300 py-1.5 pl-3 pr-8 text-xs font-semibold text-gray-700 shadow-xs outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100"
+                            className="rounded-xl border border-warmbeige py-1.5 pl-3 pr-8 text-xs font-semibold text-softcharcoal shadow-xs outline-none focus:border-champagnegold focus:ring-2 focus:ring-champagne"
                         >
                             <option value="newest">Sort: Newest First</option>
                             <option value="price_asc">Price: Low to High</option>
@@ -239,7 +239,7 @@ export default function Index({
                             return (
                                 <div
                                     key={pkg.id}
-                                    className="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xs transition duration-200 hover:-translate-y-1 hover:shadow-md"
+                                    className="group flex flex-col overflow-hidden rounded-2xl border border-warmbeige bg-white shadow-xs transition duration-200 hover:-translate-y-1 hover:shadow-md"
                                 >
                                     {/* Showcase Image Banner */}
                                     <div className="relative h-44 w-full overflow-hidden bg-gray-900">
@@ -256,7 +256,7 @@ export default function Index({
                                                 className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
                                             />
                                         ) : (
-                                            <div className="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 text-white">
+                                            <div className="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-indigo-900 via-purple-900 to-softcharcoal text-white">
                                                 <span className="text-3xl">📦 💍</span>
                                                 <span className="mt-1 text-xs text-white/70">
                                                     {pkg.event_category?.name || 'Package'}
@@ -283,7 +283,7 @@ export default function Index({
 
                                         {/* Category Badge on top left */}
                                         <div className="absolute left-3 top-3">
-                                            <span className="rounded-lg bg-white/90 px-2.5 py-1 text-xs font-bold text-indigo-700 shadow-xs backdrop-blur-xs">
+                                            <span className="rounded-lg bg-white/90 px-2.5 py-1 text-xs font-bold text-darkgold shadow-xs backdrop-blur-xs">
                                                 {pkg.event_category?.name || 'Package'}
                                             </span>
                                         </div>
@@ -300,7 +300,7 @@ export default function Index({
                                     <div className="flex flex-1 flex-col justify-between p-5">
                                         <div className="space-y-3.5">
                                             {/* Description */}
-                                            <p className="line-clamp-2 text-xs text-gray-500">
+                                            <p className="line-clamp-2 text-xs text-warmgray">
                                                 {pkg.description || 'No description provided.'}
                                             </p>
 
@@ -314,7 +314,7 @@ export default function Index({
                                                         pkg.services.map((service) => (
                                                             <span
                                                                 key={service.id}
-                                                                className="inline-flex items-center gap-1 rounded-md bg-indigo-50 px-2 py-0.5 text-[11px] font-medium text-indigo-700"
+                                                                className="inline-flex items-center gap-1 rounded-md bg-champagne px-2 py-0.5 text-[11px] font-medium text-darkgold"
                                                             >
                                                                 ✓ {service.name}
                                                             </span>
@@ -329,8 +329,8 @@ export default function Index({
 
                                             {/* Special Inclusions text */}
                                             {pkg.inclusions && (
-                                                <div className="rounded-lg bg-gray-50 p-2.5 text-[11px] text-gray-600">
-                                                    <span className="font-semibold text-gray-800">
+                                                <div className="rounded-lg bg-ivory p-2.5 text-[11px] text-warmgray">
+                                                    <span className="font-semibold text-softcharcoal">
                                                         Highlights:{' '}
                                                     </span>
                                                     <span className="line-clamp-1">{pkg.inclusions}</span>
@@ -339,7 +339,7 @@ export default function Index({
                                         </div>
 
                                         {/* Price & Savings */}
-                                        <div className="mt-5 border-t border-gray-100 pt-3.5">
+                                        <div className="mt-5 border-t border-champagne pt-3.5">
                                             <div className="flex items-end justify-between">
                                                 <div>
                                                     {servicesTotal > 0 && savings > 0 && (
@@ -351,7 +351,7 @@ export default function Index({
                                                         </span>
                                                     )}
                                                     <div className="flex items-baseline gap-1.5">
-                                                        <span className="text-lg font-extrabold text-gray-900">
+                                                        <span className="text-lg font-extrabold text-softcharcoal">
                                                             ₱
                                                             {Number(pkg.price || 0).toLocaleString('en-PH', {
                                                                 minimumFractionDigits: 2,
@@ -370,10 +370,10 @@ export default function Index({
                                     </div>
 
                                     {/* Action Buttons */}
-                                    <div className="flex items-center gap-2 border-t border-gray-100 bg-gray-50/60 p-3">
+                                    <div className="flex items-center gap-2 border-t border-champagne bg-ivory/60 p-3">
                                         <Link
                                             href={route('supplier.packages.edit', pkg.id)}
-                                            className="flex-1 rounded-xl border border-gray-300 bg-white py-2 text-center text-xs font-semibold text-gray-700 transition hover:bg-gray-100"
+                                            className="flex-1 rounded-xl border border-warmbeige bg-white py-2 text-center text-xs font-semibold text-softcharcoal transition hover:bg-champagne"
                                         >
                                             Edit Package
                                         </Link>
@@ -391,19 +391,19 @@ export default function Index({
                     </div>
                 ) : (
                     /* Empty State */
-                    <div className="mt-8 rounded-2xl border-2 border-dashed border-gray-200 bg-white p-12 text-center">
-                        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-50 text-2xl">
+                    <div className="mt-8 rounded-2xl border-2 border-dashed border-warmbeige bg-white p-12 text-center">
+                        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-champagne text-2xl">
                             📦
                         </div>
-                        <h3 className="mt-4 text-lg font-bold text-gray-900">No packages found</h3>
-                        <p className="mx-auto mt-1 max-w-sm text-sm text-gray-500">
+                        <h3 className="mt-4 text-lg font-bold text-softcharcoal">No packages found</h3>
+                        <p className="mx-auto mt-1 max-w-sm text-sm text-warmgray">
                             {searchQuery || statusFilter !== 'all'
                                 ? 'No packages match your live search or filter criteria. Try adjusting your search.'
                                 : 'Create your first package bundle and offer discounted service combinations to customers.'}
                         </p>
                         <Link
                             href={route('supplier.packages.create')}
-                            className="mt-5 inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700"
+                            className="mt-5 inline-flex items-center gap-2 rounded-xl bg-champagnegold px-5 py-2.5 text-sm font-semibold text-white hover:bg-darkgold"
                         >
                             + Create Package
                         </Link>
@@ -424,16 +424,16 @@ export default function Index({
                         <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-100 text-2xl text-red-600">
                             🗑️
                         </div>
-                        <h3 className="mt-4 text-lg font-bold text-gray-900">Delete Package?</h3>
-                        <p className="mt-2 text-sm text-gray-500">
+                        <h3 className="mt-4 text-lg font-bold text-softcharcoal">Delete Package?</h3>
+                        <p className="mt-2 text-sm text-warmgray">
                             Are you sure you want to delete{' '}
-                            <strong className="text-gray-800">{deletingPackage.name}</strong>? This action cannot be undone.
+                            <strong className="text-softcharcoal">{deletingPackage.name}</strong>? This action cannot be undone.
                         </p>
                         <div className="mt-6 flex justify-end gap-3">
                             <button
                                 type="button"
                                 onClick={() => setShowDeleteModal(false)}
-                                className="rounded-xl border border-gray-300 px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50"
+                                className="rounded-xl border border-warmbeige px-4 py-2 text-xs font-semibold text-softcharcoal hover:bg-ivory"
                             >
                                 Cancel
                             </button>

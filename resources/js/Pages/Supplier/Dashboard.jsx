@@ -1,3 +1,4 @@
+import NotificationBell from '@/Components/NotificationBell';
 import DashboardLayout from '@/Layouts/DashboardLayout';
 import { Head, Link } from '@inertiajs/react';
 import RatingStars from '@/Components/RatingStars';
@@ -23,34 +24,35 @@ export default function Dashboard({
         <DashboardLayout>
             <Head title="Supplier Dashboard - Westeam" />
 
-            <div className="min-h-screen bg-slate-50/60 p-6 lg:p-10">
+            <div className="min-h-screen bg-ivory/60 p-4 sm:p-6 lg:p-10">
                 {/* Header */}
                 <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                     <div>
                         <div className="flex items-center gap-2">
-                            <span className="inline-flex items-center rounded-md bg-indigo-50 px-2.5 py-1 text-xs font-bold text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
+                            <span className="inline-flex items-center rounded-md bg-champagne px-2.5 py-1 text-xs font-bold text-darkgold ring-1 ring-inset ring-indigo-700/10">
                                 💼 Supplier Portal
                             </span>
-                            <span className="text-xs text-slate-400">• Overview & Teams</span>
+                            <span className="text-xs text-warmgray">• Overview & Teams</span>
                         </div>
-                        <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-900">
+                        <h1 className="mt-2 text-3xl font-black tracking-tight text-softcharcoal">
                             Supplier Dashboard
                         </h1>
-                        <p className="mt-1 text-sm text-slate-500">
+                        <p className="mt-1 text-sm text-warmgray">
                             Manage your services, accept bookings, and collaborate with teams.
                         </p>
                     </div>
 
                     <div className="flex flex-wrap items-center gap-3">
+                        <NotificationBell className="bg-white border border-warmbeige/70 rounded-xl shadow-2xs" />
                         <Link
                             href={route('supplier.teams.index')}
-                            className="inline-flex items-center gap-2 rounded-2xl border border-indigo-200 bg-white px-4 py-2.5 text-xs font-bold text-indigo-700 shadow-2xs transition hover:bg-indigo-50 active:scale-95"
+                            className="inline-flex items-center gap-2 rounded-2xl border border-indigo-200 bg-white px-4 py-2.5 text-xs font-bold text-darkgold shadow-2xs transition hover:bg-champagne active:scale-95"
                         >
                             <span>👥 My Teams</span>
                         </Link>
                         <Link
                             href={route('supplier.services.index')}
-                            className="inline-flex items-center gap-2 rounded-2xl bg-indigo-600 px-5 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-indigo-700 active:scale-95"
+                            className="inline-flex items-center gap-2 rounded-2xl bg-champagnegold px-5 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-darkgold active:scale-95"
                         >
                             <span className="text-base leading-none">+</span>
                             <span>Add Service</span>
@@ -73,7 +75,7 @@ export default function Dashboard({
                                     Your supplier application was not approved. Please update your business details and submit again.
                                 </p>
                                 {supplierProfile.rejection_reason && (
-                                    <div className="mt-2.5 rounded-xl border border-red-200/60 bg-white p-3 text-xs text-slate-700">
+                                    <div className="mt-2.5 rounded-xl border border-red-200/60 bg-white p-3 text-xs text-softcharcoal">
                                         <span className="font-bold text-red-800">Reason:</span> {supplierProfile.rejection_reason}
                                     </div>
                                 )}
@@ -109,28 +111,28 @@ export default function Dashboard({
                 {/* Statistics Cards */}
                 <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
                     {/* My Services */}
-                    <div className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-5 shadow-xs transition hover:shadow-md">
+                    <div className="overflow-hidden rounded-3xl border border-warmbeige/80 bg-white p-5 shadow-xs transition hover:shadow-md">
                         <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                            <span className="text-xs font-bold uppercase tracking-wider text-warmgray">
                                 My Services
                             </span>
-                            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 text-lg font-bold">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-champagne text-champagnegold text-lg font-bold">
                                 🛠️
                             </div>
                         </div>
                         <div className="mt-3 flex items-baseline gap-2">
-                            <span className="text-3xl font-black text-slate-900">{totalServices}</span>
+                            <span className="text-3xl font-black text-softcharcoal">{totalServices}</span>
                             <span className="inline-flex items-center text-xs font-bold text-emerald-600">
                                 {activeServices} active
                             </span>
                         </div>
-                        <p className="mt-1 text-xs text-slate-400">Available individual offerings</p>
+                        <p className="mt-1 text-xs text-warmgray">Available individual offerings</p>
                     </div>
 
                     {/* Packages */}
-                    <div className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-5 shadow-xs transition hover:shadow-md">
+                    <div className="overflow-hidden rounded-3xl border border-warmbeige/80 bg-white p-5 shadow-xs transition hover:shadow-md">
                         <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                            <span className="text-xs font-bold uppercase tracking-wider text-warmgray">
                                 Packages
                             </span>
                             <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-purple-50 text-purple-600 text-lg font-bold">
@@ -138,18 +140,18 @@ export default function Dashboard({
                             </div>
                         </div>
                         <div className="mt-3 flex items-baseline gap-2">
-                            <span className="text-3xl font-black text-slate-900">{totalPackages}</span>
-                            <span className="inline-flex items-center text-xs font-bold text-indigo-600">
+                            <span className="text-3xl font-black text-softcharcoal">{totalPackages}</span>
+                            <span className="inline-flex items-center text-xs font-bold text-champagnegold">
                                 Published
                             </span>
                         </div>
-                        <p className="mt-1 text-xs text-slate-400">Bundled service options</p>
+                        <p className="mt-1 text-xs text-warmgray">Bundled service options</p>
                     </div>
 
                     {/* Bookings */}
-                    <div className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-5 shadow-xs transition hover:shadow-md">
+                    <div className="overflow-hidden rounded-3xl border border-warmbeige/80 bg-white p-5 shadow-xs transition hover:shadow-md">
                         <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                            <span className="text-xs font-bold uppercase tracking-wider text-warmgray">
                                 Client Bookings
                             </span>
                             <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 text-lg font-bold">
@@ -157,18 +159,18 @@ export default function Dashboard({
                             </div>
                         </div>
                         <div className="mt-3 flex items-baseline gap-2">
-                            <span className="text-3xl font-black text-slate-900">{totalBookings}</span>
+                            <span className="text-3xl font-black text-softcharcoal">{totalBookings}</span>
                             <span className="inline-flex items-center text-xs font-bold text-amber-600">
                                 {pendingBookings} pending
                             </span>
                         </div>
-                        <p className="mt-1 text-xs text-slate-400">{confirmedBookings} confirmed bookings</p>
+                        <p className="mt-1 text-xs text-warmgray">{confirmedBookings} confirmed bookings</p>
                     </div>
 
                     {/* Revenue */}
-                    <div className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-5 shadow-xs transition hover:shadow-md">
+                    <div className="overflow-hidden rounded-3xl border border-warmbeige/80 bg-white p-5 shadow-xs transition hover:shadow-md">
                         <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                            <span className="text-xs font-bold uppercase tracking-wider text-warmgray">
                                 Total Revenue
                             </span>
                             <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-50 text-amber-600 text-lg font-bold">
@@ -176,11 +178,11 @@ export default function Dashboard({
                             </div>
                         </div>
                         <div className="mt-3 flex items-baseline gap-2">
-                            <span className="text-2xl font-black text-slate-900">
+                            <span className="text-2xl font-black text-softcharcoal">
                                 ₱{Number(totalRevenue).toLocaleString('en-PH', { minimumFractionDigits: 0 })}
                             </span>
                         </div>
-                        <p className="mt-1 text-xs text-slate-400">Total earned bookings</p>
+                        <p className="mt-1 text-xs text-warmgray">Total earned bookings</p>
                     </div>
                 </div>
 
@@ -188,38 +190,38 @@ export default function Dashboard({
                 <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
                     {/* Upcoming Bookings Schedule (8 Cols) */}
                     <div className="space-y-6 lg:col-span-8">
-                        <div className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-xs">
-                            <div className="flex items-center justify-between border-b border-slate-100 p-5 sm:p-6">
+                        <div className="overflow-hidden rounded-3xl border border-warmbeige/80 bg-white shadow-xs">
+                            <div className="flex items-center justify-between border-b border-champagne p-5 sm:p-6">
                                 <div>
-                                    <h2 className="text-base font-black text-slate-900">
+                                    <h2 className="text-base font-black text-softcharcoal">
                                         Upcoming Event Schedule
                                     </h2>
-                                    <p className="text-xs text-slate-500">
+                                    <p className="text-xs text-warmgray">
                                         Your next confirmed & pending client bookings
                                     </p>
                                 </div>
                                 <Link
                                     href={route('supplier.bookings.index')}
-                                    className="text-xs font-bold text-indigo-600 hover:text-indigo-800"
+                                    className="text-xs font-bold text-champagnegold hover:text-indigo-800"
                                 >
                                     Manage Requests →
                                 </Link>
                             </div>
 
-                            <div className="divide-y divide-slate-100">
+                            <div className="divide-y divide-champagne">
                                 {upcomingBookings.length === 0 ? (
-                                    <div className="p-8 text-center text-xs text-slate-400">
+                                    <div className="p-8 text-center text-xs text-warmgray">
                                         No upcoming event bookings scheduled yet.
                                     </div>
                                 ) : (
                                     upcomingBookings.map((item) => (
                                         <div
                                             key={item.id}
-                                            className="flex items-center justify-between p-4 sm:p-5 transition hover:bg-slate-50/60"
+                                            className="flex items-center justify-between p-4 sm:p-5 transition hover:bg-ivory/60"
                                         >
                                             <div className="flex items-center gap-3.5">
-                                                <div className="flex h-12 w-12 flex-col items-center justify-center rounded-2xl bg-indigo-50 font-bold text-indigo-700">
-                                                    <span className="text-[10px] uppercase font-bold text-indigo-500">
+                                                <div className="flex h-12 w-12 flex-col items-center justify-center rounded-2xl bg-champagne font-bold text-darkgold">
+                                                    <span className="text-[10px] uppercase font-bold text-champagnegold">
                                                         {item.booking?.event_date
                                                             ? new Date(item.booking.event_date).toLocaleString('default', { month: 'short' })
                                                             : 'EVT'}
@@ -231,14 +233,14 @@ export default function Dashboard({
                                                     </span>
                                                 </div>
                                                 <div>
-                                                    <p className="text-xs font-bold text-slate-900">{item.booking?.event_name}</p>
-                                                    <p className="text-[11px] text-slate-500">
+                                                    <p className="text-xs font-bold text-softcharcoal">{item.booking?.event_name}</p>
+                                                    <p className="text-[11px] text-warmgray">
                                                         {item.item_name} • 📍 {item.booking?.event_location}
                                                     </p>
                                                 </div>
                                             </div>
                                             <div className="text-right">
-                                                <p className="text-xs font-black text-slate-900">
+                                                <p className="text-xs font-black text-softcharcoal">
                                                     ₱{Number(item.unit_price).toLocaleString('en-PH', {
                                                         minimumFractionDigits: 2,
                                                     })}
@@ -264,64 +266,64 @@ export default function Dashboard({
 
                     {/* Quick Tools & Team Collaboration (4 Cols) */}
                     <div className="space-y-6 lg:col-span-4">
-                        <div className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xs">
-                            <h2 className="text-base font-black text-slate-900">
+                        <div className="rounded-3xl border border-warmbeige/80 bg-white p-6 shadow-xs">
+                            <h2 className="text-base font-black text-softcharcoal">
                                 Quick Management
                             </h2>
-                            <p className="mt-0.5 text-xs text-slate-500">
+                            <p className="mt-0.5 text-xs text-warmgray">
                                 Manage offerings & collaborations
                             </p>
 
                             <div className="mt-4 space-y-3">
                                 <Link
                                     href={route('supplier.bookings.index')}
-                                    className="flex items-center gap-3 rounded-2xl border border-indigo-100 bg-indigo-50/40 p-3.5 transition hover:bg-indigo-50/80"
+                                    className="flex items-center gap-3 rounded-2xl border border-champagne bg-champagne/40 p-3.5 transition hover:bg-champagne/80"
                                 >
-                                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-white font-bold text-sm">
+                                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-champagnegold text-white font-bold text-sm">
                                         📅
                                     </span>
                                     <div>
                                         <p className="text-xs font-bold text-indigo-950">Booking Requests</p>
-                                        <p className="text-[11px] text-indigo-700">Accept or decline client orders</p>
+                                        <p className="text-[11px] text-darkgold">Accept or decline client orders</p>
                                     </div>
                                 </Link>
 
                                 <Link
                                     href={route('supplier.teams.index')}
-                                    className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50/70 p-3.5 transition hover:border-indigo-200 hover:bg-indigo-50/40"
+                                    className="flex items-center gap-3 rounded-2xl border border-champagne bg-ivory/70 p-3.5 transition hover:border-indigo-200 hover:bg-champagne/40"
                                 >
                                     <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-100 text-purple-700 font-bold text-sm">
                                         👥
                                     </span>
                                     <div>
-                                        <p className="text-xs font-bold text-slate-900">Team Collaboration</p>
-                                        <p className="text-[11px] text-slate-500">Build teams & shared packages</p>
+                                        <p className="text-xs font-bold text-softcharcoal">Team Collaboration</p>
+                                        <p className="text-[11px] text-warmgray">Build teams & shared packages</p>
                                     </div>
                                 </Link>
 
                                 <Link
                                     href={route('supplier.services.index')}
-                                    className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50/70 p-3.5 transition hover:border-indigo-200 hover:bg-indigo-50/40"
+                                    className="flex items-center gap-3 rounded-2xl border border-champagne bg-ivory/70 p-3.5 transition hover:border-indigo-200 hover:bg-champagne/40"
                                 >
                                     <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 font-bold text-sm">
                                         🛠️
                                     </span>
                                     <div>
-                                        <p className="text-xs font-bold text-slate-900">My Services</p>
-                                        <p className="text-[11px] text-slate-500">Add or adjust service modal</p>
+                                        <p className="text-xs font-bold text-softcharcoal">My Services</p>
+                                        <p className="text-[11px] text-warmgray">Add or adjust service modal</p>
                                     </div>
                                 </Link>
 
                                 <Link
                                     href={route('supplier.portfolio.index')}
-                                    className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50/70 p-3.5 transition hover:border-indigo-200 hover:bg-indigo-50/40"
+                                    className="flex items-center gap-3 rounded-2xl border border-champagne bg-ivory/70 p-3.5 transition hover:border-indigo-200 hover:bg-champagne/40"
                                 >
                                     <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-pink-100 text-pink-700 font-bold text-sm">
                                         📸
                                     </span>
                                     <div>
-                                        <p className="text-xs font-bold text-slate-900">Portfolio Showcase</p>
-                                        <p className="text-[11px] text-slate-500">Upload past event galleries</p>
+                                        <p className="text-xs font-bold text-softcharcoal">Portfolio Showcase</p>
+                                        <p className="text-[11px] text-warmgray">Upload past event galleries</p>
                                     </div>
                                 </Link>
                             </div>
@@ -330,16 +332,16 @@ export default function Dashboard({
                 </div>
 
                 {/* Ratings, Star Distribution & Recent Feedback Section */}
-                <div className="mt-8 rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xs sm:p-8">
+                <div className="mt-8 rounded-3xl border border-warmbeige/80 bg-white p-6 shadow-xs sm:p-8">
                     <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                         <div>
                             <div className="flex items-center gap-2">
                                 <span className="inline-flex items-center rounded-md bg-amber-50 px-2 py-0.5 text-xs font-bold text-amber-700 ring-1 ring-inset ring-amber-600/20">
                                     ⭐ Reputation & Feedback
                                 </span>
-                                <span className="text-xs text-slate-400">• Verified Client Reviews</span>
+                                <span className="text-xs text-warmgray">• Verified Client Reviews</span>
                             </div>
-                            <h2 className="mt-1 text-xl font-black tracking-tight text-slate-900">
+                            <h2 className="mt-1 text-xl font-black tracking-tight text-softcharcoal">
                                 Customer Ratings & Reviews
                             </h2>
                         </div>
@@ -348,13 +350,13 @@ export default function Dashboard({
                     <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:items-start">
                         {/* Rating Score Card (4 Cols) */}
                         <div className="flex flex-col items-center justify-center rounded-2xl border border-amber-100 bg-gradient-to-br from-amber-50/80 to-orange-50/40 p-6 text-center lg:col-span-4">
-                            <span className="text-5xl font-black tracking-tight text-slate-900">
+                            <span className="text-5xl font-black tracking-tight text-softcharcoal">
                                 {averageRating}
                             </span>
                             <div className="mt-2">
                                 <RatingStars rating={averageRating} size="lg" />
                             </div>
-                            <p className="mt-2 text-xs font-bold text-slate-700">
+                            <p className="mt-2 text-xs font-bold text-softcharcoal">
                                 {totalReviews} {totalReviews === 1 ? 'Customer Review' : 'Customer Reviews'}
                             </p>
 
@@ -366,14 +368,14 @@ export default function Dashboard({
 
                                     return (
                                         <div key={stars} className="flex items-center gap-2 text-xs">
-                                            <span className="w-8 font-bold text-slate-700">{stars} ★</span>
-                                            <div className="h-2 flex-1 overflow-hidden rounded-full bg-slate-200/70">
+                                            <span className="w-8 font-bold text-softcharcoal">{stars} ★</span>
+                                            <div className="h-2 flex-1 overflow-hidden rounded-full bg-warmbeige/70">
                                                 <div
                                                     className="h-full rounded-full bg-amber-400"
                                                     style={{ width: `${percentage}%` }}
                                                 />
                                             </div>
-                                            <span className="w-8 text-right font-semibold text-slate-500">
+                                            <span className="w-8 text-right font-semibold text-warmgray">
                                                 {count}
                                             </span>
                                         </div>
@@ -384,7 +386,7 @@ export default function Dashboard({
 
                         {/* Recent Reviews Feed (8 Cols) */}
                         <div className="space-y-4 lg:col-span-8">
-                            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                            <h3 className="text-xs font-bold uppercase tracking-wider text-warmgray">
                                 Recent Feedback ({recentReviews.length})
                             </h3>
 
@@ -393,26 +395,26 @@ export default function Dashboard({
                                     {recentReviews.map((review) => (
                                         <div
                                             key={review.id}
-                                            className="rounded-2xl border border-slate-200/80 bg-slate-50/50 p-4 transition hover:bg-white hover:shadow-xs"
+                                            className="rounded-2xl border border-warmbeige/80 bg-ivory/50 p-4 transition hover:bg-white hover:shadow-xs"
                                         >
                                             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                                                 <div className="flex items-center gap-2.5">
-                                                    <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-100 text-indigo-700 font-bold text-xs">
+                                                    <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-champagne text-darkgold font-bold text-xs">
                                                         {review.customer?.name ? review.customer.name.charAt(0).toUpperCase() : 'C'}
                                                     </div>
                                                     <div>
-                                                        <h4 className="text-xs font-bold text-slate-900">
+                                                        <h4 className="text-xs font-bold text-softcharcoal">
                                                             {review.customer?.name || 'Verified Client'}
                                                         </h4>
-                                                        <p className="text-[10px] text-slate-400">
-                                                            Booked: <strong className="text-slate-700">{review.item_name}</strong>
+                                                        <p className="text-[10px] text-warmgray">
+                                                            Booked: <strong className="text-softcharcoal">{review.item_name}</strong>
                                                         </p>
                                                     </div>
                                                 </div>
 
                                                 <div className="flex items-center gap-2">
                                                     <RatingStars rating={review.rating} size="xs" />
-                                                    <span className="text-[10px] text-slate-400">
+                                                    <span className="text-[10px] text-warmgray">
                                                         {new Date(review.created_at).toLocaleDateString('en-US', {
                                                             month: 'short',
                                                             day: 'numeric',
@@ -422,17 +424,17 @@ export default function Dashboard({
                                                 </div>
                                             </div>
 
-                                            <p className="mt-2.5 text-xs text-slate-600 leading-relaxed italic whitespace-pre-line">
+                                            <p className="mt-2.5 text-xs text-softcharcoal leading-relaxed italic whitespace-pre-line">
                                                 "{review.comment}"
                                             </p>
                                         </div>
                                     ))}
                                 </div>
                             ) : (
-                                <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-200 p-8 text-center">
+                                <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-warmbeige p-8 text-center">
                                     <span className="text-3xl">⭐</span>
-                                    <h4 className="mt-2 text-xs font-bold text-slate-900">No Reviews Yet</h4>
-                                    <p className="mt-1 text-[11px] text-slate-400 max-w-sm">
+                                    <h4 className="mt-2 text-xs font-bold text-softcharcoal">No Reviews Yet</h4>
+                                    <p className="mt-1 text-[11px] text-warmgray max-w-sm">
                                         Once your clients complete booked events, their ratings and reviews will appear here.
                                     </p>
                                 </div>

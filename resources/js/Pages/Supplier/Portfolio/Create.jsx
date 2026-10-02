@@ -125,24 +125,24 @@ export default function Create({ categories = [] }) {
         <DashboardLayout>
             <Head title="Create Portfolio Project - Supplier Dashboard" />
 
-            <div className="min-h-screen bg-slate-50/60 p-6 lg:p-10">
+            <div className="min-h-screen bg-ivory/60 p-4 sm:p-6 lg:p-10">
                 {/* Header & Back Link */}
                 <div className="mb-8">
-                    <div className="flex items-center gap-2 text-xs text-slate-500">
+                    <div className="flex items-center gap-2 text-xs text-warmgray">
                         <Link
                             href={route('supplier.portfolio.index')}
-                            className="font-medium transition hover:text-indigo-600"
+                            className="font-medium transition hover:text-champagnegold"
                         >
                             ← Back to Portfolio
                         </Link>
                         <span>/</span>
-                        <span className="font-bold text-slate-900">Create New Project</span>
+                        <span className="font-bold text-softcharcoal">Create New Project</span>
                     </div>
 
-                    <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-900">
+                    <h1 className="mt-2 text-3xl font-black tracking-tight text-softcharcoal">
                         Add Portfolio Project
                     </h1>
-                    <p className="mt-1 text-sm text-slate-500">
+                    <p className="mt-1 text-sm text-warmgray">
                         Upload photos of your past events and tell the story behind your craftsmanship.
                     </p>
                 </div>
@@ -152,18 +152,18 @@ export default function Create({ categories = [] }) {
                         {/* Left 2 Columns: Project Details & Story */}
                         <div className="space-y-8 lg:col-span-2">
                             {/* Card: Project Essentials */}
-                            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xs sm:p-8">
-                                <h2 className="text-lg font-black text-slate-900">
+                            <div className="rounded-3xl border border-warmbeige/80 bg-white p-6 shadow-xs sm:p-8">
+                                <h2 className="text-lg font-black text-softcharcoal">
                                     Project Essentials
                                 </h2>
-                                <p className="mt-1 text-xs text-slate-500">
+                                <p className="mt-1 text-xs text-warmgray">
                                     Provide basic information about this event or milestone.
                                 </p>
 
                                 <div className="mt-6 grid gap-5 sm:grid-cols-2">
                                     {/* Title */}
                                     <div className="sm:col-span-2">
-                                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                        <label className="block text-xs font-bold uppercase tracking-wider text-softcharcoal">
                                             Project Title <span className="text-red-500">*</span>
                                         </label>
                                         <input
@@ -171,7 +171,7 @@ export default function Create({ categories = [] }) {
                                             value={data.title}
                                             onChange={(e) => setData('title', e.target.value)}
                                             placeholder="e.g., Sarah & John's Grand Wedding at Tagaytay"
-                                            className="mt-1.5 w-full rounded-2xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-xs transition focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                                            className="mt-1.5 w-full rounded-2xl border border-warmbeige bg-white px-4 py-2.5 text-sm text-softcharcoal shadow-xs transition focus:border-champagnegold focus:outline-none focus:ring-2 focus:ring-champagne"
                                         />
                                         {errors.title && (
                                             <p className="mt-1 text-xs text-red-500">{errors.title}</p>
@@ -180,13 +180,13 @@ export default function Create({ categories = [] }) {
 
                                     {/* Event Category */}
                                     <div>
-                                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                        <label className="block text-xs font-bold uppercase tracking-wider text-softcharcoal">
                                             Event Category
                                         </label>
                                         <select
                                             value={data.event_category_id}
                                             onChange={(e) => setData('event_category_id', e.target.value)}
-                                            className="mt-1.5 w-full rounded-2xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-xs transition focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                                            className="mt-1.5 w-full rounded-2xl border border-warmbeige bg-white px-3.5 py-2.5 text-sm text-softcharcoal shadow-xs transition focus:border-champagnegold focus:outline-none focus:ring-2 focus:ring-champagne"
                                         >
                                             <option value="">Select Category (Optional)</option>
                                             {categories.map((cat) => (
@@ -204,14 +204,14 @@ export default function Create({ categories = [] }) {
 
                                     {/* Event Date */}
                                     <div>
-                                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                        <label className="block text-xs font-bold uppercase tracking-wider text-softcharcoal">
                                             Event Date
                                         </label>
                                         <input
                                             type="date"
                                             value={data.event_date}
                                             onChange={(e) => setData('event_date', e.target.value)}
-                                            className="mt-1.5 w-full rounded-2xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-xs transition focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                                            className="mt-1.5 w-full rounded-2xl border border-warmbeige bg-white px-3.5 py-2.5 text-sm text-softcharcoal shadow-xs transition focus:border-champagnegold focus:outline-none focus:ring-2 focus:ring-champagne"
                                         />
                                         {errors.event_date && (
                                             <p className="mt-1 text-xs text-red-500">
@@ -222,7 +222,7 @@ export default function Create({ categories = [] }) {
 
                                     {/* Client Name */}
                                     <div>
-                                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                        <label className="block text-xs font-bold uppercase tracking-wider text-softcharcoal">
                                             Client / Couple Name
                                         </label>
                                         <input
@@ -230,7 +230,7 @@ export default function Create({ categories = [] }) {
                                             value={data.client_name}
                                             onChange={(e) => setData('client_name', e.target.value)}
                                             placeholder="e.g., Sarah & John Santos"
-                                            className="mt-1.5 w-full rounded-2xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-xs transition focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                                            className="mt-1.5 w-full rounded-2xl border border-warmbeige bg-white px-4 py-2.5 text-sm text-softcharcoal shadow-xs transition focus:border-champagnegold focus:outline-none focus:ring-2 focus:ring-champagne"
                                         />
                                         {errors.client_name && (
                                             <p className="mt-1 text-xs text-red-500">
@@ -241,7 +241,7 @@ export default function Create({ categories = [] }) {
 
                                     {/* Location / Venue */}
                                     <div>
-                                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                        <label className="block text-xs font-bold uppercase tracking-wider text-softcharcoal">
                                             Venue / Location
                                         </label>
                                         <input
@@ -249,7 +249,7 @@ export default function Create({ categories = [] }) {
                                             value={data.location}
                                             onChange={(e) => setData('location', e.target.value)}
                                             placeholder="e.g., Antonio's Tagaytay, Cavite"
-                                            className="mt-1.5 w-full rounded-2xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-xs transition focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                                            className="mt-1.5 w-full rounded-2xl border border-warmbeige bg-white px-4 py-2.5 text-sm text-softcharcoal shadow-xs transition focus:border-champagnegold focus:outline-none focus:ring-2 focus:ring-champagne"
                                         />
                                         {errors.location && (
                                             <p className="mt-1 text-xs text-red-500">
@@ -261,11 +261,11 @@ export default function Create({ categories = [] }) {
                             </div>
 
                             {/* Card: Project Story & Description */}
-                            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xs sm:p-8">
-                                <h2 className="text-lg font-black text-slate-900">
+                            <div className="rounded-3xl border border-warmbeige/80 bg-white p-6 shadow-xs sm:p-8">
+                                <h2 className="text-lg font-black text-softcharcoal">
                                     Project Description & Highlights
                                 </h2>
-                                <p className="mt-1 text-xs text-slate-500">
+                                <p className="mt-1 text-xs text-warmgray">
                                     Describe the theme, setup, special services provided, or client testimonials.
                                 </p>
 
@@ -275,7 +275,7 @@ export default function Create({ categories = [] }) {
                                         value={data.description}
                                         onChange={(e) => setData('description', e.target.value)}
                                         placeholder="Write a brief overview of this event project, key highlights, floral concepts, photography style, or unique features..."
-                                        className="w-full rounded-2xl border border-slate-300 bg-white p-4 text-sm text-slate-900 shadow-xs transition focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                                        className="w-full rounded-2xl border border-warmbeige bg-white p-4 text-sm text-softcharcoal shadow-xs transition focus:border-champagnegold focus:outline-none focus:ring-2 focus:ring-champagne"
                                     />
                                     {errors.description && (
                                         <p className="mt-1 text-xs text-red-500">{errors.description}</p>
@@ -284,16 +284,16 @@ export default function Create({ categories = [] }) {
                             </div>
 
                             {/* Card: Video Portfolio (Reel / Highlight) */}
-                            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xs sm:p-8">
+                            <div className="rounded-3xl border border-warmbeige/80 bg-white p-6 shadow-xs sm:p-8">
                                 <div className="flex items-center gap-2">
                                     <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-purple-50 text-base">
                                         🎥
                                     </span>
                                     <div>
-                                        <h2 className="text-lg font-black text-slate-900">
+                                        <h2 className="text-lg font-black text-softcharcoal">
                                             Video Portfolio (Optional)
                                         </h2>
-                                        <p className="mt-0.5 text-xs text-slate-500">
+                                        <p className="mt-0.5 text-xs text-warmgray">
                                             Add a highlight reel or showcase video from YouTube, Vimeo, direct MP4 link, or upload a video file.
                                         </p>
                                     </div>
@@ -301,7 +301,7 @@ export default function Create({ categories = [] }) {
 
                                 <div className="mt-6 space-y-4">
                                     <div>
-                                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                        <label className="block text-xs font-bold uppercase tracking-wider text-softcharcoal">
                                             Video URL (YouTube / Vimeo / MP4 link)
                                         </label>
                                         <div className="relative mt-2">
@@ -310,13 +310,13 @@ export default function Create({ categories = [] }) {
                                                 value={data.video_url}
                                                 onChange={(e) => setData('video_url', e.target.value)}
                                                 placeholder="https://www.youtube.com/watch?v=... or https://vimeo.com/..."
-                                                className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 shadow-xs transition focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                                                className="w-full rounded-2xl border border-warmbeige bg-white px-4 py-3 text-sm text-softcharcoal shadow-xs transition focus:border-champagnegold focus:outline-none focus:ring-2 focus:ring-champagne"
                                             />
                                             {data.video_url && (
                                                 <button
                                                     type="button"
                                                     onClick={() => setData('video_url', '')}
-                                                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-xs text-slate-400 hover:text-slate-600"
+                                                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-xs text-warmgray hover:text-softcharcoal"
                                                 >
                                                     ✕ Clear
                                                 </button>
@@ -328,13 +328,13 @@ export default function Create({ categories = [] }) {
                                     </div>
 
                                     <div className="flex items-center gap-3">
-                                        <div className="h-px flex-1 bg-slate-200" />
-                                        <span className="text-[11px] font-bold text-slate-400 uppercase">OR Upload Video File</span>
-                                        <div className="h-px flex-1 bg-slate-200" />
+                                        <div className="h-px flex-1 bg-warmbeige" />
+                                        <span className="text-[11px] font-bold text-warmgray uppercase">OR Upload Video File</span>
+                                        <div className="h-px flex-1 bg-warmbeige" />
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                        <label className="block text-xs font-bold uppercase tracking-wider text-softcharcoal">
                                             Upload Video File (MP4, WEBM, MOV up to 50MB)
                                         </label>
                                         <input
@@ -345,7 +345,7 @@ export default function Create({ categories = [] }) {
                                                     setData('video_file', e.target.files[0]);
                                                 }
                                             }}
-                                            className="mt-2 block w-full text-xs text-slate-500 file:mr-4 file:rounded-xl file:border-0 file:bg-purple-50 file:px-4 file:py-2.5 file:text-xs file:font-bold file:text-purple-700 hover:file:bg-purple-100"
+                                            className="mt-2 block w-full text-xs text-warmgray file:mr-4 file:rounded-xl file:border-0 file:bg-purple-50 file:px-4 file:py-2.5 file:text-xs file:font-bold file:text-purple-700 hover:file:bg-purple-100"
                                         />
                                         {errors.video_file && (
                                             <p className="mt-1 text-xs text-red-500">{errors.video_file}</p>
@@ -387,17 +387,17 @@ export default function Create({ categories = [] }) {
                             </div>
 
                             {/* Card: Photo Gallery Upload */}
-                            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xs sm:p-8">
+                            <div className="rounded-3xl border border-warmbeige/80 bg-white p-6 shadow-xs sm:p-8">
                                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                                     <div>
-                                        <h2 className="text-lg font-black text-slate-900">
+                                        <h2 className="text-lg font-black text-softcharcoal">
                                             Project Photos
                                         </h2>
-                                        <p className="mt-1 text-xs text-slate-500">
+                                        <p className="mt-1 text-xs text-warmgray">
                                             Upload high resolution photos. Choose one image to be the Cover Photo.
                                         </p>
                                     </div>
-                                    <span className="mt-2 text-xs font-bold text-indigo-600 sm:mt-0">
+                                    <span className="mt-2 text-xs font-bold text-champagnegold sm:mt-0">
                                         {previewImages.length} photo(s) selected
                                     </span>
                                 </div>
@@ -410,8 +410,8 @@ export default function Create({ categories = [] }) {
                                     onClick={() => fileInputRef.current?.click()}
                                     className={`mt-6 flex cursor-pointer flex-col items-center justify-center rounded-3xl border-2 border-dashed p-8 text-center transition-all ${
                                         isDragging
-                                            ? 'border-indigo-500 bg-indigo-50/50'
-                                            : 'border-slate-300 bg-slate-50/50 hover:border-indigo-400 hover:bg-slate-50'
+                                            ? 'border-champagnegold bg-champagne/50'
+                                            : 'border-warmbeige bg-ivory/50 hover:border-champagnegold hover:bg-ivory'
                                     }`}
                                 >
                                     <input
@@ -422,16 +422,16 @@ export default function Create({ categories = [] }) {
                                         onChange={handleFileInputChange}
                                         className="hidden"
                                     />
-                                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-50 text-2xl text-indigo-600">
+                                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-champagne text-2xl text-champagnegold">
                                         ☁️
                                     </div>
-                                    <p className="mt-3 text-sm font-bold text-slate-900">
+                                    <p className="mt-3 text-sm font-bold text-softcharcoal">
                                         Drag & drop images here, or{' '}
-                                        <span className="text-indigo-600 hover:underline">
+                                        <span className="text-champagnegold hover:underline">
                                             browse files
                                         </span>
                                     </p>
-                                    <p className="mt-1 text-xs text-slate-400">
+                                    <p className="mt-1 text-xs text-warmgray">
                                         Upload multiple JPG, PNG, or WEBP images (Up to 5MB each)
                                     </p>
                                 </div>
@@ -443,7 +443,7 @@ export default function Create({ categories = [] }) {
                                 {/* Image Preview Grid */}
                                 {previewImages.length > 0 && (
                                     <div className="mt-6 space-y-3">
-                                        <p className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                                        <p className="text-xs font-bold uppercase tracking-wider text-warmgray">
                                             Selected Photos & Captions
                                         </p>
 
@@ -455,12 +455,12 @@ export default function Create({ categories = [] }) {
                                                         key={index}
                                                         className={`group relative flex flex-col overflow-hidden rounded-2xl border p-2.5 transition ${
                                                             isCover
-                                                                ? 'border-indigo-500 bg-indigo-50/30 ring-2 ring-indigo-500/20'
-                                                                : 'border-slate-200 bg-white'
+                                                                ? 'border-champagnegold bg-champagne/30 ring-2 ring-champagnegold/20'
+                                                                : 'border-warmbeige bg-white'
                                                         }`}
                                                     >
                                                         {/* Thumbnail Box */}
-                                                        <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-slate-100">
+                                                        <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-champagne">
                                                             <img
                                                                 src={item.url}
                                                                 alt={item.name}
@@ -476,7 +476,7 @@ export default function Create({ categories = [] }) {
                                                                 }}
                                                                 className={`absolute left-2 top-2 rounded-lg px-2.5 py-1 text-[10px] font-extrabold shadow-sm transition ${
                                                                     isCover
-                                                                        ? 'bg-indigo-600 text-white'
+                                                                        ? 'bg-champagnegold text-white'
                                                                         : 'bg-black/60 text-white/90 hover:bg-black'
                                                                 }`}
                                                             >
@@ -499,7 +499,7 @@ export default function Create({ categories = [] }) {
 
                                                         {/* Caption */}
                                                         <div className="mt-2.5 space-y-1.5">
-                                                            <div className="flex items-center justify-between text-[11px] text-slate-500">
+                                                            <div className="flex items-center justify-between text-[11px] text-warmgray">
                                                                 <span className="line-clamp-1 max-w-[140px]">
                                                                     {item.name}
                                                                 </span>
@@ -513,7 +513,7 @@ export default function Create({ categories = [] }) {
                                                                     handleCaptionChange(index, e.target.value)
                                                                 }
                                                                 placeholder="Add caption (optional)..."
-                                                                className="w-full rounded-xl border border-slate-200 bg-slate-50/60 px-3 py-1.5 text-xs text-slate-900 transition focus:border-indigo-600 focus:bg-white focus:outline-none"
+                                                                className="w-full rounded-xl border border-warmbeige bg-ivory/60 px-3 py-1.5 text-xs text-softcharcoal transition focus:border-champagnegold focus:bg-white focus:outline-none"
                                                             />
                                                         </div>
                                                     </div>
@@ -528,46 +528,46 @@ export default function Create({ categories = [] }) {
                         {/* Right Column: Settings, Visibility & Actions */}
                         <div className="space-y-6">
                             {/* Card: Publishing Settings */}
-                            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xs">
-                                <h3 className="text-base font-black text-slate-900">
+                            <div className="rounded-3xl border border-warmbeige/80 bg-white p-6 shadow-xs">
+                                <h3 className="text-base font-black text-softcharcoal">
                                     Publishing Options
                                 </h3>
-                                <p className="mt-1 text-xs text-slate-500">
+                                <p className="mt-1 text-xs text-warmgray">
                                     Control project visibility to clients.
                                 </p>
 
                                 <div className="mt-5 space-y-3.5">
                                     {/* Published Toggle */}
-                                    <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200 p-4 transition hover:bg-slate-50">
+                                    <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-warmbeige p-4 transition hover:bg-ivory">
                                         <input
                                             type="checkbox"
                                             checked={data.is_published}
                                             onChange={(e) => setData('is_published', e.target.checked)}
-                                            className="mt-0.5 h-4 w-4 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                                            className="mt-0.5 h-4 w-4 rounded-md border-warmbeige text-champagnegold focus:ring-champagnegold"
                                         />
                                         <div>
-                                            <span className="block text-xs font-bold text-slate-900">
+                                            <span className="block text-xs font-bold text-softcharcoal">
                                                 Publish Project Immediately
                                             </span>
-                                            <span className="block text-[11px] text-slate-500">
+                                            <span className="block text-[11px] text-warmgray">
                                                 Make this project publicly visible in your showcase.
                                             </span>
                                         </div>
                                     </label>
 
                                     {/* Featured Toggle */}
-                                    <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200 p-4 transition hover:bg-slate-50">
+                                    <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-warmbeige p-4 transition hover:bg-ivory">
                                         <input
                                             type="checkbox"
                                             checked={data.is_featured}
                                             onChange={(e) => setData('is_featured', e.target.checked)}
-                                            className="mt-0.5 h-4 w-4 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                                            className="mt-0.5 h-4 w-4 rounded-md border-warmbeige text-champagnegold focus:ring-champagnegold"
                                         />
                                         <div>
-                                            <span className="block text-xs font-bold text-slate-900">
+                                            <span className="block text-xs font-bold text-softcharcoal">
                                                 ⭐ Feature on Profile
                                             </span>
-                                            <span className="block text-[11px] text-slate-500">
+                                            <span className="block text-[11px] text-warmgray">
                                                 Pins this project to the top of your portfolio.
                                             </span>
                                         </div>
@@ -576,11 +576,11 @@ export default function Create({ categories = [] }) {
                             </div>
 
                             {/* Card: Actions */}
-                            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xs">
+                            <div className="rounded-3xl border border-warmbeige/80 bg-white p-6 shadow-xs">
                                 <button
                                     type="submit"
                                     disabled={processing}
-                                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-indigo-600 px-5 py-3 text-sm font-bold text-white shadow-md shadow-indigo-600/20 transition hover:bg-indigo-700 active:scale-95 disabled:opacity-50"
+                                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-champagnegold px-5 py-3 text-sm font-bold text-white shadow-md shadow-champagnegold/20 transition hover:bg-darkgold active:scale-95 disabled:opacity-50"
                                 >
                                     {processing ? (
                                         <span>Saving Project...</span>
@@ -594,7 +594,7 @@ export default function Create({ categories = [] }) {
 
                                 <Link
                                     href={route('supplier.portfolio.index')}
-                                    className="mt-3 block w-full rounded-2xl border border-slate-300 py-2.5 text-center text-xs font-bold text-slate-700 transition hover:bg-slate-50"
+                                    className="mt-3 block w-full rounded-2xl border border-warmbeige py-2.5 text-center text-xs font-bold text-softcharcoal transition hover:bg-ivory"
                                 >
                                     Cancel
                                 </Link>

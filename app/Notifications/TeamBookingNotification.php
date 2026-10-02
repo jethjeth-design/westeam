@@ -42,16 +42,29 @@ class TeamBookingNotification extends Notification
 
     public function toArray(object $notifiable): array
     {
+        $actionUrl = $this->role === 'customer'
+            ? route('customer.bookings.show', $this->booking->id)
+            : route('supplier.bookings.index');
+
         return [
+            'title' => 'Team Package Reservation',
+            'message' => "Team package booking {$this->booking->booking_reference} for '{$this->booking->event_name}' received.",
+            'action_url' => $actionUrl,
+            'category' => 'team',
+            'type' => 'team_booking',
+            'icon' => '👥',
+            'role' => $notifiable->role ?? $this->role,
+            'meta' => [
+                'booking_id' => $this->booking->id,
+                'booking_reference' => $this->booking->booking_reference,
+                'event_name' => $this->booking->event_name,
+                'team_id' => $this->booking->team_id,
+            ],
+            // Backward-compatibility keys
             'booking_id' => $this->booking->id,
             'booking_reference' => $this->booking->booking_reference,
             'event_name' => $this->booking->event_name,
             'team_id' => $this->booking->team_id,
-            'title' => 'Team Package Reservation',
-            'message' => "Team package booking {$this->booking->booking_reference} for '{$this->booking->event_name}' received.",
-            'action_url' => $this->role === 'customer'
-                ? route('customer.bookings.show', $this->booking->id)
-                : route('supplier.bookings.index'),
         ];
     }
 }

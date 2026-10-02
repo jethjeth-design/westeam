@@ -38,6 +38,12 @@ class Booking extends Model
         ];
     }
 
+    protected $appends = [
+        'verified_amount',
+        'remaining_balance',
+        'payment_status',
+    ];
+
     public function customer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'customer_id');
@@ -56,6 +62,62 @@ class Booking extends Model
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class, 'booking_id');
+    }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class, 'booking_id');
+    }
+
+    public function verifiedPayments(): HasMany
+    {
+        return $this->hasMany(Payment::class, 'booking_id')->where('status', 'verified');
+    }
+
+    public function getVerifiedAmountAttribute(): float
+    {
+        if ($this->relationLoaded('payments')) {
+            return (float) $this->payments->where('status', 'verified')->sum('amount');
+        }
+
+        return (float) $this->payments()->where('status', 'verified')->sum('amount');
+    }
+
+    public function getRemainingBalanceAttribute(): float
+    {
+        return max(0.0, round((float) $this->total_amount - $this->verified_amount, 2));
+    }
+
+    public function getPaymentStatusAttribute(): string
+    {
+        $verified = $this->verified_amount;
+        $total = (float) $this->total_amount;
+
+        if ($total > 0 && $verified >= $total) {
+            return 'Fully Paid';
+        }
+
+        if ($verified > 0) {
+            return 'Partially Paid';
+        }
+
+        $hasPending = $this->relationLoaded('payments')
+            ? $this->payments->contains('status', 'pending')
+            : $this->payments()->where('status', 'pending')->exists();
+
+        if ($hasPending) {
+            return 'Pending Verification';
+        }
+
+        $hasRejected = $this->relationLoaded('payments')
+            ? $this->payments->contains('status', 'rejected')
+            : $this->payments()->where('status', 'rejected')->exists();
+
+        if ($hasRejected) {
+            return 'Payment Rejected';
+        }
+
+        return 'Unpaid';
     }
 
     /**
@@ -90,8 +152,19 @@ class Booking extends Model
             return;
         }
 
-        $allAccepted = $items->every(fn ($i) => in_array($i->status, ['accepted', 'completed']));
-        if ($allAccepted) {
+        $allAcceptedOrConfirmed = $items->every(fn ($i) => in_array($i->status, ['accepted', 'confirmed', 'completed']));
+        if ($allAcceptedOrConfirmed) {
+            $hasConfirmed = $items->contains(fn ($i) => in_array($i->status, ['confirmed', 'completed']));
+            $hasVerifiedPayment = $this->relationLoaded('payments')
+                ? $this->payments->contains('status', 'verified')
+                : $this->payments()->where('status', 'verified')->exists();
+
+            if ($hasConfirmed || $hasVerifiedPayment) {
+                $this->update(['overall_status' => 'confirmed']);
+
+                return;
+            }
+
             $this->update(['overall_status' => 'accepted']);
 
             return;

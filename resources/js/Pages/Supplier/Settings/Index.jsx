@@ -29,18 +29,18 @@ export default function Index({
 
             <Head title="Settings" />
 
-            <div className="min-h-screen bg-gray-50 p-6">
+            <div className="min-h-screen bg-ivory p-6">
 
                 <div className="mx-auto max-w-5xl">
 
                     {/* HEADER */}
                     <div className="mb-6">
 
-                        <h1 className="text-2xl font-bold text-gray-900">
+                        <h1 className="text-2xl font-bold text-softcharcoal">
                             Settings
                         </h1>
 
-                        <p className="mt-1 text-sm text-gray-500">
+                        <p className="mt-1 text-sm text-warmgray">
                             Manage your business and account settings.
                         </p>
 
@@ -48,14 +48,14 @@ export default function Index({
 
 
                     {/* SETTINGS TABS */}
-                    <div className="mb-6 flex gap-2 border-b border-gray-200">
+                    <div className="mb-6 flex gap-2 border-b border-warmbeige">
 
                         <button
                             type="button"
                             onClick={() => setActiveTab('business')}
                             className={`px-5 py-3 text-sm font-semibold transition ${activeTab === 'business'
-                                ? 'border-b-2 border-indigo-600 text-indigo-600'
-                                : 'text-gray-500 hover:text-gray-700'
+                                ? 'border-b-2 border-champagnegold text-champagnegold'
+                                : 'text-warmgray hover:text-softcharcoal'
                                 }`}
                         >
                             Business Profile
@@ -66,8 +66,8 @@ export default function Index({
                             type="button"
                             onClick={() => setActiveTab('account')}
                             className={`px-5 py-3 text-sm font-semibold transition ${activeTab === 'account'
-                                ? 'border-b-2 border-indigo-600 text-indigo-600'
-                                : 'text-gray-500 hover:text-gray-700'
+                                ? 'border-b-2 border-champagnegold text-champagnegold'
+                                : 'text-warmgray hover:text-softcharcoal'
                                 }`}
                         >
                             Account Settings
@@ -87,11 +87,11 @@ export default function Index({
 
                                 <div className="mb-6">
 
-                                    <h2 className="text-xl font-bold text-gray-900">
+                                    <h2 className="text-xl font-bold text-softcharcoal">
                                         Business Profile
                                     </h2>
 
-                                    <p className="mt-1 text-sm text-gray-500">
+                                    <p className="mt-1 text-sm text-warmgray">
                                         Manage your business information and categories.
                                     </p>
 
@@ -116,11 +116,11 @@ export default function Index({
 
                                 <div>
 
-                                    <h2 className="text-xl font-bold text-gray-900">
+                                    <h2 className="text-xl font-bold text-softcharcoal">
                                         Account Profile
                                     </h2>
 
-                                    <p className="mt-1 text-sm text-gray-500">
+                                    <p className="mt-1 text-sm text-warmgray">
                                         Manage your personal account information.
                                     </p>
 
@@ -139,7 +139,7 @@ export default function Index({
 
 
                                 {/* PASSWORD */}
-                                <div className="border-t border-gray-200 pt-8">
+                                <div className="border-t border-warmbeige pt-8">
 
                                     <UpdatePasswordForm />
 
@@ -147,7 +147,7 @@ export default function Index({
 
 
                                 {/* DELETE ACCOUNT */}
-                                <div className="border-t border-gray-200 pt-8">
+                                <div className="border-t border-warmbeige pt-8">
 
                                     <DeleteUserForm />
 

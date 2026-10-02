@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\EventCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class EventCategoryController extends Controller
@@ -39,10 +40,27 @@ class EventCategoryController extends Controller
                 'nullable',
                 'string',
             ],
+            'image' => [
+                'nullable',
+                'image',
+                'mimes:jpeg,png,jpg,webp,avif',
+                'max:5120',
+            ],
+            'image_url' => [
+                'nullable',
+                'string',
+                'max:2000',
+            ],
             'is_active' => [
                 'boolean',
             ],
         ]);
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('event-categories', 'public');
+            $validated['image_url'] = '/storage/'.$path;
+        }
+        unset($validated['image']);
 
         EventCategory::create($validated);
 
@@ -71,10 +89,31 @@ class EventCategoryController extends Controller
                 'nullable',
                 'string',
             ],
+            'image' => [
+                'nullable',
+                'image',
+                'mimes:jpeg,png,jpg,webp,avif',
+                'max:5120',
+            ],
+            'image_url' => [
+                'nullable',
+                'string',
+                'max:2000',
+            ],
             'is_active' => [
                 'boolean',
             ],
         ]);
+
+        if ($request->hasFile('image')) {
+            if ($eventCategory->image_url && str_starts_with($eventCategory->image_url, '/storage/')) {
+                $oldPath = str_replace('/storage/', '', $eventCategory->image_url);
+                Storage::disk('public')->delete($oldPath);
+            }
+            $path = $request->file('image')->store('event-categories', 'public');
+            $validated['image_url'] = '/storage/'.$path;
+        }
+        unset($validated['image']);
 
         $eventCategory->update($validated);
 
@@ -90,6 +129,11 @@ class EventCategoryController extends Controller
                 'error',
                 'This category cannot be deleted because it is being used by packages.'
             );
+        }
+
+        if ($eventCategory->image_url && str_starts_with($eventCategory->image_url, '/storage/')) {
+            $oldPath = str_replace('/storage/', '', $eventCategory->image_url);
+            Storage::disk('public')->delete($oldPath);
         }
 
         $eventCategory->delete();

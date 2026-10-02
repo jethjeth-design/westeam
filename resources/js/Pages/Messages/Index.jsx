@@ -83,23 +83,23 @@ export default function Index({
         <DashboardLayout>
             <Head title="Messages - Westeam" />
 
-            <div className="flex h-full w-full flex-col lg:flex-row overflow-hidden bg-slate-50">
+            <div className="flex h-full w-full flex-col lg:flex-row overflow-hidden bg-ivory">
                 {/* Conversations Sidebar Pane */}
-                <div className={`w-full lg:w-96 flex flex-col border-r border-slate-200 bg-white ${activeConversation ? 'hidden lg:flex' : 'flex'}`}>
+                <div className={`w-full lg:w-96 flex flex-col border-r border-warmbeige bg-white ${activeConversation ? 'hidden lg:flex' : 'flex'}`}>
                     {/* Header */}
-                    <div className="border-b border-slate-100 p-5">
+                    <div className="border-b border-champagne p-5">
                         <div className="flex items-center justify-between">
-                            <h1 className="text-xl font-extrabold tracking-tight text-slate-900">
+                            <h1 className="text-xl font-extrabold tracking-tight text-softcharcoal">
                                 💬 Messages
                             </h1>
-                            <span className="rounded-full bg-indigo-50 px-2.5 py-1 text-xs font-bold text-indigo-700">
+                            <span className="rounded-full bg-champagne px-2.5 py-1 text-xs font-bold text-darkgold">
                                 {conversations.reduce((acc, c) => acc + (c.unread_count || 0), 0)} unread
                             </span>
                         </div>
 
                         {/* Search Input */}
                         <div className="relative mt-4">
-                            <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                            <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-warmgray">
                                 🔍
                             </span>
                             <input
@@ -107,12 +107,12 @@ export default function Index({
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 placeholder="Search messages or suppliers..."
-                                className="w-full rounded-xl border border-slate-200 bg-slate-50/70 py-2 pl-9 pr-4 text-xs text-slate-900 outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-100"
+                                className="w-full rounded-xl border border-warmbeige bg-ivory/70 py-2 pl-9 pr-4 text-xs text-softcharcoal outline-none transition focus:border-champagnegold focus:bg-white focus:ring-2 focus:ring-champagne"
                             />
                         </div>
 
                         {/* Filter Tabs */}
-                        <div className="mt-3 flex gap-1 rounded-xl bg-slate-100 p-1">
+                        <div className="mt-3 flex gap-1 rounded-xl bg-champagne p-1">
                             {[
                                 { label: 'All', value: 'all' },
                                 { label: 'Direct', value: 'direct' },
@@ -124,8 +124,8 @@ export default function Index({
                                     onClick={() => setSelectedTab(tab.value)}
                                     className={`flex-1 rounded-lg py-1.5 text-center text-xs font-bold transition ${
                                         selectedTab === tab.value
-                                            ? 'bg-white text-indigo-600 shadow-xs'
-                                            : 'text-slate-600 hover:text-slate-900'
+                                            ? 'bg-white text-champagnegold shadow-xs'
+                                            : 'text-softcharcoal hover:text-softcharcoal'
                                     }`}
                                 >
                                     {tab.label}
@@ -135,7 +135,7 @@ export default function Index({
                     </div>
 
                     {/* Conversation List */}
-                    <div className="flex-1 overflow-y-auto divide-y divide-slate-100">
+                    <div className="flex-1 overflow-y-auto divide-y divide-champagne">
                         {filteredConversations.length > 0 ? (
                             filteredConversations.map((conv) => {
                                 const isActive = activeConversation?.id === conv.id;
@@ -147,8 +147,8 @@ export default function Index({
                                         href={route('messages.index', { conversation: conv.id })}
                                         className={`flex items-start gap-3.5 p-4 transition duration-150 ${
                                             isActive
-                                                ? 'bg-indigo-50/70 border-l-4 border-indigo-600'
-                                                : 'hover:bg-slate-50/80'
+                                                ? 'bg-champagne/70 border-l-4 border-champagnegold'
+                                                : 'hover:bg-ivory/80'
                                         }`}
                                     >
                                         {/* Avatar / Icon */}
@@ -158,11 +158,11 @@ export default function Index({
                                                     👥
                                                 </div>
                                             ) : conv.type === 'team_coordinator' ? (
-                                                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-100 text-indigo-700 font-bold text-base shadow-xs">
+                                                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-champagne text-darkgold font-bold text-base shadow-xs">
                                                     ⭐
                                                 </div>
                                             ) : (
-                                                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-slate-700 font-bold text-sm shadow-xs overflow-hidden">
+                                                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-champagne text-softcharcoal font-bold text-sm shadow-xs overflow-hidden">
                                                     {otherUser?.avatar ? (
                                                         <img src={otherUser.avatar} alt={otherUser.name} className="h-full w-full object-cover" />
                                                     ) : (
@@ -172,7 +172,7 @@ export default function Index({
                                             )}
 
                                             {conv.unread_count > 0 && (
-                                                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-indigo-600 text-[9px] font-extrabold text-white">
+                                                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-champagnegold text-[9px] font-extrabold text-white">
                                                     {conv.unread_count}
                                                 </span>
                                             )}
@@ -181,28 +181,28 @@ export default function Index({
                                         {/* Meta */}
                                         <div className="min-w-0 flex-1">
                                             <div className="flex items-center justify-between">
-                                                <h3 className="truncate text-xs font-bold text-slate-900">
+                                                <h3 className="truncate text-xs font-bold text-softcharcoal">
                                                     {conv.title}
                                                 </h3>
                                                 {conv.latest_message && (
-                                                    <span className="text-[10px] text-slate-400 shrink-0">
+                                                    <span className="text-[10px] text-warmgray shrink-0">
                                                         {conv.latest_message.created_at}
                                                     </span>
                                                 )}
                                             </div>
 
                                             <div className="mt-1 flex items-center justify-between">
-                                                <p className="truncate text-xs text-slate-500">
+                                                <p className="truncate text-xs text-warmgray">
                                                     {conv.latest_message ? (
                                                         <>
-                                                            <span className="font-semibold text-slate-700">
+                                                            <span className="font-semibold text-softcharcoal">
                                                                 {conv.latest_message.sender_name}:{' '}
                                                             </span>
                                                             {conv.latest_message.has_attachment && '📎 '}
                                                             {conv.latest_message.body || 'Attachment'}
                                                         </>
                                                     ) : (
-                                                        <span className="italic text-slate-400">No messages yet</span>
+                                                        <span className="italic text-warmgray">No messages yet</span>
                                                     )}
                                                 </p>
 
@@ -217,7 +217,7 @@ export default function Index({
                                 );
                             })
                         ) : (
-                            <div className="p-8 text-center text-xs text-slate-400">
+                            <div className="p-8 text-center text-xs text-warmgray">
                                 No conversations found.
                             </div>
                         )}
@@ -225,29 +225,29 @@ export default function Index({
                 </div>
 
                 {/* Active Chat Conversation Area */}
-                <div className={`flex-1 flex flex-col h-full bg-slate-50/60 ${!activeConversation ? 'hidden lg:flex items-center justify-center' : 'flex'}`}>
+                <div className={`flex-1 flex flex-col h-full bg-ivory/60 ${!activeConversation ? 'hidden lg:flex items-center justify-center' : 'flex'}`}>
                     {activeConversation ? (
                         <>
                             {/* Chat Header */}
-                            <div className="flex h-16 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-6">
+                            <div className="flex h-16 shrink-0 items-center justify-between border-b border-warmbeige bg-white px-6">
                                 <div className="flex items-center gap-3">
                                     <button
                                         type="button"
                                         onClick={() => router.get(route('messages.index'))}
-                                        className="lg:hidden rounded-lg p-1.5 text-slate-500 hover:bg-slate-100"
+                                        className="lg:hidden rounded-lg p-1.5 text-warmgray hover:bg-champagne"
                                     >
                                         ←
                                     </button>
 
                                     <div className="flex items-center gap-3">
-                                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-700 font-bold text-sm">
+                                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-champagne text-darkgold font-bold text-sm">
                                             {activeConversation.type === 'team_internal' ? '👥' : '💬'}
                                         </div>
                                         <div>
-                                            <h2 className="text-sm font-extrabold text-slate-900 leading-tight">
+                                            <h2 className="text-sm font-extrabold text-softcharcoal leading-tight">
                                                 {activeConversation.title}
                                             </h2>
-                                            <p className="text-[11px] text-slate-400">
+                                            <p className="text-[11px] text-warmgray">
                                                 {activeConversation.type === 'team_internal'
                                                     ? '🔒 Internal Team Collaboration'
                                                     : activeConversation.type === 'team_coordinator'
@@ -273,8 +273,8 @@ export default function Index({
                                             key={msg.id}
                                             className={`flex flex-col ${msg.is_me ? 'items-end' : 'items-start'}`}
                                         >
-                                            <div className="flex items-center gap-2 mb-1 text-[11px] text-slate-400">
-                                                <span className="font-bold text-slate-700">{msg.sender_name}</span>
+                                            <div className="flex items-center gap-2 mb-1 text-[11px] text-warmgray">
+                                                <span className="font-bold text-softcharcoal">{msg.sender_name}</span>
                                                 <span>•</span>
                                                 <span>{msg.created_at}</span>
                                             </div>
@@ -282,8 +282,8 @@ export default function Index({
                                             <div
                                                 className={`max-w-lg rounded-2xl p-4 text-xs leading-relaxed shadow-xs ${
                                                     msg.is_me
-                                                        ? 'bg-indigo-600 text-white rounded-br-none'
-                                                        : 'bg-white text-slate-800 border border-slate-200/80 rounded-bl-none'
+                                                        ? 'bg-champagnegold text-white rounded-br-none'
+                                                        : 'bg-white text-softcharcoal border border-warmbeige/80 rounded-bl-none'
                                                 }`}
                                             >
                                                 {/* Text Body */}
@@ -306,7 +306,7 @@ export default function Index({
                                                                 target="_blank"
                                                                 rel="noreferrer"
                                                                 className={`inline-flex items-center gap-2 rounded-xl p-2.5 text-xs font-bold underline ${
-                                                                    msg.is_me ? 'bg-white/20 text-white' : 'bg-slate-100 text-indigo-600'
+                                                                    msg.is_me ? 'bg-white/20 text-white' : 'bg-champagne text-champagnegold'
                                                                 }`}
                                                             >
                                                                 <span>📎</span>
@@ -321,8 +321,8 @@ export default function Index({
                                 ) : (
                                     <div className="flex h-full flex-col items-center justify-center text-center">
                                         <span className="text-4xl">👋</span>
-                                        <p className="mt-2 text-sm font-bold text-slate-700">Start the conversation</p>
-                                        <p className="text-xs text-slate-400 max-w-sm mt-0.5">
+                                        <p className="mt-2 text-sm font-bold text-softcharcoal">Start the conversation</p>
+                                        <p className="text-xs text-warmgray max-w-sm mt-0.5">
                                             Send a message, discuss booking requirements, schedules, or share attachments.
                                         </p>
                                     </div>
@@ -331,21 +331,21 @@ export default function Index({
                             </div>
 
                             {/* Message Composer */}
-                            <div className="border-t border-slate-200 bg-white p-4">
+                            <div className="border-t border-warmbeige bg-white p-4">
                                 {attachmentPreview && (
-                                    <div className="mb-3 flex items-center gap-3 rounded-xl border border-indigo-200 bg-indigo-50/50 p-2.5">
+                                    <div className="mb-3 flex items-center gap-3 rounded-xl border border-indigo-200 bg-champagne/50 p-2.5">
                                         {typeof attachmentPreview === 'string' ? (
                                             <img src={attachmentPreview} alt="Preview" className="h-12 w-12 rounded-lg object-cover" />
                                         ) : (
-                                            <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-100 text-lg">
+                                            <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-champagne text-lg">
                                                 📄
                                             </span>
                                         )}
                                         <div className="flex-1 text-xs">
-                                            <p className="font-bold text-slate-800">
+                                            <p className="font-bold text-softcharcoal">
                                                 {form.data.attachment?.name}
                                             </p>
-                                            <p className="text-[10px] text-slate-400">Ready to upload</p>
+                                            <p className="text-[10px] text-warmgray">Ready to upload</p>
                                         </div>
                                         <button
                                             type="button"
@@ -368,7 +368,7 @@ export default function Index({
                                     <button
                                         type="button"
                                         onClick={() => fileInputRef.current?.click()}
-                                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition hover:bg-slate-100 active:scale-95"
+                                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-warmbeige bg-ivory text-softcharcoal transition hover:bg-champagne active:scale-95"
                                         title="Attach photo or document"
                                     >
                                         📎
@@ -379,13 +379,13 @@ export default function Index({
                                         value={form.data.body}
                                         onChange={(e) => form.setData('body', e.target.value)}
                                         placeholder="Type your message here..."
-                                        className="flex-1 rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-2.5 text-xs text-slate-900 outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-100"
+                                        className="flex-1 rounded-xl border border-warmbeige bg-ivory/50 px-4 py-2.5 text-xs text-softcharcoal outline-none transition focus:border-champagnegold focus:bg-white focus:ring-2 focus:ring-champagne"
                                     />
 
                                     <button
                                         type="submit"
                                         disabled={form.processing}
-                                        className="inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 px-5 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-indigo-700 active:scale-95 disabled:opacity-50"
+                                        className="inline-flex items-center gap-1.5 rounded-xl bg-champagnegold px-5 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-darkgold active:scale-95 disabled:opacity-50"
                                     >
                                         <span>Send</span>
                                         <span>➤</span>
@@ -395,13 +395,13 @@ export default function Index({
                         </>
                     ) : (
                         <div className="flex flex-col items-center justify-center p-8 text-center">
-                            <div className="flex h-16 w-16 items-center justify-center rounded-3xl bg-indigo-50 text-3xl">
+                            <div className="flex h-16 w-16 items-center justify-center rounded-3xl bg-champagne text-3xl">
                                 💬
                             </div>
-                            <h3 className="mt-4 text-base font-extrabold text-slate-900">
+                            <h3 className="mt-4 text-base font-extrabold text-softcharcoal">
                                 Select a conversation
                             </h3>
-                            <p className="mt-1 text-xs text-slate-400 max-w-sm">
+                            <p className="mt-1 text-xs text-warmgray max-w-sm">
                                 Choose a supplier, customer, or internal team collaboration channel from the left to start messaging.
                             </p>
                         </div>

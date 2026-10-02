@@ -50,7 +50,7 @@ export default function DeleteUserForm({ className = '' }) {
                     <h2 className="text-lg font-black text-red-950">
                         Delete Account
                     </h2>
-                    <p className="mt-0.5 text-xs text-slate-500">
+                    <p className="mt-0.5 text-xs text-warmgray">
                         Permanently delete your account, services, and associated bookings data.
                     </p>
                 </div>
@@ -80,23 +80,23 @@ export default function DeleteUserForm({ className = '' }) {
                             ⚠️
                         </div>
                         <div>
-                            <h2 className="text-lg font-black text-slate-900">
+                            <h2 className="text-lg font-black text-softcharcoal">
                                 Confirm Account Deletion
                             </h2>
-                            <p className="text-xs text-slate-500">
+                            <p className="text-xs text-warmgray">
                                 This will permanently erase your profile and records.
                             </p>
                         </div>
                     </div>
 
-                    <p className="mt-4 text-xs text-slate-600 leading-relaxed">
+                    <p className="mt-4 text-xs text-softcharcoal leading-relaxed">
                         To verify this action, please enter your current account password below:
                     </p>
 
                     <div className="mt-4">
                         <label
                             htmlFor="delete_password"
-                            className="block text-xs font-bold uppercase tracking-wider text-slate-700"
+                            className="block text-xs font-bold uppercase tracking-wider text-softcharcoal"
                         >
                             Account Password
                         </label>
@@ -110,7 +110,7 @@ export default function DeleteUserForm({ className = '' }) {
                             onChange={(e) =>
                                 setData('password', e.target.value)
                             }
-                            className="mt-1.5 block w-full rounded-2xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 shadow-xs transition focus:border-red-600 focus:outline-none focus:ring-2 focus:ring-red-100"
+                            className="mt-1.5 block w-full rounded-2xl border border-warmbeige bg-white px-4 py-2.5 text-sm text-softcharcoal shadow-xs transition focus:border-red-600 focus:outline-none focus:ring-2 focus:ring-red-100"
                             placeholder="Enter password to confirm"
                             autoFocus
                         />
@@ -125,7 +125,7 @@ export default function DeleteUserForm({ className = '' }) {
                         <button
                             type="button"
                             onClick={closeModal}
-                            className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-bold text-slate-700 shadow-xs hover:bg-slate-50 transition"
+                            className="rounded-xl border border-warmbeige bg-white px-4 py-2 text-xs font-bold text-softcharcoal shadow-xs hover:bg-ivory transition"
                         >
                             Cancel
                         </button>

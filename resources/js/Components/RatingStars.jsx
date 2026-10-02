@@ -65,7 +65,7 @@ export default function RatingStars({
                                     className={`${starSizeClasses[size] || starSizeClasses.md} transition-colors ${
                                         isFilled
                                             ? 'fill-amber-400 text-amber-400 drop-shadow-xs'
-                                            : 'fill-slate-200 text-slate-200 group-hover:fill-amber-200 group-hover:text-amber-200'
+                                            : 'fill-warmbeige text-warmbeige group-hover:fill-amber-200 group-hover:text-amber-200'
                                     }`}
                                     viewBox="0 0 20 20"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -89,7 +89,7 @@ export default function RatingStars({
                             ) : isHalf ? (
                                 <div className="relative">
                                     <svg
-                                        className={`${starSizeClasses[size] || starSizeClasses.md} fill-slate-200 text-slate-200`}
+                                        className={`${starSizeClasses[size] || starSizeClasses.md} fill-warmbeige text-warmbeige`}
                                         viewBox="0 0 20 20"
                                         xmlns="http://www.w3.org/2000/svg"
                                     >
@@ -107,7 +107,7 @@ export default function RatingStars({
                                 </div>
                             ) : (
                                 <svg
-                                    className={`${starSizeClasses[size] || starSizeClasses.md} fill-slate-200 text-slate-200`}
+                                    className={`${starSizeClasses[size] || starSizeClasses.md} fill-warmbeige text-warmbeige`}
                                     viewBox="0 0 20 20"
                                     xmlns="http://www.w3.org/2000/svg"
                                 >
@@ -120,13 +120,13 @@ export default function RatingStars({
             </div>
 
             {showScore && (
-                <span className="font-extrabold text-slate-900 ml-1.5">
+                <span className="font-extrabold text-softcharcoal ml-1.5">
                     {Number(rating).toFixed(1)}
                 </span>
             )}
 
             {count !== null && (
-                <span className="text-xs font-semibold text-slate-500 ml-1">
+                <span className="text-xs font-semibold text-warmgray ml-1">
                     ({count})
                 </span>
             )}
