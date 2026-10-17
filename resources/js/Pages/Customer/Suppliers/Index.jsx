@@ -146,7 +146,7 @@ export default function Index({
                     </span>
                 </div>
 
-                {/* Category Pills */}
+                {/* Category Pills 
                 {categories.length > 0 && (
                     <div className="mt-4 flex flex-wrap gap-2">
                         <button
@@ -173,7 +173,7 @@ export default function Index({
                             </button>
                         ))}
                     </div>
-                )}
+                )}*/}
 
                 {/* Suppliers Grid */}
                 {supplierList.length > 0 ? (

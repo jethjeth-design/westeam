@@ -1,4 +1,5 @@
-import { Link, usePage } from '@inertiajs/react';
+import Modal from '@/Components/Modal';
+import { Link, router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
 export default function Sidebar({ isOpen = false, onClose = () => { } }) {
@@ -22,6 +23,23 @@ export default function Sidebar({ isOpen = false, onClose = () => { } }) {
     const unreadNotificationsCount = page.props?.unread_notifications_count || 0;
 
     const [settingsOpen, setSettingsOpen] = useState(false);
+    const [confirmingLogout, setConfirmingLogout] = useState(false);
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+    const openLogoutModal = () => {
+        if (window.innerWidth < 1024) {
+            onClose();
+        }
+        setConfirmingLogout(true);
+    };
+
+    const handleLogout = () => {
+        setIsLoggingOut(true);
+        const logoutUrl = typeof route === 'function' ? route('logout') : '/logout';
+        router.post(logoutUrl, {}, {
+            onFinish: () => setIsLoggingOut(false),
+        });
+    };
 
     /*
     |--------------------------------------------------------------------------
@@ -61,7 +79,7 @@ export default function Sidebar({ isOpen = false, onClose = () => { } }) {
         { name: 'Customers', href: '/admin/customers', icon: '👤' },
         { name: 'Packages', href: '/admin/packages', icon: '📦' },
         { name: 'Bookings', href: '/admin/bookings', icon: '📅' },
-        { name: 'Schedules', href: '/admin/schedules', icon: '📆' },
+        { name: 'Schedules', href: route('admin.schedules.index'), icon: '📆' },
         //{ name: 'Messages', href: route('messages.index'), icon: '💬', badge: unreadMessagesCount },
         { name: 'Featured Suppliers', href: route('admin.featured-suppliers.index'), icon: '🌟' },
         { name: 'Top Packages', href: route('admin.top-packages.index'), icon: '🏆' },
@@ -84,7 +102,7 @@ export default function Sidebar({ isOpen = false, onClose = () => { } }) {
                 { name: 'Packages', href: route('supplier.packages.index'), icon: '📦' },
                 { name: 'My Teams', href: route('supplier.teams.index'), icon: '👥' },
                 { name: 'Bookings', href: route('supplier.bookings.index'), icon: '📅', badge: pendingBookingsCount },
-                { name: 'Availability', href: '/supplier/availability', icon: '🗓️' },
+                { name: 'Availability', href: route('supplier.availability.index'), icon: '🗓️' },
                 { name: 'Portfolio', href: route('supplier.portfolio.index'), icon: '📸' },
                 { name: 'Messages', href: route('messages.index'), icon: '💬', badge: unreadMessagesCount },
                 { name: 'Payments', href: '/supplier/payments', icon: '💰' },
@@ -317,15 +335,14 @@ export default function Sidebar({ isOpen = false, onClose = () => { } }) {
 
             {/* Logout Footer */}
             <div className="shrink-0 border-t border-champagne p-3 bg-white">
-                <Link
-                    href="/logout"
-                    method="post"
-                    as="button"
-                    className="flex w-full items-center gap-2.5 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-red-600 transition hover:bg-red-50 hover:text-red-700"
+                <button
+                    type="button"
+                    onClick={openLogoutModal}
+                    className="flex w-full items-center gap-2.5 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-red-600 transition hover:bg-red-50 hover:text-red-700 cursor-pointer"
                 >
                     <span className="text-sm">🚪</span>
                     <span>Sign Out</span>
-                </Link>
+                </button>
             </div>
         </aside>
     );
@@ -352,6 +369,60 @@ export default function Sidebar({ isOpen = false, onClose = () => { } }) {
                     </div>
                 </div>
             )}
+
+            {/* ── Logout Confirmation Modal ── */}
+            <Modal
+                show={confirmingLogout}
+                onClose={() => !isLoggingOut && setConfirmingLogout(false)}
+                maxWidth="sm"
+            >
+                <div className="p-6">
+                    <div className="flex items-start gap-3.5">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-red-50 text-red-600 border border-red-100 shadow-2xs">
+                            <span className="text-xl">🚪</span>
+                        </div>
+                        <div className="flex-1">
+                            <h3 className="text-base font-extrabold text-softcharcoal">
+                                Sign Out Confirmation
+                            </h3>
+                            <p className="mt-1 text-xs text-warmgray leading-relaxed">
+                                Are you sure you want to log out of your Westeam account?
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="mt-6 flex items-center justify-end gap-2.5">
+                        <button
+                            type="button"
+                            onClick={() => setConfirmingLogout(false)}
+                            disabled={isLoggingOut}
+                            className="rounded-xl border border-warmbeige bg-white px-4 py-2 text-xs font-bold text-softcharcoal shadow-xs hover:bg-champagne/40 active:scale-95 transition disabled:opacity-50 cursor-pointer"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="button"
+                            onClick={handleLogout}
+                            disabled={isLoggingOut}
+                            className="inline-flex items-center gap-1.5 rounded-xl bg-red-600 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-red-700 active:scale-95 transition disabled:opacity-50 cursor-pointer"
+                        >
+                            {isLoggingOut ? (
+                                <>
+                                    <svg className="animate-spin h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    <span>Signing out...</span>
+                                </>
+                            ) : (
+                                <>
+                                    <span>Sign Out</span>
+                                </>
+                            )}
+                        </button>
+                    </div>
+                </div>
+            </Modal>
         </>
     );
 }

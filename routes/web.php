@@ -8,10 +8,12 @@ use App\Http\Controllers\Admin\FeaturedSupplierController;
 use App\Http\Controllers\Admin\HomepageController as AdminHomepageController;
 use App\Http\Controllers\Admin\PackageController as AdminPackageController;
 use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
+use App\Http\Controllers\Admin\ScheduleController as AdminScheduleController;
 use App\Http\Controllers\Admin\SupplierCategoryController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\TopPackageController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Api\AvailabilityController as ApiAvailabilityController;
 use App\Http\Controllers\Customer\BookingController as CustomerBookingController;
 use App\Http\Controllers\Customer\EventController as CustomerEventController;
 use App\Http\Controllers\Customer\PaymentController as CustomerPaymentController;
@@ -24,7 +26,9 @@ use App\Http\Controllers\Public\GalleryController as PublicGalleryController;
 use App\Http\Controllers\Public\HomeController as PublicHomeController;
 use App\Http\Controllers\Public\PackageController as PublicPackageController;
 use App\Http\Controllers\Public\SupplierController as PublicSupplierController;
+use App\Http\Controllers\Supplier\AvailabilityController as SupplierAvailabilityController;
 use App\Http\Controllers\Supplier\BookingController as SupplierBookingController;
+use App\Http\Controllers\Supplier\CalendarController as SupplierCalendarController;
 use App\Http\Controllers\Supplier\DashboardController;
 use App\Http\Controllers\Supplier\PackageController;
 use App\Http\Controllers\Supplier\PaymentController as SupplierPaymentController;
@@ -79,6 +83,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/admin/users/{user}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
     Route::get('/admin/customers', [AdminCustomerController::class, 'index'])->name('admin.customers.index');
     Route::get('/admin/bookings', [AdminBookingController::class, 'index'])->name('admin.bookings.index');
+    Route::get('/admin/schedules', [AdminScheduleController::class, 'index'])->name('admin.schedules.index');
     Route::get('/admin/packages', [AdminPackageController::class, 'index'])->name('admin.packages.index');
 
     // Admin Review Moderation
@@ -350,6 +355,24 @@ Route::middleware(['auth'])
             Route::post('/payment-settings', [SupplierPaymentSettingsController::class, 'update'])
                 ->name('payment-settings.update');
 
+            // Supplier Availability & Schedules
+            Route::get('/availability', [SupplierAvailabilityController::class, 'index'])
+                ->name('availability.index');
+            Route::post('/availability/unavailability', [SupplierAvailabilityController::class, 'storeUnavailability'])
+                ->name('availability.unavailability.store');
+            Route::delete('/availability/unavailability/{unavailability}', [SupplierAvailabilityController::class, 'destroyUnavailability'])
+                ->name('availability.unavailability.destroy');
+
+            // Supplier Google Calendar Integration
+            Route::get('/calendar/connect', [SupplierCalendarController::class, 'connect'])
+                ->name('calendar.connect');
+            Route::get('/calendar/callback', [SupplierCalendarController::class, 'callback'])
+                ->name('calendar.callback');
+            Route::post('/calendar/disconnect', [SupplierCalendarController::class, 'disconnect'])
+                ->name('calendar.disconnect');
+            Route::post('/calendar/sync', [SupplierCalendarController::class, 'syncAll'])
+                ->name('calendar.sync');
+
         });
     });
 
@@ -405,6 +428,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/notifications', fn () => redirect()->route('notifications.index'))->name('admin.notifications');
     Route::get('/customer/notifications', fn () => redirect()->route('notifications.index'))->name('customer.notifications');
 });
+
+// Public / Universal Supplier Availability API
+Route::get('/api/suppliers/{supplier}/availability', [ApiAvailabilityController::class, 'getSupplierCalendar'])
+    ->name('api.suppliers.availability');
+Route::match(['get', 'post'], '/api/suppliers/check-availability', [ApiAvailabilityController::class, 'checkDate'])
+    ->name('api.suppliers.check-availability');
+
+// Google Calendar OAuth Callback alias
+Route::get('/auth/google/calendar/callback', [SupplierCalendarController::class, 'callback'])
+    ->name('auth.google.calendar.callback');
 
 // Email Notification Visual Previews
 Route::get('/email-previews/{template?}', [EmailPreviewController::class, 'show'])->name('email-previews.show');

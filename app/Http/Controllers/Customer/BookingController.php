@@ -4,17 +4,22 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\BookingItem;
 use App\Models\Package;
+use App\Models\SupplierUnavailability;
 use App\Models\Team;
 use App\Models\User;
 use App\Notifications\BookingStatusUpdatedNotification;
 use App\Notifications\BookingSubmittedNotification;
 use App\Notifications\TeamBookingNotification;
+use App\Services\GoogleCalendarService;
 use App\Services\NotificationService;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -82,6 +87,45 @@ class BookingController extends Controller
             'items.*.item_name' => 'required|string|max:255',
             'items.*.unit_price' => 'required|numeric|min:0',
         ]);
+
+        // Validate supplier availability and prevent overlapping confirmed bookings
+        $eventDate = Carbon::parse($validated['event_date'])->format('Y-m-d');
+        $supplierIds = collect($validated['items'])->pluck('supplier_id')->unique();
+
+        foreach ($supplierIds as $supplierId) {
+            $supplier = User::find($supplierId);
+            if (! $supplier) {
+                continue;
+            }
+
+            // 1. Check if supplier has marked this date as unavailable
+            $unavailability = SupplierUnavailability::where('supplier_id', $supplierId)
+                ->where('start_date', '<=', $eventDate)
+                ->where('end_date', '>=', $eventDate)
+                ->first();
+
+            if ($unavailability) {
+                $reasonText = $unavailability->reason ? " ({$unavailability->reason})" : '';
+                throw ValidationException::withMessages([
+                    'event_date' => "Supplier '{$supplier->name}' is marked as unavailable on {$eventDate}{$reasonText}. Please select a different date.",
+                ]);
+            }
+
+            // 2. Check if supplier already has a confirmed or accepted booking on this date
+            $hasExistingBooking = BookingItem::where('supplier_id', $supplierId)
+                ->whereIn('status', ['confirmed', 'accepted'])
+                ->whereHas('booking', function ($q) use ($eventDate) {
+                    $q->where('event_date', $eventDate)
+                        ->whereNotIn('overall_status', ['cancelled', 'rejected']);
+                })
+                ->exists();
+
+            if ($hasExistingBooking) {
+                throw ValidationException::withMessages([
+                    'event_date' => "Supplier '{$supplier->name}' already has a confirmed event on {$eventDate}. Overlapping bookings are not allowed.",
+                ]);
+            }
+        }
 
         $booking = DB::transaction(function () use ($validated, $request) {
             $total = collect($validated['items'])->sum('unit_price');
@@ -224,7 +268,8 @@ class BookingController extends Controller
             $booking->update(['overall_status' => 'cancelled']);
             $booking->items()->update(['status' => 'cancelled']);
 
-            // Notify suppliers
+            // Notify suppliers & clean up Google Calendar events
+            $calendarService = app(GoogleCalendarService::class);
             foreach ($booking->items as $item) {
                 if ($item->supplier) {
                     try {
@@ -232,6 +277,12 @@ class BookingController extends Controller
                     } catch (\Throwable $e) {
                         logger()->error('Cancellation notice error: '.$e->getMessage());
                     }
+                }
+
+                try {
+                    $calendarService->removeBookingItem($item);
+                } catch (\Throwable $e) {
+                    logger()->error('Calendar event removal error: '.$e->getMessage());
                 }
             }
 

@@ -8,6 +8,7 @@ use App\Models\BookingItem;
 use App\Models\Package;
 use App\Notifications\BookingStatusUpdatedNotification;
 use App\Notifications\ReviewReminderNotification;
+use App\Services\GoogleCalendarService;
 use App\Services\NotificationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -110,6 +111,13 @@ class BookingController extends Controller
                 $booking,
                 "Supplier {$item->supplier->name} accepted '{$item->item_name}'"
             );
+
+            // Sync with Google Calendar if connected
+            try {
+                app(GoogleCalendarService::class)->syncBookingItem($item);
+            } catch (\Throwable $e) {
+                logger()->error('Google Calendar sync upon accept failed: '.$e->getMessage());
+            }
         });
 
         return back()->with('success', "You have accepted the booking for '{$item->item_name}'.");
@@ -148,6 +156,13 @@ class BookingController extends Controller
                 ));
             } catch (\Throwable $e) {
                 logger()->error('Status update notification error: '.$e->getMessage());
+            }
+
+            // Remove from Google Calendar if previously synced
+            try {
+                app(GoogleCalendarService::class)->removeBookingItem($item);
+            } catch (\Throwable $e) {
+                logger()->error('Google Calendar remove upon reject failed: '.$e->getMessage());
             }
         });
 
@@ -210,6 +225,12 @@ class BookingController extends Controller
                 } catch (\Throwable $e) {
                     logger()->error('Coordinator accept notice error: '.$e->getMessage());
                 }
+
+                try {
+                    app(GoogleCalendarService::class)->syncBookingItem($item);
+                } catch (\Throwable $e) {
+                    logger()->error('Google Calendar sync coordinator accept failed: '.$e->getMessage());
+                }
             }
         });
 
@@ -249,6 +270,12 @@ class BookingController extends Controller
                     ));
                 } catch (\Throwable $e) {
                     logger()->error('Coordinator reject notice error: '.$e->getMessage());
+                }
+
+                try {
+                    app(GoogleCalendarService::class)->removeBookingItem($item);
+                } catch (\Throwable $e) {
+                    logger()->error('Google Calendar remove coordinator reject failed: '.$e->getMessage());
                 }
             }
         });

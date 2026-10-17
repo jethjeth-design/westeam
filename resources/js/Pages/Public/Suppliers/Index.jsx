@@ -178,7 +178,7 @@ export default function SuppliersIndex({ suppliers, categories = [], eventCatego
 
                                         {/* Rating & Reviews */}
                                         <div className="flex items-center gap-1.5 mt-3 text-xs">
-                                            <span className="text-[#C99632] font-bold">★</span>
+                                            <span className="text-[#C99632] font-bold">⭐</span>
                                             <span className="font-bold text-[#24221E]">{supplier.rating}</span>
                                             <span className="text-[#77736C]">({supplier.reviews_count} reviews)</span>
                                         </div>

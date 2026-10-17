@@ -1,6 +1,7 @@
 import PublicLayout from '@/Layouts/PublicLayout';
 import { Head, Link } from '@inertiajs/react';
 import { useState } from 'react';
+import SupplierAvailabilityChecker from '@/Components/SupplierAvailabilityChecker';
 
 export default function SupplierShow({ supplier }) {
     const [activeTab, setActiveTab] = useState('overview');
@@ -167,6 +168,11 @@ export default function SupplierShow({ supplier }) {
 
                         {/* Sidebar: Business & Contact Info */}
                         <div className="space-y-6">
+                            <SupplierAvailabilityChecker
+                                supplierId={supplier.id}
+                                supplierName={profile.business_name}
+                            />
+
                             <div className="bg-white p-6 rounded-3xl border border-[#EFE7D8]">
                                 <h3 className="font-serif font-bold text-base text-[#24221E] mb-4">Business Information</h3>
                                 <dl className="space-y-3 text-xs">

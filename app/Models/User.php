@@ -25,6 +25,9 @@ class User extends Authenticatable
         'email',
         'role',
         'password',
+        'google_id',
+        'avatar',
+        'email_verified_at',
     ];
 
     /**
@@ -118,6 +121,16 @@ class User extends Authenticatable
     public function sentPayments(): HasMany
     {
         return $this->hasMany(Payment::class, 'customer_id');
+    }
+
+    public function calendarAccount(): HasOne
+    {
+        return $this->hasOne(SupplierCalendarAccount::class, 'supplier_id');
+    }
+
+    public function unavailabilities(): HasMany
+    {
+        return $this->hasMany(SupplierUnavailability::class, 'supplier_id');
     }
 
     /**
