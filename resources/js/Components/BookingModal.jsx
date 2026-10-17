@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from '@inertiajs/react';
+import axios from 'axios';
 
 export default function BookingModal({
     isOpen,
@@ -12,6 +13,13 @@ export default function BookingModal({
     if (!isOpen) return null;
 
     const totalPrice = items.reduce((acc, curr) => acc + Number(curr.unit_price || 0), 0);
+
+    const [availabilityState, setAvailabilityState] = useState({
+        loading: false,
+        checked: false,
+        allAvailable: true,
+        suppliers: [],
+    });
 
     const { data, setData, post, processing, errors, reset } = useForm({
         booking_type: bookingType,
@@ -31,8 +39,56 @@ export default function BookingModal({
         })),
     });
 
+    // Check availability whenever event_date changes
+    useEffect(() => {
+        if (!data.event_date) {
+            setAvailabilityState({
+                loading: false,
+                checked: false,
+                allAvailable: true,
+                suppliers: [],
+            });
+            return;
+        }
+
+        const supplierIds = items.map((it) => it.supplier_id).filter(Boolean);
+        if (supplierIds.length === 0) return;
+
+        setAvailabilityState((prev) => ({ ...prev, loading: true }));
+
+        const timer = setTimeout(() => {
+            axios
+                .post(route('api.suppliers.check-availability'), {
+                    date: data.event_date,
+                    supplier_ids: supplierIds,
+                })
+                .then((res) => {
+                    setAvailabilityState({
+                        loading: false,
+                        checked: true,
+                        allAvailable: res.data.all_available,
+                        suppliers: res.data.suppliers || [],
+                    });
+                })
+                .catch(() => {
+                    setAvailabilityState({
+                        loading: false,
+                        checked: false,
+                        allAvailable: true,
+                        suppliers: [],
+                    });
+                });
+        }, 300);
+
+        return () => clearTimeout(timer);
+    }, [data.event_date]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (availabilityState.checked && !availabilityState.allAvailable) {
+            return;
+        }
+
         post(route('customer.bookings.store'), {
             onSuccess: () => {
                 reset();
@@ -135,12 +191,46 @@ export default function BookingModal({
                             </label>
                             <input
                                 type="date"
+                                min={new Date().toISOString().split('T')[0]}
                                 value={data.event_date}
                                 onChange={(e) => setData('event_date', e.target.value)}
                                 className="mt-1.5 w-full rounded-xl border border-warmbeige px-3.5 py-2.5 text-sm text-softcharcoal shadow-xs focus:border-champagnegold focus:outline-none focus:ring-2 focus:ring-champagne"
                             />
                             {errors.event_date && (
                                 <p className="mt-1 text-xs text-red-500">{errors.event_date}</p>
+                            )}
+
+                            {/* Real-time Availability Feedback */}
+                            {availabilityState.loading && (
+                                <div className="mt-2 flex items-center gap-1.5 text-xs text-warmgray animate-pulse">
+                                    <span className="h-2 w-2 rounded-full bg-champagnegold animate-ping" />
+                                    <span>Checking supplier availability...</span>
+                                </div>
+                            )}
+
+                            {!availabilityState.loading && availabilityState.checked && availabilityState.allAvailable && (
+                                <div className="mt-2 flex items-center gap-1.5 rounded-lg bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-700">
+                                    <span>✓</span>
+                                    <span>All selected suppliers are available on this date!</span>
+                                </div>
+                            )}
+
+                            {!availabilityState.loading && availabilityState.checked && !availabilityState.allAvailable && (
+                                <div className="mt-2 rounded-xl border border-rose-200 bg-rose-50/80 p-2.5 text-xs text-rose-800">
+                                    <div className="flex items-center gap-1.5 font-bold">
+                                        <span>🚫</span>
+                                        <span>Date Conflict Detected:</span>
+                                    </div>
+                                    <ul className="mt-1.5 space-y-1 pl-4 list-disc text-[11px]">
+                                        {availabilityState.suppliers
+                                            .filter((s) => !s.is_available)
+                                            .map((s) => (
+                                                <li key={s.supplier_id}>
+                                                    <strong>{s.supplier_name}</strong>: {s.message}
+                                                </li>
+                                            ))}
+                                    </ul>
+                                </div>
                             )}
                         </div>
 
@@ -223,10 +313,18 @@ export default function BookingModal({
 
                         <button
                             type="submit"
-                            disabled={processing}
-                            className="rounded-xl bg-champagnegold px-6 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-darkgold active:scale-95 disabled:opacity-50"
+                            disabled={
+                                processing ||
+                                availabilityState.loading ||
+                                (availabilityState.checked && !availabilityState.allAvailable)
+                            }
+                            className="rounded-xl bg-champagnegold px-6 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-darkgold active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {processing ? 'Submitting Request...' : 'Confirm & Request Booking'}
+                            {processing
+                                ? 'Submitting Request...'
+                                : availabilityState.checked && !availabilityState.allAvailable
+                                ? 'Date Unavailable'
+                                : 'Confirm & Request Booking'}
                         </button>
                     </div>
                 </form>

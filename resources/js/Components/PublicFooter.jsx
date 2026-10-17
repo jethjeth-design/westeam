@@ -118,7 +118,7 @@ export default function PublicFooter() {
                             Are you a passionate event professional, caterer, or photographer? Join our curated supplier network.
                         </p>
                         <Link
-                            href={route('register')}
+                            href={route('supplier.register')}
                             className="inline-block px-5 py-2.5 rounded-full border border-[#C99632] text-[#C99632] hover:bg-[#C99632] hover:text-white text-xs font-bold tracking-wider uppercase transition-all duration-200"
                         >
                             Become a Partner

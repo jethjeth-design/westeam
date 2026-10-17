@@ -8,6 +8,7 @@ use App\Models\BookingItem;
 use App\Models\Payment;
 use App\Notifications\PaymentRejectedNotification;
 use App\Notifications\PaymentVerifiedNotification;
+use App\Services\GoogleCalendarService;
 use App\Services\NotificationService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
@@ -190,6 +191,20 @@ class PaymentController extends Controller
                     $booking->update(['overall_status' => 'confirmed']);
                 }
             }
+        }
+
+        // Synchronize confirmed booking to supplier's connected Google Calendar
+        try {
+            $calendarService = app(GoogleCalendarService::class);
+            if ($payment->bookingItem) {
+                $calendarService->syncBookingItem($payment->bookingItem);
+            } elseif ($booking) {
+                foreach ($booking->items as $item) {
+                    $calendarService->syncBookingItem($item);
+                }
+            }
+        } catch (\Throwable $e) {
+            logger()->error('Google Calendar sync after payment verification failed: '.$e->getMessage());
         }
 
         // Send email notification to customer

@@ -3,6 +3,7 @@ import { Head, Link, router } from '@inertiajs/react';
 import { useState, useCallback, useEffect } from 'react';
 import BookingModal from '@/Components/BookingModal';
 import RatingStars from '@/Components/RatingStars';
+import SupplierAvailabilityChecker from '@/Components/SupplierAvailabilityChecker';
 import SupplierReviewsSummary from '@/Components/SupplierReviewsSummary';
 
 export default function Show({
@@ -259,6 +260,14 @@ export default function Show({
                                 {profile.description}
                             </p>
                         )}
+                    </div>
+
+                    {/* Real-time Supplier Availability Checker */}
+                    <div className="mt-6">
+                        <SupplierAvailabilityChecker
+                            supplierId={supplier?.id}
+                            supplierName={businessName}
+                        />
                     </div>
                 </div>
 

@@ -289,6 +289,19 @@ export default function Dashboard({
                                 </Link>
 
                                 <Link
+                                    href={route('supplier.availability.index')}
+                                    className="flex items-center gap-3 rounded-2xl border border-champagne bg-ivory/70 p-3.5 transition hover:border-indigo-200 hover:bg-champagne/40"
+                                >
+                                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-100 text-blue-700 font-bold text-sm">
+                                        🗓️
+                                    </span>
+                                    <div>
+                                        <p className="text-xs font-bold text-softcharcoal">Availability &amp; Calendar</p>
+                                        <p className="text-[11px] text-warmgray">Manage dates &amp; Google Calendar sync</p>
+                                    </div>
+                                </Link>
+
+                                <Link
                                     href={route('supplier.teams.index')}
                                     className="flex items-center gap-3 rounded-2xl border border-champagne bg-ivory/70 p-3.5 transition hover:border-indigo-200 hover:bg-champagne/40"
                                 >

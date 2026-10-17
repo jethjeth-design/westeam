@@ -1,8 +1,9 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
+import Modal from '@/Components/Modal';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import { Link, usePage } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
 export default function AuthenticatedLayout({ header, children }) {
@@ -10,6 +11,16 @@ export default function AuthenticatedLayout({ header, children }) {
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
+    const [confirmingLogout, setConfirmingLogout] = useState(false);
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+    const handleLogout = () => {
+        setIsLoggingOut(true);
+        const logoutUrl = typeof route === 'function' ? route('logout') : '/logout';
+        router.post(logoutUrl, {}, {
+            onFinish: () => setIsLoggingOut(false),
+        });
+    };
 
     return (
         <div className="min-h-screen bg-champagne">
@@ -66,13 +77,13 @@ export default function AuthenticatedLayout({ header, children }) {
                                         >
                                             Profile
                                         </Dropdown.Link>
-                                        <Dropdown.Link
-                                            href={route('logout')}
-                                            method="post"
-                                            as="button"
+                                        <button
+                                            type="button"
+                                            onClick={() => setConfirmingLogout(true)}
+                                            className="block w-full px-4 py-2 text-start text-sm leading-5 text-red-600 transition duration-150 ease-in-out hover:bg-champagne/40 focus:bg-champagne/40 focus:outline-none"
                                         >
                                             Log Out
-                                        </Dropdown.Link>
+                                        </button>
                                     </Dropdown.Content>
                                 </Dropdown>
                             </div>
@@ -150,13 +161,16 @@ export default function AuthenticatedLayout({ header, children }) {
                             <ResponsiveNavLink href={route('profile.edit')}>
                                 Profile
                             </ResponsiveNavLink>
-                            <ResponsiveNavLink
-                                method="post"
-                                href={route('logout')}
-                                as="button"
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setShowingNavigationDropdown(false);
+                                    setConfirmingLogout(true);
+                                }}
+                                className="flex w-full items-start ps-3 pe-4 py-2 border-l-4 border-transparent text-base font-medium text-red-600 hover:text-red-700 hover:bg-champagne/40 hover:border-red-600 focus:outline-none transition duration-150 ease-in-out"
                             >
                                 Log Out
-                            </ResponsiveNavLink>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -171,6 +185,60 @@ export default function AuthenticatedLayout({ header, children }) {
             )}
 
             <main>{children}</main>
+
+            {/* Logout Confirmation Modal */}
+            <Modal
+                show={confirmingLogout}
+                onClose={() => !isLoggingOut && setConfirmingLogout(false)}
+                maxWidth="sm"
+            >
+                <div className="p-6">
+                    <div className="flex items-start gap-3.5">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-red-50 text-red-600 border border-red-100 shadow-2xs">
+                            <span className="text-xl">🚪</span>
+                        </div>
+                        <div className="flex-1">
+                            <h3 className="text-base font-extrabold text-softcharcoal">
+                                Sign Out Confirmation
+                            </h3>
+                            <p className="mt-1 text-xs text-warmgray leading-relaxed">
+                                Are you sure you want to log out of your Westeam account?
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="mt-6 flex items-center justify-end gap-2.5">
+                        <button
+                            type="button"
+                            onClick={() => setConfirmingLogout(false)}
+                            disabled={isLoggingOut}
+                            className="rounded-xl border border-warmbeige bg-white px-4 py-2 text-xs font-bold text-softcharcoal shadow-xs hover:bg-champagne/40 active:scale-95 transition disabled:opacity-50 cursor-pointer"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="button"
+                            onClick={handleLogout}
+                            disabled={isLoggingOut}
+                            className="inline-flex items-center gap-1.5 rounded-xl bg-red-600 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-red-700 active:scale-95 transition disabled:opacity-50 cursor-pointer"
+                        >
+                            {isLoggingOut ? (
+                                <>
+                                    <svg className="animate-spin h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    <span>Signing out...</span>
+                                </>
+                            ) : (
+                                <>
+                                    <span>Sign Out</span>
+                                </>
+                            )}
+                        </button>
+                    </div>
+                </div>
+            </Modal>
         </div>
     );
 }

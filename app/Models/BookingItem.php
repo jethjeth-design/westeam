@@ -19,6 +19,8 @@ class BookingItem extends Model
         'item_name',
         'unit_price',
         'status',
+        'google_calendar_event_id',
+        'calendar_synced_at',
         'rejection_reason',
         'response_notes',
         'responded_at',
@@ -32,6 +34,7 @@ class BookingItem extends Model
         return [
             'unit_price' => 'decimal:2',
             'responded_at' => 'datetime',
+            'calendar_synced_at' => 'datetime',
         ];
     }
 
