@@ -17,12 +17,29 @@ export default function PublicNavbar() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    // Close mobile menu on resize to desktop
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth >= 768) {
+                setMobileMenuOpen(false);
+            }
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     const navLinks = [
-        { name: 'HOME', href: route('home'), active: currentUrl === '/' },
-        { name: 'SUPPLIER', href: route('suppliers.index'), active: currentUrl.startsWith('/suppliers') },
-        { name: 'EVENT', href: route('events.index'), active: currentUrl.startsWith('/events') },
-        { name: 'PACKAGES', href: route('packages.index'), active: currentUrl.startsWith('/packages') },
-        { name: 'GALLERY', href: route('gallery.index'), active: currentUrl.startsWith('/gallery') },
+        { name: 'HOME', label: 'Home', href: route('home'), active: currentUrl === '/' },
+        { name: 'SUPPLIER', label: 'Supplier', href: route('suppliers.index'), active: currentUrl.startsWith('/suppliers') },
+        {
+            name: 'SERVICES',
+            label: 'Services',
+            href: typeof route === 'function' ? route('customer.services.index') : '/customer/services',
+            active: currentUrl.startsWith('/customer/services'),
+        },
+        { name: 'EVENT', label: 'Event', href: route('events.index'), active: currentUrl.startsWith('/events') },
+        { name: 'PACKAGES', label: 'Packages', href: route('packages.index'), active: currentUrl.startsWith('/packages') },
+        { name: 'GALLERY', label: 'Gallery', href: route('gallery.index'), active: currentUrl.startsWith('/gallery') },
     ];
 
     const handleSearchSubmit = (e) => {
@@ -44,7 +61,7 @@ export default function PublicNavbar() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-20">
                         {/* Brand Logo */}
-                        <Link href="/" className="flex items-center gap-3 group">
+                        <Link href="/" className="flex items-center gap-3 group shrink-0">
                             <div className="w-10 h-10 rounded-full border-2 border-[#C99632] flex items-center justify-center bg-[#EFE7D8]/60 group-hover:scale-105 transition-transform duration-300 shadow-xs">
                                 <svg
                                     className="w-5 h-5 text-[#A87520]"
@@ -60,7 +77,7 @@ export default function PublicNavbar() {
                                 </svg>
                             </div>
                             <div className="flex flex-col">
-                                <span className="font-serif text-xl font-bold tracking-tight text-[#24221E] leading-tight group-hover:text-[#A87520] transition-colors">
+                                <span className="font-serif text-lg sm:text-xl font-bold tracking-tight text-[#24221E] leading-tight group-hover:text-[#A87520] transition-colors">
                                     Event & Wedding
                                 </span>
                                 <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#A87520]">
@@ -70,12 +87,14 @@ export default function PublicNavbar() {
                         </Link>
 
                         {/* Desktop Navigation Links */}
-                        <nav className="hidden md:flex items-center gap-8">
+                        <nav className="hidden md:flex items-center gap-5 lg:gap-8" aria-label="Desktop Navigation">
                             {navLinks.map((item) => (
                                 <Link
                                     key={item.name}
                                     href={item.href}
-                                    className={`relative py-1 text-sm font-semibold tracking-wider transition-all duration-200 ${
+                                    title={item.label || item.name}
+                                    aria-label={item.label || item.name}
+                                    className={`relative py-1 text-xs lg:text-sm font-semibold tracking-wider transition-all duration-200 ${
                                         item.active
                                             ? 'text-[#A87520] font-bold'
                                             : 'text-[#24221E] hover:text-[#C99632]'
@@ -90,11 +109,12 @@ export default function PublicNavbar() {
                         </nav>
 
                         {/* Right Action Icons & Login */}
-                        <div className="hidden sm:flex items-center gap-4">
+                        <div className="hidden md:flex items-center gap-3 lg:gap-4">
                             {/* Quick Search Button */}
                             <button
+                                type="button"
                                 onClick={() => setSearchOpen(true)}
-                                className="p-2 text-[#77736C] hover:text-[#24221E] hover:bg-[#EFE7D8]/60 rounded-full transition-colors"
+                                className="p-2 text-[#77736C] hover:text-[#24221E] hover:bg-[#EFE7D8]/60 rounded-full transition-colors cursor-pointer"
                                 title="Search Suppliers & Packages"
                                 aria-label="Search"
                             >
@@ -134,27 +154,31 @@ export default function PublicNavbar() {
                             )}
                         </div>
 
-                        {/* Mobile Menu Button */}
-                        <div className="flex sm:hidden items-center gap-2">
+                        {/* Mobile Menu & Search (< md) */}
+                        <div className="flex md:hidden items-center gap-2">
                             <button
+                                type="button"
                                 onClick={() => setSearchOpen(true)}
-                                className="p-2 text-[#77736C] hover:text-[#24221E]"
+                                className="p-2.5 text-[#77736C] hover:text-[#24221E] hover:bg-[#EFE7D8]/60 rounded-xl transition-colors border border-[#EFE7D8]/80 cursor-pointer"
+                                aria-label="Search"
                             >
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                 </svg>
                             </button>
                             <button
+                                type="button"
                                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                                className="p-2 text-[#24221E] hover:text-[#C99632]"
-                                aria-label="Toggle Menu"
+                                className="p-2.5 rounded-xl text-[#24221E] hover:text-[#A87520] hover:bg-[#EFE7D8]/60 transition-colors border border-[#EFE7D8] cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#C99632]/40"
+                                aria-label="Toggle Navigation Menu"
+                                aria-expanded={mobileMenuOpen}
                             >
                                 {mobileMenuOpen ? (
-                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                                     </svg>
                                 ) : (
-                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
                                     </svg>
                                 )}
@@ -163,37 +187,42 @@ export default function PublicNavbar() {
                     </div>
                 </div>
 
-                {/* Mobile Menu Dropdown */}
+                {/* Mobile Menu Dropdown (< md) */}
                 {mobileMenuOpen && (
-                    <div className="sm:hidden border-t border-[#EFE7D8] bg-[#F8F5EF] px-4 pt-3 pb-6 space-y-2 shadow-lg">
-                        {navLinks.map((item) => (
-                            <Link
-                                key={item.name}
-                                href={item.href}
-                                onClick={() => setMobileMenuOpen(false)}
-                                className={`block px-4 py-2.5 rounded-xl text-sm font-semibold tracking-wider ${
-                                    item.active
-                                        ? 'bg-[#EFE7D8] text-[#A87520] font-bold'
-                                        : 'text-[#24221E] hover:bg-[#EFE7D8]/60 hover:text-[#C99632]'
-                                }`}
-                            >
-                                {item.name}
-                            </Link>
-                        ))}
-                        <div className="pt-3 border-t border-[#EFE7D8]">
+                    <div className="md:hidden border-t border-[#EFE7D8] bg-[#F8F5EF] px-4 pt-3 pb-6 shadow-xl animate-in slide-in-from-top-2 duration-200">
+                        <nav className="space-y-1.5" aria-label="Mobile Navigation">
+                            {navLinks.map((item) => (
+                                <Link
+                                    key={item.name}
+                                    href={item.href}
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    title={item.label || item.name}
+                                    aria-label={item.label || item.name}
+                                    className={`block px-4 py-3 rounded-xl text-sm font-semibold tracking-wider transition-colors ${
+                                        item.active
+                                            ? 'bg-[#EFE7D8] text-[#A87520] font-bold shadow-2xs'
+                                            : 'text-[#24221E] hover:bg-[#EFE7D8]/60 hover:text-[#C99632]'
+                                    }`}
+                                >
+                                    {item.name}
+                                </Link>
+                            ))}
+                        </nav>
+                        <div className="pt-4 mt-3 border-t border-[#EFE7D8]">
                             {auth?.user ? (
                                 <Link
                                     href={route('dashboard')}
-                                    className="block w-full text-center px-4 py-3 rounded-full bg-[#C99632] text-white font-bold text-xs uppercase tracking-wider shadow-xs"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="block w-full text-center px-4 py-3 rounded-full bg-[#C99632] hover:bg-[#A87520] text-white font-bold text-xs uppercase tracking-wider shadow-sm transition-all duration-200"
                                 >
                                     Go to Dashboard
                                 </Link>
                             ) : (
-                                <div className="grid grid-cols-2 gap-2.5">
+                                <div className="grid grid-cols-2 gap-3">
                                     <Link
                                         href={route('login')}
                                         onClick={() => setMobileMenuOpen(false)}
-                                        className="block w-full text-center px-4 py-2.5 rounded-full border border-[#DCC9A8] text-[#24221E] font-bold text-xs uppercase tracking-wider hover:bg-[#EFE7D8]/60 transition-colors"
+                                        className="block w-full text-center px-4 py-2.5 rounded-full border border-[#DCC9A8] text-[#24221E] font-bold text-xs uppercase tracking-wider hover:bg-[#EFE7D8]/60 hover:text-[#A87520] transition-colors"
                                     >
                                         Login
                                     </Link>

@@ -79,7 +79,7 @@ export default function Index({
 
     return (
         <DashboardLayout>
-            <Head title="Find Suppliers - Westeam" />
+            <Head title="Supplier Gallery & Directory - Westeam" />
 
             <div className="min-h-screen bg-ivory/60 p-4 sm:p-6 lg:p-8">
                 {/* Hero Header */}
@@ -87,15 +87,15 @@ export default function Index({
                     <div>
                         <div className="flex items-center gap-2">
                             <span className="inline-flex items-center rounded-md bg-champagne px-2.5 py-1 text-xs font-bold text-darkgold ring-1 ring-inset ring-indigo-700/10">
-                                🔍 Supplier Directory
+                                🖼️ Supplier Gallery & Portfolios
                             </span>
                             <span className="text-xs text-warmgray">• Verified Event & Wedding Pros</span>
                         </div>
                         <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-softcharcoal">
-                            Find Your Perfect Supplier
+                            Explore Portfolios & Verified Suppliers
                         </h1>
                         <p className="mt-1 text-sm text-warmgray">
-                            Browse verified wedding photographers, caterers, stylists, coordinators, and book direct or team packages.
+                            Browse verified wedding photographers, caterers, stylists, coordinators, and explore their published work.
                         </p>
                     </div>
                 </div>
@@ -193,7 +193,10 @@ export default function Index({
                                     className="group flex flex-col overflow-hidden rounded-3xl border border-warmbeige/80 bg-white shadow-xs transition duration-200 hover:-translate-y-1 hover:shadow-lg"
                                 >
                                     {/* Cover Photo / Banner */}
-                                    <div className="relative h-44 w-full overflow-hidden bg-champagne">
+                                    <Link
+                                        href={route('customer.suppliers.portfolio', profile.user_id)}
+                                        className="relative h-44 w-full overflow-hidden bg-champagne block cursor-pointer"
+                                    >
                                         {cover ? (
                                             <img
                                                 src={cover}
@@ -233,19 +236,23 @@ export default function Index({
                                                 ✓ Verified
                                             </span>
                                         </div>
-                                    </div>
+                                    </Link>
 
                                     {/* Body Info */}
                                     <div className="relative flex flex-1 flex-col justify-between p-5 pt-0">
                                         {/* Avatar & Actions floating over cover */}
                                         <div className="-mt-10 mb-3 flex items-end justify-between">
-                                            <div className="h-20 w-20 overflow-hidden rounded-full border-4 border-white bg-champagnegold text-white font-black text-2xl flex items-center justify-center shadow-xl ring-4 ring-champagnegold/10 shrink-0">
+                                            <Link
+                                                href={route('customer.suppliers.portfolio', profile.user_id)}
+                                                className="h-20 w-20 overflow-hidden rounded-full border-4 border-white bg-champagnegold text-white font-black text-2xl flex items-center justify-center shadow-xl ring-4 ring-champagnegold/10 shrink-0 hover:scale-105 transition-transform"
+                                                title={`View ${businessName}'s Portfolio`}
+                                            >
                                                 {picture ? (
                                                     <img src={picture} alt={businessName} className="h-full w-full object-cover rounded-full" />
                                                 ) : (
                                                     businessName.charAt(0).toUpperCase()
                                                 )}
-                                            </div>
+                                            </Link>
 
                                             {/* Action buttons */}
                                             <div className="flex items-center gap-1.5">
@@ -295,9 +302,11 @@ export default function Index({
                                                 ) : null}
                                             </div>
 
-                                            <h3 className="line-clamp-1 text-base font-extrabold text-softcharcoal group-hover:text-champagnegold transition-colors">
-                                                {businessName}
-                                            </h3>
+                                            <Link href={route('customer.suppliers.portfolio', profile.user_id)}>
+                                                <h3 className="line-clamp-1 text-base font-extrabold text-softcharcoal group-hover:text-champagnegold transition-colors">
+                                                    {businessName}
+                                                </h3>
+                                            </Link>
 
                                             {/* Categories */}
                                             {supplierCategories.length > 0 && (
@@ -334,15 +343,9 @@ export default function Index({
                                             <div className="flex items-center gap-2">
                                                 <Link
                                                     href={route('customer.suppliers.portfolio', profile.user_id)}
-                                                    className="rounded-xl border border-warmbeige bg-white px-3 py-1.5 text-xs font-bold text-softcharcoal transition hover:bg-ivory"
-                                                >
-                                                    Gallery
-                                                </Link>
-                                                <Link
-                                                    href={route('customer.suppliers.show', profile.user_id)}
                                                     className="inline-flex items-center gap-1 rounded-xl bg-champagnegold px-3.5 py-1.5 text-xs font-bold text-white shadow-xs transition hover:bg-darkgold active:scale-95"
                                                 >
-                                                    <span>View Profile</span>
+                                                    <span>View Portfolio</span>
                                                     <span>→</span>
                                                 </Link>
                                             </div>

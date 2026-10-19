@@ -23,6 +23,16 @@ class SupplierCalendarAccount extends Model
     ];
 
     /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'access_token',
+        'refresh_token',
+    ];
+
+    /**
      * @return array<string, string>
      */
     protected function casts(): array

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\BookingItem;
 use App\Models\Package;
+use App\Models\Service;
 use App\Models\SupplierUnavailability;
 use App\Models\Team;
 use App\Models\User;
@@ -63,6 +64,104 @@ class BookingController extends Controller
         return Inertia::render('Customer/Bookings/Index', [
             'bookings' => $bookings,
             'upcomingBooking' => $upcomingBooking,
+        ]);
+    }
+
+    /**
+     * Show booking creation page.
+     */
+    public function create(Request $request): Response
+    {
+        $serviceId = $request->input('service_id');
+        $packageId = $request->input('package_id');
+        $supplierId = $request->input('supplier_id');
+
+        $initialItem = null;
+        $bookingType = 'service';
+        $teamId = null;
+
+        if ($serviceId) {
+            $service = Service::with('supplier.supplierProfile')
+                ->where('is_active', true)
+                ->whereHas('supplier.supplierProfile', fn ($q) => $q->where('status', 'approved'))
+                ->find($serviceId);
+
+            if ($service) {
+                $initialItem = [
+                    'supplier_id' => $service->supplier_id,
+                    'item_type' => 'service',
+                    'item_id' => $service->id,
+                    'item_name' => $service->name,
+                    'unit_price' => (float) $service->price,
+                    'supplier_name' => $service->supplier?->supplierProfile?->business_name ?? $service->supplier?->name,
+                    'category' => $service->category,
+                ];
+                $bookingType = 'service';
+            }
+        } elseif ($packageId) {
+            $package = Package::with(['supplier.supplierProfile', 'team.coordinator.supplierProfile'])
+                ->where('is_active', true)
+                ->where(function ($q) {
+                    $q->whereHas('supplier.supplierProfile', fn ($sq) => $sq->where('status', 'approved'))
+                        ->orWhereHas('team.coordinator.supplierProfile', fn ($tq) => $tq->where('status', 'approved'));
+                })
+                ->find($packageId);
+
+            if ($package) {
+                $isTeam = ! empty($package->team_id);
+                $supplierUser = $package->supplier_id ? $package->supplier : $package->team?->coordinator;
+                $initialItem = [
+                    'supplier_id' => $supplierUser?->id,
+                    'item_type' => $isTeam ? 'team_package' : 'package',
+                    'item_id' => $package->id,
+                    'item_name' => $package->name,
+                    'unit_price' => (float) $package->price,
+                    'supplier_name' => $isTeam
+                        ? ($package->team?->name.' (Coordinated by '.($supplierUser?->supplierProfile?->business_name ?? $supplierUser?->name).')')
+                        : ($supplierUser?->supplierProfile?->business_name ?? $supplierUser?->name),
+                    'team_id' => $package->team_id,
+                ];
+                $bookingType = $isTeam ? 'team_package' : 'supplier_package';
+                $teamId = $package->team_id;
+            }
+        } elseif ($supplierId) {
+            $supplier = User::with('supplierProfile')
+                ->where('role', 'supplier')
+                ->whereHas('supplierProfile', fn ($q) => $q->where('status', 'approved'))
+                ->find($supplierId);
+
+            if ($supplier) {
+                $initialItem = [
+                    'supplier_id' => $supplier->id,
+                    'supplier_name' => $supplier->supplierProfile?->business_name ?? $supplier->name,
+                ];
+            }
+        }
+
+        // Fetch active services and packages for easy addition
+        $availableServices = Service::with('supplier.supplierProfile')
+            ->where('is_active', true)
+            ->whereHas('supplier.supplierProfile', fn ($q) => $q->where('status', 'approved'))
+            ->orderBy('name')
+            ->limit(50)
+            ->get();
+
+        $availablePackages = Package::with(['supplier.supplierProfile', 'team.coordinator.supplierProfile'])
+            ->where('is_active', true)
+            ->where(function ($q) {
+                $q->whereHas('supplier.supplierProfile', fn ($sq) => $sq->where('status', 'approved'))
+                    ->orWhereHas('team.coordinator.supplierProfile', fn ($tq) => $tq->where('status', 'approved'));
+            })
+            ->latest()
+            ->limit(30)
+            ->get();
+
+        return Inertia::render('Customer/Bookings/Create', [
+            'initialItem' => $initialItem,
+            'defaultBookingType' => $bookingType,
+            'defaultTeamId' => $teamId,
+            'availableServices' => $availableServices,
+            'availablePackages' => $availablePackages,
         ]);
     }
 
@@ -217,7 +316,7 @@ class BookingController extends Controller
             return $booking;
         });
 
-        return redirect()->route('customer.bookings.show', $booking->id)
+        return redirect()->route('customer.bookings.index')
             ->with('success', 'Your booking request has been successfully submitted!');
     }
 

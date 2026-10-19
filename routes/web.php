@@ -16,9 +16,11 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Api\AvailabilityController as ApiAvailabilityController;
 use App\Http\Controllers\Customer\BookingController as CustomerBookingController;
 use App\Http\Controllers\Customer\EventController as CustomerEventController;
+use App\Http\Controllers\Customer\PackageController as CustomerPackageController;
 use App\Http\Controllers\Customer\PaymentController as CustomerPaymentController;
 use App\Http\Controllers\Customer\PortfolioController as CustomerPortfolioController;
 use App\Http\Controllers\Customer\ReviewController as CustomerReviewController;
+use App\Http\Controllers\Customer\ServiceController as CustomerServiceController;
 use App\Http\Controllers\Customer\SupplierDirectoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Public\EventController as PublicEventController;
@@ -53,6 +55,12 @@ Route::get('/events', [PublicEventController::class, 'index'])->name('events.ind
 Route::get('/packages', [PublicPackageController::class, 'index'])->name('packages.index');
 Route::get('/packages/{package}', [PublicPackageController::class, 'show'])->name('packages.show');
 Route::get('/gallery', [PublicGalleryController::class, 'index'])->name('gallery.index');
+
+// Services (Public Browsing & Show)
+Route::get('/customer/services', [CustomerServiceController::class, 'index'])
+    ->name('customer.services.index');
+Route::get('/customer/services/{service}', [CustomerServiceController::class, 'show'])
+    ->name('customer.services.show');
 
 Route::get('/dashboard', function () {
 
@@ -143,12 +151,18 @@ Route::middleware(['auth', 'role:customer'])->group(function () {
     // Customer Bookings
     Route::get('/customer/bookings', [CustomerBookingController::class, 'index'])
         ->name('customer.bookings.index');
+    Route::get('/customer/bookings/create', [CustomerBookingController::class, 'create'])
+        ->name('customer.bookings.create');
     Route::post('/customer/bookings', [CustomerBookingController::class, 'store'])
         ->name('customer.bookings.store');
     Route::get('/customer/bookings/{booking}', [CustomerBookingController::class, 'show'])
         ->name('customer.bookings.show');
     Route::post('/customer/bookings/{booking}/cancel', [CustomerBookingController::class, 'cancel'])
         ->name('customer.bookings.cancel');
+
+    // Customer Packages
+    Route::get('/customer/packages', [CustomerPackageController::class, 'index'])
+        ->name('customer.packages.index');
 
     // Customer Reviews
     Route::post('/customer/reviews', [CustomerReviewController::class, 'store'])

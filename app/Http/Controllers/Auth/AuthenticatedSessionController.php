@@ -33,6 +33,16 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        $user = $request->user();
+
+        // If the authenticated user is not a customer, discard any customer-specific intended URL
+        if ($user && $user->role !== 'customer') {
+            $intended = session('url.intended');
+            if ($intended && str_contains($intended, '/customer/')) {
+                $request->session()->forget('url.intended');
+            }
+        }
+
         return redirect()->intended(route('dashboard', absolute: false));
     }
 
