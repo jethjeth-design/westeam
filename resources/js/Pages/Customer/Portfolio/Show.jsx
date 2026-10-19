@@ -1,3 +1,4 @@
+import DashboardLayout from '@/Layouts/DashboardLayout';
 import { Head, Link } from '@inertiajs/react';
 import { useState } from 'react';
 
@@ -93,41 +94,35 @@ export default function Show({
     };
 
     return (
-        <>
+        <DashboardLayout>
             <Head title={`${portfolio?.title || 'Portfolio'} - ${businessName}`} />
 
             <div
-                className="min-h-screen bg-ivory text-softcharcoal"
+                className="min-h-screen bg-[#F8F5EF] text-[#24221E] pb-20"
                 tabIndex={-1}
                 onKeyDown={handleKeyDown}
             >
-                {/* Header */}
-                <header className="sticky top-0 z-40 border-b border-warmbeige/80 bg-white/95 backdrop-blur-md">
-                    <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+                {/* Secondary Breadcrumbs Bar */}
+                <div className="sticky top-20 z-30 border-b border-[#EFE7D8] bg-white/95 backdrop-blur-md">
+                    <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 sm:px-6 lg:px-8">
                         <Link
                             href={route('customer.suppliers.portfolio', portfolio.supplier_id)}
-                            className="flex items-center gap-2 text-xs font-bold text-softcharcoal transition hover:text-champagnegold"
+                            className="flex items-center gap-2 text-xs font-bold text-[#77736C] transition hover:text-[#C99632]"
                         >
                             <span className="text-base">←</span>
                             <span>Back to {businessName}'s Portfolio</span>
                         </Link>
 
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-2.5">
                             <Link
-                                href={route('customer.suppliers.show', portfolio.supplier_id)}
-                                className="rounded-xl border border-warmbeige bg-white px-3.5 py-1.5 text-xs font-bold text-softcharcoal hover:bg-ivory transition"
+                                href={route('customer.bookings.create', { supplier_id: portfolio.supplier_id })}
+                                className="rounded-xl bg-gradient-to-r from-[#C99632] to-[#A87520] px-4 py-2 text-xs font-bold text-white shadow-xs hover:shadow-md transition"
                             >
-                                View Supplier Details
-                            </Link>
-                            <Link
-                                href={route('customer.dashboard')}
-                                className="rounded-xl bg-champagne px-3.5 py-1.5 text-xs font-bold text-darkgold hover:bg-champagne transition"
-                            >
-                                Dashboard
+                                Book Supplier
                             </Link>
                         </div>
                     </div>
-                </header>
+                </div>
 
                 {/* Project Showcase Top Header */}
                 <section className="border-b border-warmbeige/80 bg-white">
@@ -421,6 +416,6 @@ export default function Show({
                     </div>
                 )}
             </div>
-        </>
+        </DashboardLayout>
     );
 }

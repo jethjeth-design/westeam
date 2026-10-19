@@ -315,6 +315,26 @@ class PortfolioController extends Controller
 
         /*
         |--------------------------------------------------------------------------
+        | Active Services and Packages
+        |--------------------------------------------------------------------------
+        */
+
+        $services = $supplier->services()
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get();
+
+        $packages = $supplier->packages()
+            ->where('is_active', true)
+            ->with([
+                'services',
+                'eventCategory',
+            ])
+            ->latest()
+            ->get();
+
+        /*
+        |--------------------------------------------------------------------------
         | Return Supplier Portfolio Page
         |--------------------------------------------------------------------------
         */
@@ -325,6 +345,10 @@ class PortfolioController extends Controller
                 'supplier' => $supplier,
 
                 'portfolios' => $portfolios,
+
+                'services' => $services,
+
+                'packages' => $packages,
 
                 'categories' => $categories,
 

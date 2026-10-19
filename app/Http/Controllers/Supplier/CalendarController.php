@@ -43,13 +43,14 @@ class CalendarController extends Controller
                 ->with([
                     'access_type' => 'offline',
                     'prompt' => 'consent select_account',
+                    'include_granted_scopes' => 'true',
                 ])
                 ->redirectUrl($redirectUri)
                 ->redirect();
         } catch (Throwable $e) {
             Log::error('Failed to initiate Google Calendar OAuth: '.$e->getMessage());
 
-            return back()->with('error', 'Unable to initiate Google Calendar connection: '.$e->getMessage());
+            return back()->with('error', 'Unable to initiate Google Calendar connection. Please try again.');
         }
     }
 
@@ -58,6 +59,18 @@ class CalendarController extends Controller
      */
     public function callback(Request $request): RedirectResponse
     {
+        // Handle Google OAuth authorization rejection or user cancellation
+        if ($request->has('error')) {
+            $errorCode = (string) $request->input('error');
+            Log::warning('Google Calendar OAuth callback received error code: '.$errorCode);
+
+            $errorMessage = $errorCode === 'access_denied'
+                ? 'Google Calendar authorization was cancelled or access was denied.'
+                : 'Google Calendar authorization failed. Please try again.';
+
+            return redirect()->route('supplier.availability.index')->with('error', $errorMessage);
+        }
+
         $supplier = $request->user();
 
         // If user is not logged in in this session, recover from session if needed
@@ -82,7 +95,7 @@ class CalendarController extends Controller
         } catch (Throwable $e) {
             Log::error('Google Calendar OAuth callback error: '.$e->getMessage());
 
-            return redirect()->route('supplier.availability.index')->with('error', 'Google Calendar authorization was cancelled or failed.');
+            return redirect()->route('supplier.availability.index')->with('error', 'Google Calendar authorization was cancelled or failed. Please try again.');
         }
 
         $token = $googleUser->token;

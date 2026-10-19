@@ -3,6 +3,7 @@
 use App\Models\EventCategory;
 use App\Models\HomepageBanner;
 use App\Models\Package;
+use App\Models\Service;
 use App\Models\SupplierProfile;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -198,4 +199,59 @@ test('admin can upload photo when creating and updating event category', functio
     expect($updatedCategory->name)->toBe('Corporate Galas & Summits');
     expect($updatedCategory->image_url)->toStartWith('/storage/event-categories/');
     Storage::disk('public')->assertExists(str_replace('/storage/', '', $updatedCategory->image_url));
+});
+
+test('homepage displays available services from approved suppliers and excludes unapproved or inactive', function () {
+    $approvedSupplier = User::factory()->create(['role' => 'supplier']);
+    SupplierProfile::create([
+        'user_id' => $approvedSupplier->id,
+        'business_name' => 'Royal Floral Designs',
+        'status' => 'approved',
+        'address' => 'Quezon City, Metro Manila',
+    ]);
+
+    $activeService = Service::create([
+        'supplier_id' => $approvedSupplier->id,
+        'name' => 'Grand Arch Floral Installation',
+        'category' => 'Florals & Decor',
+        'price' => 18500,
+        'description' => 'Custom arch florals with imported roses and greenery.',
+        'image_path' => 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+        'is_active' => true,
+    ]);
+
+    $inactiveService = Service::create([
+        'supplier_id' => $approvedSupplier->id,
+        'name' => 'Old Inactive Package',
+        'category' => 'Florals & Decor',
+        'price' => 5000,
+        'is_active' => false,
+    ]);
+
+    $pendingSupplier = User::factory()->create(['role' => 'supplier']);
+    SupplierProfile::create([
+        'user_id' => $pendingSupplier->id,
+        'business_name' => 'Unverified Vendor',
+        'status' => 'pending',
+    ]);
+
+    $unapprovedService = Service::create([
+        'supplier_id' => $pendingSupplier->id,
+        'name' => 'Unverified Service Offering',
+        'category' => 'Catering',
+        'price' => 20000,
+        'is_active' => true,
+    ]);
+
+    $response = $this->get(route('home'));
+
+    $response->assertOk();
+    $response->assertInertia(fn ($page) => $page
+        ->component('Welcome')
+        ->has('services', 1)
+        ->where('services.0.id', $activeService->id)
+        ->where('services.0.name', 'Grand Arch Floral Installation')
+        ->where('services.0.supplier_name', 'Royal Floral Designs')
+        ->where('services.0.price', 18500)
+    );
 });

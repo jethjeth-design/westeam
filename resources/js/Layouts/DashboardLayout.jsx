@@ -1,5 +1,8 @@
 import NotificationBell from '@/Components/NotificationBell';
+import PublicFooter from '@/Components/PublicFooter';
 import Sidebar from '@/Components/Sidebar';
+import CustomerLayout from '@/Layouts/CustomerLayout';
+import PublicLayout from '@/Layouts/PublicLayout';
 import { Link, usePage } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 
@@ -29,6 +32,16 @@ export default function DashboardLayout({ children }) {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    // For unauthenticated guests viewing public pages, render the PublicLayout with public navigation
+    if (!user) {
+        return <PublicLayout>{children}</PublicLayout>;
+    }
+
+    // For customers, render the responsive Top Navigation layout with consistent homepage footer without any sidebar
+    if (user?.role === 'customer') {
+        return <CustomerLayout footer={<PublicFooter />}>{children}</CustomerLayout>;
+    }
 
     return (
         <div className="flex h-screen w-screen overflow-hidden bg-ivory">
